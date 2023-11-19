@@ -1,0 +1,62 @@
+[
+  {
+    "text": "Be still, and know that I am God; I will be exalted among the nations, I will be exalted in the earth.",
+    "source": {
+      "book": "Psalm",
+      "chapter": "46",
+      "verses": "10",
+      "translation": "NIV"
+    },
+    "memorized": false
+  },
+  {
+    "text": "For God so loved the world, that He gave His only Son, that whoever believes in Him should not perish but have eternal life.",
+    "source": {
+      "book": "John",
+      "chapter": "3",
+      "verses": "16",
+      "translation": "ESV"
+    },
+    "memorized": false
+  },
+  {
+    "text": "I can do all things through Him who strengthens me.",
+    "source": {
+      "book": "Philippians",
+      "chapter": "4",
+      "verses": "13",
+      "translation": "NIV"
+    },
+    "memorized": true
+  },
+  {
+    "text": "Trust in the Lord with all your heart, and do not lean on your own understanding.",
+    "source": {
+      "book": "Proverbs",
+      "chapter": "3",
+      "verses": "5",
+      "translation": "KJV"
+    },
+    "memorized": false
+  },
+  {
+    "text": "The Lord is my shepherd; I shall not want.",
+    "source": {
+      "book": "Psalms",
+      "chapter": "23",
+      "verses": "1",
+      "translation": "NRSV"
+    },
+    "memorized": true
+  },
+  {
+    "text": "For I know the plans I have for you, declares the Lord, plans for welfare and not for evil, to give you a future and a hope.",
+    "source": {
+      "book": "Jeremiah",
+      "chapter": "29",
+      "verses": "11",
+      "translation": "ESV"
+    },
+    "memorized": false
+  }
+]
