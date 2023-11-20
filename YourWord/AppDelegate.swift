@@ -10,8 +10,6 @@ import UserNotifications
 
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
-  var scriptureViewModel: ScriptureViewModel?
-
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     // Configure notifications
     configureUserNotifications()
@@ -26,20 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         self.scheduleDailyNotifications()
       }
     }
-  }
-
-  func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-    //    if let day = notification.request.content.userInfo["day"] as? Int {
-    //      scriptureViewModel?.updateDayOfWeek(with: day)
-    //    }
-    completionHandler([.banner, .sound])
-  }
-
-  func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-    if let day = response.notification.request.content.userInfo["day"] as? Int {
-      scriptureViewModel?.updateDayOfWeek(with: day)
-    }
-    completionHandler()
   }
 
   private func scheduleDailyNotifications() {

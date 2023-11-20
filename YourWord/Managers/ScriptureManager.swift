@@ -8,36 +8,23 @@
 import Foundation
 
 @Observable class ScriptureManager {
+  enum FileConstants {
+    static let initScriptureFileName = "StarterScriptures"
+  }
+
   static let shared = ScriptureManager()
-  let scriptureStore = ScriptureStore()
 
   let memorizeCount: Int = 7
-  var scriptures: [Scripture] = []
 
-  init() {
-    loadInitialScripturesIfNeeded()
-    loadScriptures()
-  }
-
-  func loadInitialScripturesIfNeeded() {
-    scriptureStore.copyInitialDataIfNeeded()
-  }
-
-  func saveScriptures() {
-    DispatchQueue.global().async {
-      self.scriptureStore.save(scriptures: self.scriptures)
+  func loadInitialScriptures() -> [Scripture] {
+    guard
+      let bundleURL = Bundle.main.url(forResource: FileConstants.initScriptureFileName, withExtension: "json"),
+      let scriptureData = try? Data(contentsOf: bundleURL),
+      let scriptures = try? JSONDecoder().decode([Scripture].self, from: scriptureData)
+    else {
+      return []
     }
-  }
-
-  func loadScriptures() {
-    self.scriptures = scriptureStore.load()
-    for i in 0..<self.scriptures.count {
-      // Apply mask if needed
-      if self.scriptures[i].key == nil {
-        let scriptureKey = createKey(for: self.scriptures[i].text, count: memorizeCount)
-        updateScripture(key: scriptureKey, at: i)
-      }
-    }
+    return scriptures
   }
 
   func mask(scripture: Scripture) -> (words:[String], sources: [String])  {
@@ -92,33 +79,16 @@ import Foundation
     return text.replacingOccurrences(of: "\\w", with: "_", options: .regularExpression)
   }
 
-  func createKey(for text: String, count: Int) -> ScriptureKey {
-    guard count > 0 else { return ScriptureKey(text: [], source: []) }
+  func createKey(for text: String) -> ScriptureKey {
     let words = text.components(separatedBy: " ")
-    var textKey = (1..<count).map { $0 }
-    for _ in (count-1)..<words.count {
-      textKey.append(Int.random(in: 1..<count))
+    var textKey = (1..<memorizeCount).map { $0 }
+    for _ in (memorizeCount-1)..<words.count {
+      textKey.append(Int.random(in: 1..<memorizeCount))
     }
     textKey.shuffle()
-    var sourceKey = (0..<count).map { _ in Bool.random() }
+    var sourceKey = (0..<memorizeCount).map { _ in Bool.random() }
     sourceKey[0] = false
-    sourceKey[count-1] = true
+    sourceKey[memorizeCount-1] = true
     return ScriptureKey(text: textKey, source: sourceKey)
-  }
-
-  func updateScripture(key: ScriptureKey, at index: Int) {
-    if index >= 0 && index < scriptures.count {
-      var updatedScripture = scriptures[index]
-      updatedScripture.key = key
-      scriptures[index] = updatedScripture
-    }
-  }
-
-  func markScriptureMemorized(at index: Int) {
-    if index >= 0 && index < scriptures.count {
-      var updatedScripture = scriptures[index]
-      updatedScripture.memorized = true
-      scriptures[index] = updatedScripture
-    }
   }
 }
