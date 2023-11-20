@@ -19,7 +19,9 @@ struct MemorizeView: View {
   @State private var pageIndex = Calendar.current.component(.weekday, from: Date()) - 1
 
   var body: some View {
-    let scripture = scriptures[scriptureIndex]
+    let dayOfWeek = Calendar.current.component(.weekday, from: Date())
+    let memoryTexts = Array(scriptures[scriptureIndex].maskedTexts.prefix(dayOfWeek))
+    let memorySources = Array(scriptures[scriptureIndex].maskedSources.prefix(dayOfWeek))
 
     return
       GeometryReader { geometry in
@@ -29,8 +31,8 @@ struct MemorizeView: View {
           // Content
           ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 0) {
-              ForEach(0..<scripture.maskedTexts.count, id: \.self) { index in
-                ScriptureView(text: scripture.maskedTexts[index], source: scripture.maskedSources[index])
+              ForEach(0..<memoryTexts.count, id: \.self) { index in
+                ScriptureView(text: memoryTexts[index], source: memorySources[index])
                   .padding()
                   .frame(width: geometry.size.width)
               }
@@ -46,7 +48,7 @@ struct MemorizeView: View {
                 withAnimation(.smooth) {
                   let offset = value.translation.width
                   let newIndex = (CGFloat(pageIndex) - (offset / geometry.size.width)).rounded()
-                  pageIndex = min(max(Int(newIndex), 0), scripture.maskedTexts.count - 1)
+                  pageIndex = min(max(Int(newIndex), 0), memoryTexts.count - 1)
                   dragOffset = 0
                 }
               }
@@ -55,7 +57,7 @@ struct MemorizeView: View {
 
           // Pagination
           HStack(spacing: 8) {
-            ForEach(0..<scripture.maskedTexts.count, id: \.self) { index in
+            ForEach(0..<memoryTexts.count, id: \.self) { index in
               ZStack {
                 Circle()
                   .fill(pageIndex == index ? Color.blue : Color.gray)
@@ -64,7 +66,7 @@ struct MemorizeView: View {
                   .foregroundColor(.white)
               }
             }
-            ForEach(scripture.maskedTexts.count..<pageViewCount, id: \.self) { index in
+            ForEach(memoryTexts.count..<pageViewCount, id: \.self) { index in
               ZStack {
                 Circle()
                   .fill(Color.white.opacity(0))
