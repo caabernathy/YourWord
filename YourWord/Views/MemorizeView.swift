@@ -10,79 +10,85 @@ import SwiftData
 
 struct MemorizeView: View {
   @Environment(\.modelContext) private var modelContext
-  @Query private var scriptures: [Scripture]
+  @Query(sort: \Scripture.createdDate, order: .forward) private var scriptures: [Scripture]
 
   let pageViewCount = 7
-  let scriptureIndex = 1
+  let scriptureIndex = 0
 
   @State private var dragOffset: CGFloat = 0
   @State private var pageIndex = Calendar.current.component(.weekday, from: Date()) - 1
+  @State private var memoryTexts: [String] = []
+  @State private var memorySources: [String] = []
 
   var body: some View {
-    let dayOfWeek = Calendar.current.component(.weekday, from: Date())
-    let memoryTexts = Array(scriptures[scriptureIndex].maskedTexts.prefix(dayOfWeek))
-    let memorySources = Array(scriptures[scriptureIndex].maskedSources.prefix(dayOfWeek))
+    GeometryReader { geometry in
+      VStack {
+        Spacer()
 
-    return
-      GeometryReader { geometry in
-        VStack {
-          Spacer()
-
-          // Content
-          ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 0) {
-              ForEach(0..<memoryTexts.count, id: \.self) { index in
-                ScriptureView(text: memoryTexts[index], source: memorySources[index])
-                  .padding()
-                  .frame(width: geometry.size.width)
-              }
-            }
-          }
-          .content.offset(x: (CGFloat(pageIndex) * -geometry.size.width) + dragOffset)
-          .frame(width: geometry.size.width, alignment: .leading)
-          .gesture(
-            DragGesture().onChanged { value in
-              dragOffset = value.translation.width
-            }
-              .onEnded { value in
-                withAnimation(.smooth) {
-                  let offset = value.translation.width
-                  let newIndex = (CGFloat(pageIndex) - (offset / geometry.size.width)).rounded()
-                  pageIndex = min(max(Int(newIndex), 0), memoryTexts.count - 1)
-                  dragOffset = 0
-                }
-              }
-          )
-          .animation(.spring(), value: dragOffset)
-
-          // Pagination
-          HStack(spacing: 8) {
+        // Content
+        ScrollView(.horizontal, showsIndicators: false) {
+          HStack(spacing: 0) {
             ForEach(0..<memoryTexts.count, id: \.self) { index in
-              ZStack {
-                Circle()
-                  .fill(pageIndex == index ? Color.blue : Color.gray)
-                  .frame(width: 30, height: 30)
-                Text(paginationLabel(for: index))
-                  .foregroundColor(.white)
-              }
-            }
-            ForEach(memoryTexts.count..<pageViewCount, id: \.self) { index in
-              ZStack {
-                Circle()
-                  .fill(Color.white.opacity(0))
-                  .frame(width: 30, height: 30)
-                Text(paginationLabel(for: index))
-              }
+              ScriptureView(text: memoryTexts[index], source: memorySources[index])
+                .padding()
+                .frame(width: geometry.size.width)
             }
           }
-          .padding(.top, 10)
-
-          Spacer()
         }
+        .content.offset(x: (CGFloat(pageIndex) * -geometry.size.width) + dragOffset)
+        .frame(width: geometry.size.width, alignment: .leading)
+        .gesture(
+          DragGesture().onChanged { value in
+            dragOffset = value.translation.width
+          }
+            .onEnded { value in
+              withAnimation(.smooth) {
+                let offset = value.translation.width
+                let newIndex = (CGFloat(pageIndex) - (offset / geometry.size.width)).rounded()
+                pageIndex = min(max(Int(newIndex), 0), memoryTexts.count - 1)
+                dragOffset = 0
+              }
+            }
+        )
+        .animation(.spring(), value: dragOffset)
+
+        // Pagination
+        HStack(spacing: 8) {
+          ForEach(0..<memoryTexts.count, id: \.self) { index in
+            ZStack {
+              Circle()
+                .fill(pageIndex == index ? Color.blue : Color.gray)
+                .frame(width: 30, height: 30)
+              Text(paginationLabel(for: index))
+                .foregroundColor(.white)
+            }
+          }
+          ForEach(memoryTexts.count..<pageViewCount, id: \.self) { index in
+            ZStack {
+              Circle()
+                .fill(Color.white.opacity(0))
+                .frame(width: 30, height: 30)
+              Text(paginationLabel(for: index))
+            }
+          }
+        }
+        .padding(.top, 10)
+
+        Spacer()
       }
-      .onAppear(perform: {
-        //      let dayOfWeek = Calendar.current.component(.weekday, from: Date())
-      })
+    }
+    .onAppear(perform: {
+      loadMemorizeData()
+    })
+  }
+
+  private func loadMemorizeData() {
+    let dayOfWeek = Calendar.current.component(.weekday, from: Date())
+    let scripture = scriptures[scriptureIndex]
+    let maskedTexts = ScriptureManager.shared.maskText(scripture: scripture)
+    let maskedSources = ScriptureManager.shared.maskSource(scripture: scripture)
+    memoryTexts = Array(maskedTexts.prefix(dayOfWeek))
+    memorySources = Array(maskedSources.prefix(dayOfWeek))
   }
 
   private func paginationLabel(for index: Int) -> String {

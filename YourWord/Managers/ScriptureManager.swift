@@ -24,14 +24,17 @@ import Foundation
     else {
       return []
     }
+    // Add a slight delay so all the created date timestamps are not the same
+    let timeIntervalIncrement = 0.001 // 1 millisecond
+    for (index, scripture) in scriptures.enumerated() {
+      scripture.addTimeInterval(TimeInterval(index) * timeIntervalIncrement)
+    }
     return scriptures
   }
 
-  func mask(scripture: Scripture) -> (words:[String], sources: [String])  {
+  func maskText(scripture: Scripture) -> [String] {
     var words = scripture.text.components(separatedBy: " ")
-    var replacedWords = [String]()
-    var replacedSources = [String]()
-
+    var replacedWords: [String] = []
     // Mask words in a passage based on modifiers configured during initialization
     for i in 0..<memorizeCount {
       // Modifying words
@@ -46,7 +49,11 @@ import Foundation
       }
       replacedWords.append(words.joined(separator: " "))
     }
+    return replacedWords
+  }
 
+  func maskSource(scripture: Scripture) -> [String] {
+    var replacedSources: [String] = []
     // Mask source
     for i in 0..<memorizeCount {
       // Modifiying source
@@ -67,8 +74,7 @@ import Foundation
       replacedSources.append(formatSource(book: scripture.source.book, chapter: scripture.source.chapter, verses: scripture.source.verses, translation: scripture.source.translation))
 
     }
-
-    return (words: replacedWords, sources: replacedSources)
+    return replacedSources
   }
 
   private func formatSource(book: String, chapter: String, verses: String, translation: String) -> String {

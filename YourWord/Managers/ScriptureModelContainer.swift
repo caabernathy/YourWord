@@ -20,7 +20,7 @@ let sharedModelContainer: ModelContainer = {
     let container = try ModelContainer(for: schema, configurations: [modelConfiguration])
 
     // Debugging
-//    print(container.mainContext.sqliteCommand)
+    //    print(container.mainContext.sqliteCommand)
 
     // Make sure the persistent store is empty. If it's not, return the non-empty container.
     var scriptureFetchDescriptor = FetchDescriptor<Scripture>()
@@ -36,9 +36,6 @@ let sharedModelContainer: ModelContainer = {
     for scripture in scriptures {
       let scriptureKey = ScriptureManager.shared.createKey(for: scripture.text)
       scripture.key = scriptureKey
-      let (maskedTexts, maskedSources) = ScriptureManager.shared.mask(scripture: scripture)
-      scripture.maskedTexts = maskedTexts
-      scripture.maskedSources = maskedSources
     }
     return container
   } catch {

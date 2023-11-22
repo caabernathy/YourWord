@@ -11,20 +11,23 @@ import SwiftData
 @Model
 class Scripture: Codable {
   enum CodingKeys: CodingKey {
+    case date
     case text
     case source
     case key
     case memorized
   }
 
+  var id: UUID?
+  var createdDate: Date?
   var text: String
   var source: Source
   var key: ScriptureKey?
   var memorized = false
-  var maskedTexts: [String] = []
-  var maskedSources: [String] = []
 
   init(text: String, source: Source, key: ScriptureKey? = nil, memorized: Bool = false) {
+    self.id = UUID()
+    self.createdDate = Date()
     self.text = text
     self.source = source
     self.key = key
@@ -33,6 +36,7 @@ class Scripture: Codable {
 
   required init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
+    createdDate = try container.decodeIfPresent(Date.self, forKey: .date) ?? Date()
     text = try container.decode(String.self, forKey: .text)
     source = try container.decode(Source.self, forKey: .source)
     key = try container.decodeIfPresent(ScriptureKey.self, forKey: .key)
@@ -43,7 +47,13 @@ class Scripture: Codable {
     var container = encoder.container(keyedBy: CodingKeys.self)
     try container.encode(text, forKey: .text)
     try container.encode(source, forKey: .source)
-//    try container.encode(key, forKey: .key)
     try container.encode(memorized, forKey: .memorized)
+  }
+
+  func addTimeInterval(_ interval: TimeInterval) {
+    if let date = self.createdDate {
+      let adjustedDate = date.addingTimeInterval(interval)
+      self.createdDate = adjustedDate
+    }
   }
 }
