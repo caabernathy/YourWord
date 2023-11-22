@@ -11,6 +11,7 @@ import SwiftData
 @Model
 class Scripture: Codable {
   enum CodingKeys: CodingKey {
+    case id
     case date
     case text
     case source
@@ -36,6 +37,7 @@ class Scripture: Codable {
 
   required init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
+    id = try container.decodeIfPresent(UUID.self, forKey: .id) ?? UUID()
     createdDate = try container.decodeIfPresent(Date.self, forKey: .date) ?? Date()
     text = try container.decode(String.self, forKey: .text)
     source = try container.decode(Source.self, forKey: .source)

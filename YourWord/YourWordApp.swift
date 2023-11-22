@@ -14,7 +14,7 @@ struct YourWordApp: App {
 
   var body: some Scene {
     WindowGroup {
-      MemorizeView()
+      MainTabView()
     }
     .modelContainer(sharedModelContainer)
   }

@@ -9,14 +9,13 @@ import SwiftUI
 import SwiftData
 
 struct MemorizeView: View {
-  @Environment(\.modelContext) private var modelContext
-  @Query(sort: \Scripture.createdDate, order: .forward) private var scriptures: [Scripture]
+  var scripture: Scripture
+  var isDailyReveal: Bool
 
   let pageViewCount = 7
-  let scriptureIndex = 0
 
   @State private var dragOffset: CGFloat = 0
-  @State private var pageIndex = Calendar.current.component(.weekday, from: Date()) - 1
+  @State private var pageIndex = 0
   @State private var memoryTexts: [String] = []
   @State private var memorySources: [String] = []
 
@@ -83,10 +82,11 @@ struct MemorizeView: View {
   }
 
   private func loadMemorizeData() {
-    let dayOfWeek = Calendar.current.component(.weekday, from: Date())
-    let scripture = scriptures[scriptureIndex]
+    let dayOfWeek = isDailyReveal ? Calendar.current.component(.weekday, from: Date()) : pageViewCount
+//    let scripture = scriptures[scriptureIndex]
     let maskedTexts = ScriptureManager.shared.maskText(scripture: scripture)
     let maskedSources = ScriptureManager.shared.maskSource(scripture: scripture)
+    pageIndex = isDailyReveal ? dayOfWeek - 1 : 0
     memoryTexts = Array(maskedTexts.prefix(dayOfWeek))
     memorySources = Array(maskedSources.prefix(dayOfWeek))
   }
