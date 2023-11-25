@@ -22,7 +22,6 @@ struct MemorizeView: View {
   var body: some View {
     GeometryReader { geometry in
       VStack {
-        Spacer()
 
         // Content
         ScrollView(.horizontal, showsIndicators: false) {
@@ -52,14 +51,16 @@ struct MemorizeView: View {
         .animation(.spring(), value: dragOffset)
 
         // Pagination
-        HStack(spacing: 8) {
+        HStack(spacing: 15) {
           ForEach(0..<memoryTexts.count, id: \.self) { index in
-            ZStack {
-              Circle()
-                .fill(pageIndex == index ? Color.blue : Color.gray)
-                .frame(width: 30, height: 30)
-              Text(paginationLabel(for: index))
-                .foregroundColor(.white)
+            Button(action: { self.pageChangeAction(newIndex: index) }) {
+              ZStack {
+                Circle()
+                  .fill(pageIndex == index ? Color.blue : Color.gray)
+                  .frame(width: 30, height: 30)
+                Text(paginationLabel(for: index))
+                  .foregroundColor(.white)
+              }
             }
           }
           ForEach(memoryTexts.count..<pageViewCount, id: \.self) { index in
@@ -81,9 +82,14 @@ struct MemorizeView: View {
     })
   }
 
+  private func pageChangeAction(newIndex: Int) {
+    withAnimation(.smooth) {
+      pageIndex = newIndex
+    }
+  }
+
   private func loadMemorizeData() {
     let dayOfWeek = isDailyReveal ? Calendar.current.component(.weekday, from: Date()) : pageViewCount
-//    let scripture = scriptures[scriptureIndex]
     let maskedTexts = ScriptureManager.shared.maskText(scripture: scripture)
     let maskedSources = ScriptureManager.shared.maskSource(scripture: scripture)
     pageIndex = isDailyReveal ? dayOfWeek - 1 : 0

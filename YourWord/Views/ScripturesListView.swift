@@ -28,11 +28,26 @@ struct ScripturesListView: View {
                 .lineLimit(1)
                 .truncationMode(.tail)
             }
+            .padding()
           }
           .navigationDestination(for: Scripture.self) { scripture in
             MemorizeView(scripture: scripture, isDailyReveal: false)
+              .toolbar {
+                ToolbarItem(placement: .principal) {
+                  Text("Scripture")
+                    .font(.headline)
+                    .foregroundColor(.primary)
+                }
+              }
           }
-          .navigationTitle("Scriptures")
+          .navigationTitle("")
+          .toolbar {
+            ToolbarItem(placement: .principal) {
+              Text("Scriptures")
+                .font(.headline)
+                .foregroundColor(.primary)
+            }
+          }
         }
       }
     }
