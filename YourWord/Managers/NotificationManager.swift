@@ -17,22 +17,28 @@ class NotificationManager {
 
   private init() {}
 
-  func requestAuthorization() {
-    let center = UNUserNotificationCenter.current()
-    center.requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
+  func configureUserNotifications(hour: Int = 9, minute: Int = 0) {
+    requestAuthorization() { granted in
       if granted {
-        self.scheduleDailyNotifications()
+        self.scheduleDailyNotifications(hour: hour, minute: minute)
       }
     }
   }
 
-  private func scheduleDailyNotifications() {
-    for day in 1...7 { // 1 for Sunday, 2 for Monday, ..., 7 for Saturday
-      scheduleNotification(for: day)
+  private func requestAuthorization(completion: @escaping  (Bool) -> Void) {
+    let center = UNUserNotificationCenter.current()
+    center.requestAuthorization(options: [.alert, .badge, .sound]) { granted, _ in
+      completion(granted)
     }
   }
 
-  private func scheduleNotification(for day: Int) {
+  private func scheduleDailyNotifications(hour: Int, minute: Int) {
+    for day in 1...7 { // 1 for Sunday, 2 for Monday, ..., 7 for Saturday
+      scheduleNotification(for: day, hour: hour, minute: minute)
+    }
+  }
+
+  private func scheduleNotification(for day: Int, hour: Int, minute: Int) {
     let weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
 
     // Guard to check if the day index is within the valid range
@@ -46,8 +52,8 @@ class NotificationManager {
     // Configure the recurring date.
     var dateComponents = DateComponents()
     dateComponents.weekday = day // 1 for Sunday, 2 for Monday, etc.
-    dateComponents.hour = 9  // 9 am
-    //    dateComponents.minute = 11
+    dateComponents.hour = hour
+    dateComponents.minute = minute
 
     // Create the trigger as a repeating event.
     let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)

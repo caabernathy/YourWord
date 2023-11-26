@@ -11,19 +11,19 @@ import SwiftData
 struct MainTabView: View {
   @Environment(\.modelContext) private var modelContext
   @Query(sort: \Scripture.createdDate, order: .forward) private var scriptures: [Scripture]
-  
+
   @SceneStorage("MainTabView.SelectedTab") private var selectedTab: Int = 1
   @State private var savedScriptures: [Scripture] = []
-  
+
   var body: some View {
     TabView(selection: $selectedTab) {
-      
+
       ScripturesListView(scriptures: Array(scriptures.dropFirst()))
         .tabItem {
           Label("Favorites", systemImage: "heart.fill")
         }
         .tag(0)
-      
+
       Group {
         if scriptures.count > 0 {
           NavigationView {
@@ -50,7 +50,7 @@ struct MainTabView: View {
         Label("Memorize", systemImage: "book.fill")
       }
       .tag(1)
-      
+
       SettingsView()
         .tabItem {
           Label("Settings", systemImage: "gearshape.fill")
@@ -58,7 +58,7 @@ struct MainTabView: View {
         .tag(2)
     }
   }
-  
+
   private func shareAction() {
     // Define the share action here
     print("Share button tapped")

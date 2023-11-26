@@ -17,8 +17,7 @@ struct YourWordApp: App {
     WindowGroup {
       MainTabView()
         .onAppear {
-          // Request notification authorization
-          notificationManager.requestAuthorization()
+          notificationManager.configureUserNotifications()
         }
     }
     .modelContainer(sharedModelContainer)
