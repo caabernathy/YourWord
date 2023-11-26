@@ -20,7 +20,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
   func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
     if let day = response.notification.request.content.userInfo["day"] as? Int {
       notificationData = day
-      // scriptureViewModel?.updateDayOfWeek(with: day)
     }
     completionHandler()
   }

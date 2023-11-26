@@ -99,6 +99,8 @@ struct MemorizeView: View {
       // Was this opened due to a notification event?
       if let notificationData = appDelegate.notificationData {
         pageIndex = notificationData - 1
+        // Reset notification data
+        appDelegate.notificationData = nil
       } else {
         // Start at the day of the week
         pageIndex = dayOfWeek - 1
