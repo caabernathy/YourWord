@@ -14,6 +14,7 @@ struct MemorizeView: View {
 
   let pageViewCount = 7
 
+  @EnvironmentObject var appDelegate: AppDelegate
   @State private var dragOffset: CGFloat = 0
   @State private var pageIndex = 0
   @State private var memoryTexts: [String] = []
@@ -92,9 +93,26 @@ struct MemorizeView: View {
     let dayOfWeek = isDailyReveal ? Calendar.current.component(.weekday, from: Date()) : pageViewCount
     let maskedTexts = ScriptureManager.shared.maskText(scripture: scripture)
     let maskedSources = ScriptureManager.shared.maskSource(scripture: scripture)
-    pageIndex = isDailyReveal ? dayOfWeek - 1 : 0
+    // Set up the starting point based on...
+    // Is it the daily memorization view?
+    if isDailyReveal {
+      // Was this opened due to a notification event?
+      if let notificationData = appDelegate.notificationData {
+        pageIndex = notificationData - 1
+      } else {
+        // Start at the day of the week
+        pageIndex = dayOfWeek - 1
+      }
+    } else {
+      // If part of the saved verses view, start at 0
+      pageIndex = 0
+    }
     memoryTexts = Array(maskedTexts.prefix(dayOfWeek))
     memorySources = Array(maskedSources.prefix(dayOfWeek))
+
+    if let notificationData = appDelegate.notificationData {
+      print("Opened due to notification for day: \(notificationData)")
+    }
   }
 
   private func paginationLabel(for index: Int) -> String {

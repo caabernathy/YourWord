@@ -8,11 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		CB0741702B05D0880000CCCC /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB07416F2B05D0880000CCCC /* Launch Screen.storyboard */; };
+		CB1BA6E92B12D02F004F4CBE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1BA6E82B12D02F004F4CBE /* AppDelegate.swift */; };
 		CBA2C7B22B082D9B00A27DE1 /* ScriptureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBA2C7B12B082D9B00A27DE1 /* ScriptureManager.swift */; };
 		CBA2C7B52B09BB1700A27DE1 /* StarterScriptures.json in Resources */ = {isa = PBXBuildFile; fileRef = CBA2C7B42B09BB1700A27DE1 /* StarterScriptures.json */; };
 		CBAC66612B0DB5C30044BBE7 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBAC66602B0DB5C30044BBE7 /* MainTabView.swift */; };
 		CBAC66632B0DB75D0044BBE7 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBAC66622B0DB75D0044BBE7 /* SettingsView.swift */; };
 		CBAC66652B0DB7A60044BBE7 /* ScripturesListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBAC66642B0DB7A60044BBE7 /* ScripturesListView.swift */; };
+		CBAC66672B12AFD60044BBE7 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBAC66662B12AFD60044BBE7 /* NotificationManager.swift */; };
 		CBD43F6B2B01DD23003CF5F7 /* YourWordApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD43F6A2B01DD23003CF5F7 /* YourWordApp.swift */; };
 		CBD43F712B01DD24003CF5F7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CBD43F702B01DD24003CF5F7 /* Assets.xcassets */; };
 		CBD43F742B01DD24003CF5F7 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CBD43F732B01DD24003CF5F7 /* Preview Assets.xcassets */; };
@@ -22,7 +24,6 @@
 		CBD43F982B01DEA2003CF5F7 /* Scripture.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD43F972B01DEA2003CF5F7 /* Scripture.swift */; };
 		CBD43F9E2B01E105003CF5F7 /* MemorizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD43F9D2B01E105003CF5F7 /* MemorizeView.swift */; };
 		CBD43FA12B01E189003CF5F7 /* ScriptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD43FA02B01E189003CF5F7 /* ScriptureView.swift */; };
-		CBD43FA32B01E847003CF5F7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD43FA22B01E847003CF5F7 /* AppDelegate.swift */; };
 		CBFDEA1D2B0AF1010042CB88 /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBFDEA1C2B0AF1010042CB88 /* Source.swift */; };
 		CBFFAB332B0B170C00C864C9 /* ScriptureKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBFFAB322B0B170C00C864C9 /* ScriptureKey.swift */; };
 		CBFFAB352B0B3DF700C864C9 /* ScriptureModelContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBFFAB342B0B3DF700C864C9 /* ScriptureModelContainer.swift */; };
@@ -48,11 +49,13 @@
 
 /* Begin PBXFileReference section */
 		CB07416F2B05D0880000CCCC /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		CB1BA6E82B12D02F004F4CBE /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CBA2C7B12B082D9B00A27DE1 /* ScriptureManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptureManager.swift; sourceTree = "<group>"; };
 		CBA2C7B42B09BB1700A27DE1 /* StarterScriptures.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = StarterScriptures.json; sourceTree = "<group>"; };
 		CBAC66602B0DB5C30044BBE7 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		CBAC66622B0DB75D0044BBE7 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		CBAC66642B0DB7A60044BBE7 /* ScripturesListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScripturesListView.swift; sourceTree = "<group>"; };
+		CBAC66662B12AFD60044BBE7 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		CBD43F672B01DD23003CF5F7 /* YourWord.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YourWord.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CBD43F6A2B01DD23003CF5F7 /* YourWordApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourWordApp.swift; sourceTree = "<group>"; };
 		CBD43F702B01DD24003CF5F7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -65,7 +68,6 @@
 		CBD43F972B01DEA2003CF5F7 /* Scripture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scripture.swift; sourceTree = "<group>"; };
 		CBD43F9D2B01E105003CF5F7 /* MemorizeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemorizeView.swift; sourceTree = "<group>"; };
 		CBD43FA02B01E189003CF5F7 /* ScriptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptureView.swift; sourceTree = "<group>"; };
-		CBD43FA22B01E847003CF5F7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CBFDEA1C2B0AF1010042CB88 /* Source.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Source.swift; sourceTree = "<group>"; };
 		CBFFAB322B0B170C00C864C9 /* ScriptureKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptureKey.swift; sourceTree = "<group>"; };
 		CBFFAB342B0B3DF700C864C9 /* ScriptureModelContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptureModelContainer.swift; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 		CBA2C7B02B082D5000A27DE1 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				CBAC66662B12AFD60044BBE7 /* NotificationManager.swift */,
 				CBA2C7B12B082D9B00A27DE1 /* ScriptureManager.swift */,
 				CBFFAB342B0B3DF700C864C9 /* ScriptureModelContainer.swift */,
 			);
@@ -137,8 +140,8 @@
 		CBD43F692B01DD23003CF5F7 /* YourWord */ = {
 			isa = PBXGroup;
 			children = (
-				CBD43FA22B01E847003CF5F7 /* AppDelegate.swift */,
 				CBD43F6A2B01DD23003CF5F7 /* YourWordApp.swift */,
+				CB1BA6E82B12D02F004F4CBE /* AppDelegate.swift */,
 				CB07416F2B05D0880000CCCC /* Launch Screen.storyboard */,
 				CBFFAB362B0B4EF100C864C9 /* Extensions */,
 				CBA2C7B02B082D5000A27DE1 /* Managers */,
@@ -348,8 +351,9 @@
 			files = (
 				CBFFAB352B0B3DF700C864C9 /* ScriptureModelContainer.swift in Sources */,
 				CBAC66612B0DB5C30044BBE7 /* MainTabView.swift in Sources */,
-				CBD43FA32B01E847003CF5F7 /* AppDelegate.swift in Sources */,
 				CBD43FA12B01E189003CF5F7 /* ScriptureView.swift in Sources */,
+				CBAC66672B12AFD60044BBE7 /* NotificationManager.swift in Sources */,
+				CB1BA6E92B12D02F004F4CBE /* AppDelegate.swift in Sources */,
 				CBD43F9E2B01E105003CF5F7 /* MemorizeView.swift in Sources */,
 				CBFFAB332B0B170C00C864C9 /* ScriptureKey.swift in Sources */,
 				CBAC66632B0DB75D0044BBE7 /* SettingsView.swift in Sources */,
