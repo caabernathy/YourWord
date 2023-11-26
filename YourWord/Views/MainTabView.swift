@@ -12,7 +12,7 @@ struct MainTabView: View {
   @Environment(\.modelContext) private var modelContext
   @Query(sort: \Scripture.createdDate, order: .forward) private var scriptures: [Scripture]
   
-  @State private var selectedTab: Int = 1 // Default to the MemorizeView tab
+  @SceneStorage("MainTabView.SelectedTab") private var selectedTab: Int = 1
   @State private var savedScriptures: [Scripture] = []
   
   var body: some View {

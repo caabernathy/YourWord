@@ -90,15 +90,16 @@ struct MemorizeView: View {
   }
 
   private func loadMemorizeData() {
-    let dayOfWeek = isDailyReveal ? Calendar.current.component(.weekday, from: Date()) : pageViewCount
     let maskedTexts = ScriptureManager.shared.maskText(scripture: scripture)
     let maskedSources = ScriptureManager.shared.maskSource(scripture: scripture)
+    let dayOfWeek = isDailyReveal ? Calendar.current.component(.weekday, from: Date()) : pageViewCount
     // Set up the starting point based on...
     // Is it the daily memorization view?
     if isDailyReveal {
+      // notification not nil && data <= dayOfWeek
       // Was this opened due to a notification event?
       if let notificationData = appDelegate.notificationData {
-        pageIndex = notificationData - 1
+        pageIndex = (notificationData > dayOfWeek) ? dayOfWeek - 1 : notificationData - 1
         // Reset notification data
         appDelegate.notificationData = nil
       } else {

@@ -47,7 +47,7 @@ class NotificationManager {
     var dateComponents = DateComponents()
     dateComponents.weekday = day // 1 for Sunday, 2 for Monday, etc.
     dateComponents.hour = 9  // 9 am
-//    dateComponents.minute = 11
+    //    dateComponents.minute = 11
 
     // Create the trigger as a repeating event.
     let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
@@ -55,7 +55,7 @@ class NotificationManager {
     // Create the content for the notification
     let content = UNMutableNotificationContent()
     content.title = "Your Daily Word"
-    content.body = "Check out the memorization passage for \(weekdays[day - 1])."
+    content.body = (day == 1) ? "A new passage is now available for you to memorize." : "Check out the memorization passage for \(weekdays[day - 1])."
     content.userInfo = ["day": day]
 
     // Create the request
