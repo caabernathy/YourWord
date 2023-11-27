@@ -13,6 +13,7 @@ struct MemorizeView: View {
   var isDailyReveal: Bool
 
   let pageViewCount = 7
+  let bibleTranslation = BibleTranslation.NIV
 
   @EnvironmentObject var appDelegate: AppDelegate
   @State private var dragOffset: CGFloat = 0
@@ -28,7 +29,7 @@ struct MemorizeView: View {
         ScrollView(.horizontal, showsIndicators: false) {
           HStack(spacing: 0) {
             ForEach(0..<memoryTexts.count, id: \.self) { index in
-              ScriptureView(text: memoryTexts[index], source: memorySources[index])
+              ScriptureView(text: memoryTexts[index], source: "\(memorySources[index]) \(bibleTranslation.rawValue)")
                 .padding()
                 .frame(width: geometry.size.width)
             }
@@ -90,8 +91,10 @@ struct MemorizeView: View {
   }
 
   private func loadMemorizeData() {
-    let maskedTexts = ScriptureManager.shared.maskText(scripture: scripture)
-    let maskedSources = ScriptureManager.shared.maskSource(scripture: scripture)
+    guard 
+      let scriptureText = scripture.translation(for: bibleTranslation) else { return }
+    let maskedTexts = ScriptureManager.shared.maskScriptureText(scriptureText)
+    let maskedSources = ScriptureManager.shared.maskSriptureReference(scripture.passage)
     let dayOfWeek = isDailyReveal ? Calendar.current.component(.weekday, from: Date()) : pageViewCount
     // Set up the starting point based on...
     // Is it the daily memorization view?
@@ -113,9 +116,6 @@ struct MemorizeView: View {
     memoryTexts = Array(maskedTexts.prefix(dayOfWeek))
     memorySources = Array(maskedSources.prefix(dayOfWeek))
 
-    if let notificationData = appDelegate.notificationData {
-      print("Opened due to notification for day: \(notificationData)")
-    }
   }
 
   private func paginationLabel(for index: Int) -> String {

@@ -26,8 +26,6 @@
 		CBD43F982B01DEA2003CF5F7 /* Scripture.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD43F972B01DEA2003CF5F7 /* Scripture.swift */; };
 		CBD43F9E2B01E105003CF5F7 /* MemorizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD43F9D2B01E105003CF5F7 /* MemorizeView.swift */; };
 		CBD43FA12B01E189003CF5F7 /* ScriptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD43FA02B01E189003CF5F7 /* ScriptureView.swift */; };
-		CBFDEA1D2B0AF1010042CB88 /* Source.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBFDEA1C2B0AF1010042CB88 /* Source.swift */; };
-		CBFFAB332B0B170C00C864C9 /* ScriptureKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBFFAB322B0B170C00C864C9 /* ScriptureKey.swift */; };
 		CBFFAB352B0B3DF700C864C9 /* ScriptureModelContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBFFAB342B0B3DF700C864C9 /* ScriptureModelContainer.swift */; };
 		CBFFAB382B0B4F2400C864C9 /* ModelContext+sqliteCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBFFAB372B0B4F2400C864C9 /* ModelContext+sqliteCommand.swift */; };
 /* End PBXBuildFile section */
@@ -72,8 +70,6 @@
 		CBD43F972B01DEA2003CF5F7 /* Scripture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scripture.swift; sourceTree = "<group>"; };
 		CBD43F9D2B01E105003CF5F7 /* MemorizeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemorizeView.swift; sourceTree = "<group>"; };
 		CBD43FA02B01E189003CF5F7 /* ScriptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptureView.swift; sourceTree = "<group>"; };
-		CBFDEA1C2B0AF1010042CB88 /* Source.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Source.swift; sourceTree = "<group>"; };
-		CBFFAB322B0B170C00C864C9 /* ScriptureKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptureKey.swift; sourceTree = "<group>"; };
 		CBFFAB342B0B3DF700C864C9 /* ScriptureModelContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptureModelContainer.swift; sourceTree = "<group>"; };
 		CBFFAB372B0B4F2400C864C9 /* ModelContext+sqliteCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ModelContext+sqliteCommand.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -188,8 +184,6 @@
 			isa = PBXGroup;
 			children = (
 				CBD43F972B01DEA2003CF5F7 /* Scripture.swift */,
-				CBFDEA1C2B0AF1010042CB88 /* Source.swift */,
-				CBFFAB322B0B170C00C864C9 /* ScriptureKey.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -362,9 +356,7 @@
 				CB1BA6E92B12D02F004F4CBE /* AppDelegate.swift in Sources */,
 				CB003F452B13588C008584F1 /* Date+RawRepresentable.swift in Sources */,
 				CBD43F9E2B01E105003CF5F7 /* MemorizeView.swift in Sources */,
-				CBFFAB332B0B170C00C864C9 /* ScriptureKey.swift in Sources */,
 				CBAC66632B0DB75D0044BBE7 /* SettingsView.swift in Sources */,
-				CBFDEA1D2B0AF1010042CB88 /* Source.swift in Sources */,
 				CB1BA6EB2B132354004F4CBE /* SettingsManager.swift in Sources */,
 				CBA2C7B22B082D9B00A27DE1 /* ScriptureManager.swift in Sources */,
 				CBD43F6B2B01DD23003CF5F7 /* YourWordApp.swift in Sources */,

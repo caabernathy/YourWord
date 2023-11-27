@@ -34,8 +34,11 @@ let sharedModelContainer: ModelContainer = {
       container.mainContext.insert(scripture)
     }
     for scripture in scriptures {
-      let scriptureKey = ScriptureManager.shared.createKey(for: scripture.text)
-      scripture.key = scriptureKey
+      for (index, translation) in scripture.translations.enumerated() {
+        let scriptureTextKey = ScriptureManager.shared.createTextMaskingKey(for: translation.text)
+        scripture.translations[index].maskingKey = scriptureTextKey
+      }
+      scripture.passage.maskingKey = ScriptureManager.shared.createReferenceMaskingKey()
     }
     return container
   } catch {

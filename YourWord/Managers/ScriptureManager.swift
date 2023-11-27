@@ -32,18 +32,16 @@ import Foundation
     return scriptures
   }
 
-  func maskText(scripture: Scripture) -> [String] {
-    var words = scripture.text.components(separatedBy: " ")
+  func maskScriptureText(_ translation: Translation) -> [String] {
+    var words = translation.text.components(separatedBy: " ")
     var replacedWords: [String] = []
-    // Mask words in a passage based on modifiers configured during initialization
+    // Mask words in a passage based on mask key configured during initialization
     for i in 0..<memorizeCount {
       // Modifying words
-      if let scriptureKey = scripture.key {
-        if !scriptureKey.text.isEmpty {
-          for j in 0..<words.count {
-            if i >= scriptureKey.text[j] {
-              words[j] = replaceWithUnderscore(text: words[j])
-            }
+      if !translation.maskingKey.isEmpty {
+        for j in 0..<words.count {
+          if i >= translation.maskingKey[j] {
+            words[j] = replaceWithUnderscore(text: words[j])
           }
         }
       }
@@ -52,49 +50,50 @@ import Foundation
     return replacedWords
   }
 
-  func maskSource(scripture: Scripture) -> [String] {
+  func maskSriptureReference(_ passage: Passage) -> [String] {
     var replacedSources: [String] = []
     // Mask source
     for i in 0..<memorizeCount {
       // Modifiying source
-      if let scriptureKey = scripture.key {
-        if !scriptureKey.source.isEmpty && scriptureKey.source[i] {
-          // Switch up the masking for the source elements, last element will be msked
-          let lastRound = (i == memorizeCount - 1)
-          // Even, mask book
-          let modifiedBook = lastRound || (i % 2 == 0) ? replaceWithUnderscore(text: scripture.source.book) : scripture.source.book
-          // Odd, mask chapter and verses
-          let modifiedChapter = lastRound || (i % 2 != 0) ? replaceWithUnderscore(text: scripture.source.chapter) : scripture.source.chapter
-          let modifiedVerses = lastRound || (i % 2 != 0) ? replaceWithUnderscore(text: scripture.source.verses) : scripture.source.verses
-          replacedSources.append(formatSource(book: modifiedBook, chapter: modifiedChapter, verses: modifiedVerses, translation: scripture.source.translation))
-          continue
-        }
+      if !passage.maskingKey.isEmpty && passage.maskingKey[i] {
+        // Switch up the masking, last element will be msked
+        let lastRound = (i == memorizeCount - 1)
+        // Even, mask book
+        let modifiedBook = lastRound || (i % 2 == 0) ? replaceWithUnderscore(text: passage.book) : passage.book
+        // Odd, mask chapter and verses
+        let modifiedChapter = lastRound || (i % 2 != 0) ? replaceWithUnderscore(text: String(passage.chapter)) : String(passage.chapter)
+        let modifiedVerses = lastRound || (i % 2 != 0) ? replaceWithUnderscore(text: passage.verses) : passage.verses
+        replacedSources.append(formatSource(book: modifiedBook, chapter: modifiedChapter, verses: modifiedVerses))
+      } else {
+        // Source not being modified
+        replacedSources.append(formatSource(book: passage.book, chapter: String(passage.chapter), verses: passage.verses))
       }
-      // Source not being modified
-      replacedSources.append(formatSource(book: scripture.source.book, chapter: scripture.source.chapter, verses: scripture.source.verses, translation: scripture.source.translation))
-
     }
     return replacedSources
   }
 
-  private func formatSource(book: String, chapter: String, verses: String, translation: String) -> String {
-    return "\(book) \(chapter):\(verses) \(translation)"
+  private func formatSource(book: String, chapter: String, verses: String) -> String {
+    return "\(book) \(chapter):\(verses)"
   }
 
   private func replaceWithUnderscore(text: String) -> String {
     return text.replacingOccurrences(of: "\\w", with: "_", options: .regularExpression)
   }
 
-  func createKey(for text: String) -> ScriptureKey {
+  func createTextMaskingKey(for text: String) -> [Int] {
     let words = text.components(separatedBy: " ")
     var textKey = (1..<memorizeCount).map { $0 }
     for _ in (memorizeCount-1)..<words.count {
       textKey.append(Int.random(in: 1..<memorizeCount))
     }
     textKey.shuffle()
-    var sourceKey = (0..<memorizeCount).map { _ in Bool.random() }
-    sourceKey[0] = false
-    sourceKey[memorizeCount-1] = true
-    return ScriptureKey(text: textKey, source: sourceKey)
+    return textKey
+  }
+
+  func createReferenceMaskingKey() -> [Bool] {
+    var referenceKey = (0..<memorizeCount).map { _ in Bool.random() }
+    referenceKey[0] = false
+    referenceKey[memorizeCount-1] = true
+    return referenceKey
   }
 }

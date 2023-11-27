@@ -12,12 +12,6 @@ import Foundation
     case notificationTime, bibleTranslation
   }
 
-  enum BibleTranslation: String, CaseIterable, Identifiable {
-    case NIV, KJV, ESV, NRSV
-
-    var id: Self { self }
-  }
-
   var preferredNotificationTime: Date?
 
   var preferredBibleTranslation: BibleTranslation?

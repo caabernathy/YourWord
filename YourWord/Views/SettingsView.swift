@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SettingsView: View {
   @AppStorage(SettingsManager.SettingsKeys.notificationTime.rawValue) private var preferredNotificationTime: Date = SettingsManager.shared.defaultDate()
-  @AppStorage(SettingsManager.SettingsKeys.bibleTranslation.rawValue) var preferredBibleTranslation: SettingsManager.BibleTranslation = .NIV
+  @AppStorage(SettingsManager.SettingsKeys.bibleTranslation.rawValue) var preferredBibleTranslation: BibleTranslation = .NIV
 
   var body: some View {
     NavigationView {
@@ -23,7 +23,7 @@ struct SettingsView: View {
 
         Section(header: Text("Bible Translation")) {
           Picker("Select Translation", selection: $preferredBibleTranslation) {
-            ForEach(SettingsManager.BibleTranslation.allCases, id: \.self) { translation in
+            ForEach(BibleTranslation.allCases, id: \.self) { translation in
               Text(translation.rawValue)
                 .tag(translation)
             }
