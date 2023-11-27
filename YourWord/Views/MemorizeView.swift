@@ -13,7 +13,7 @@ struct MemorizeView: View {
   var isDailyReveal: Bool
 
   let pageViewCount = 7
-  let bibleTranslation = BibleTranslation.NIV
+  let bibleTranslation = SettingsManager.shared.preferredBibleTranslation ?? BibleTranslation.NIV
 
   @EnvironmentObject var appDelegate: AppDelegate
   @State private var dragOffset: CGFloat = 0

@@ -29,6 +29,9 @@ struct SettingsView: View {
             }
           }
           .pickerStyle(SegmentedPickerStyle())
+          .onChange(of: preferredBibleTranslation) {
+            updateBibleTranslation()
+          }
         }
       }
       .toolbar {
@@ -48,6 +51,10 @@ struct SettingsView: View {
        let minute = components.minute {
       NotificationManager.shared.configureUserNotifications(hour: hour, minute: minute)
     }
+  }
+
+  private func updateBibleTranslation() {
+    SettingsManager.shared.updateBibleTranslation(preferredBibleTranslation)
   }
 }
 

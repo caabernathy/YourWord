@@ -18,11 +18,21 @@ import Foundation
 
   static let shared = SettingsManager()
 
-  private init() {}
+  private init() {
+    load()
+  }
 
   func load() {
-    preferredNotificationTime = UserDefaults.standard.object(forKey: SettingsKeys.notificationTime.rawValue) as? Date ?? Date()
+    preferredNotificationTime = UserDefaults.standard.object(forKey: SettingsKeys.notificationTime.rawValue) as? Date ?? defaultDate()
     preferredBibleTranslation = BibleTranslation(rawValue: UserDefaults.standard.string(forKey: SettingsKeys.bibleTranslation.rawValue) ?? BibleTranslation.NIV.rawValue) ?? .NIV
+  }
+
+  func updateBibleTranslation(_ translation: BibleTranslation) {
+    preferredBibleTranslation = translation
+  }
+
+  func updateNotificationTime(_ date: Date) {
+    preferredNotificationTime = date
   }
 
   func defaultDate() -> Date {
