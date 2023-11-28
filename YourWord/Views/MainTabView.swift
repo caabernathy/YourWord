@@ -24,32 +24,11 @@ struct MainTabView: View {
         }
         .tag(0)
 
-      Group {
-        if scriptures.count > 0 {
-          NavigationView {
-            MemorizeView(scripture: scriptures[0], isDailyReveal: true)
-              .toolbar {
-                ToolbarItem(placement: .principal) {
-                  Text("Your Daily Word")
-                    .font(.headline)
-                    .foregroundColor(.primary)
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                  Button(action: shareAction) {
-                    Image(systemName: "square.and.arrow.up")
-                  }
-                }
-              }
-          }
-        } else {
-          Text("There are no scriptures to memorize at this time")
-            .padding()
+      ScriptureRevealView(scriptures: scriptures)
+        .tabItem {
+          Label("Memorize", systemImage: "book.fill")
         }
-      }
-      .tabItem {
-        Label("Memorize", systemImage: "book.fill")
-      }
-      .tag(1)
+        .tag(1)
 
       SettingsView()
         .tabItem {
@@ -57,11 +36,6 @@ struct MainTabView: View {
         }
         .tag(2)
     }
-  }
-
-  private func shareAction() {
-    // Define the share action here
-    print("Share button tapped")
   }
 }
 

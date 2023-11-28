@@ -28,6 +28,7 @@
 		CBD43FA12B01E189003CF5F7 /* ScriptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD43FA02B01E189003CF5F7 /* ScriptureView.swift */; };
 		CBF969122B14A851003D90FE /* Translation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF969112B14A851003D90FE /* Translation.swift */; };
 		CBF969142B14A87D003D90FE /* Passage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF969132B14A87D003D90FE /* Passage.swift */; };
+		CBF969182B158429003D90FE /* ScriptureRevealView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF969172B158429003D90FE /* ScriptureRevealView.swift */; };
 		CBFFAB352B0B3DF700C864C9 /* ScriptureModelContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBFFAB342B0B3DF700C864C9 /* ScriptureModelContainer.swift */; };
 		CBFFAB382B0B4F2400C864C9 /* ModelContext+sqliteCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBFFAB372B0B4F2400C864C9 /* ModelContext+sqliteCommand.swift */; };
 /* End PBXBuildFile section */
@@ -74,6 +75,7 @@
 		CBD43FA02B01E189003CF5F7 /* ScriptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptureView.swift; sourceTree = "<group>"; };
 		CBF969112B14A851003D90FE /* Translation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Translation.swift; sourceTree = "<group>"; };
 		CBF969132B14A87D003D90FE /* Passage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Passage.swift; sourceTree = "<group>"; };
+		CBF969172B158429003D90FE /* ScriptureRevealView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptureRevealView.swift; sourceTree = "<group>"; };
 		CBFFAB342B0B3DF700C864C9 /* ScriptureModelContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptureModelContainer.swift; sourceTree = "<group>"; };
 		CBFFAB372B0B4F2400C864C9 /* ModelContext+sqliteCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ModelContext+sqliteCommand.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -201,6 +203,7 @@
 				CBAC66602B0DB5C30044BBE7 /* MainTabView.swift */,
 				CBD43F9D2B01E105003CF5F7 /* MemorizeView.swift */,
 				CBAC66622B0DB75D0044BBE7 /* SettingsView.swift */,
+				CBF969172B158429003D90FE /* ScriptureRevealView.swift */,
 				CBAC66642B0DB7A60044BBE7 /* ScripturesListView.swift */,
 			);
 			path = Views;
@@ -363,6 +366,7 @@
 				CB003F452B13588C008584F1 /* Date+RawRepresentable.swift in Sources */,
 				CBD43F9E2B01E105003CF5F7 /* MemorizeView.swift in Sources */,
 				CBAC66632B0DB75D0044BBE7 /* SettingsView.swift in Sources */,
+				CBF969182B158429003D90FE /* ScriptureRevealView.swift in Sources */,
 				CB1BA6EB2B132354004F4CBE /* SettingsManager.swift in Sources */,
 				CBA2C7B22B082D9B00A27DE1 /* ScriptureManager.swift in Sources */,
 				CBD43F6B2B01DD23003CF5F7 /* YourWordApp.swift in Sources */,
