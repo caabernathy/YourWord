@@ -14,7 +14,7 @@ struct ScripturesListView: View {
       if scriptures.isEmpty {
         VStack {
           Spacer()
-          Text("No saved scriptures to display.")
+          Text("No completed scriptures to display.")
             .padding()
           Spacer()
         }

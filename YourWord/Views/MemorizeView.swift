@@ -76,6 +76,13 @@ struct MemorizeView: View {
         }
         .padding(.top, 10)
 
+        if isDailyReveal && pageIndex == (pageViewCount - 1) {
+          DoneButton() {
+            markMemorizationAsCompleted()
+          }
+          .padding(.top, 20)
+        }
+
         Spacer()
       }
     }
@@ -91,7 +98,7 @@ struct MemorizeView: View {
   }
 
   private func loadMemorizeData() {
-    guard 
+    guard
       let scriptureText = scripture.translation(for: bibleTranslation) else { return }
     let maskedTexts = ScriptureManager.shared.maskScriptureText(scriptureText)
     let maskedSources = ScriptureManager.shared.maskSriptureReference(scripture.passage)
@@ -115,7 +122,10 @@ struct MemorizeView: View {
     }
     memoryTexts = Array(maskedTexts.prefix(dayOfWeek))
     memorySources = Array(maskedSources.prefix(dayOfWeek))
+  }
 
+  private func markMemorizationAsCompleted() {
+    scripture.completed = true
   }
 
   private func paginationLabel(for index: Int) -> String {

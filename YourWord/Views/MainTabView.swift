@@ -10,7 +10,19 @@ import SwiftData
 
 struct MainTabView: View {
   @Environment(\.modelContext) private var modelContext
-  @Query(sort: \Scripture.createdDate, order: .forward) private var scriptures: [Scripture]
+
+  static var currentScriptureFetchDescriptor: FetchDescriptor<Scripture> {
+    var descriptor = FetchDescriptor<Scripture>(
+      predicate: #Predicate<Scripture> { !$0.completed },
+      sortBy: [SortDescriptor(\Scripture.createdAt, order: .forward)])
+    descriptor.fetchLimit = 1
+    return descriptor
+  }
+
+  @Query(currentScriptureFetchDescriptor) private var currentScripture: [Scripture]
+
+  @Query(filter: #Predicate<Scripture> { $0.completed },
+         sort: \Scripture.createdAt, order: .forward) private var completedScriptures: [Scripture]
 
   @SceneStorage("MainTabView.SelectedTab") private var selectedTab: Int = 1
   @State private var savedScriptures: [Scripture] = []
@@ -18,13 +30,13 @@ struct MainTabView: View {
   var body: some View {
     TabView(selection: $selectedTab) {
 
-      ScripturesListView(scriptures: Array(scriptures.dropFirst()))
+      ScripturesListView(scriptures: completedScriptures)
         .tabItem {
-          Label("Favorites", systemImage: "heart.fill")
+          Label("Completed", systemImage: "checkmark.rectangle.stack.fill")
         }
         .tag(0)
 
-      ScriptureRevealView(scriptures: scriptures)
+      ScriptureRevealView(scriptures: currentScripture)
         .tabItem {
           Label("Memorize", systemImage: "book.fill")
         }

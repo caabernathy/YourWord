@@ -11,15 +11,14 @@ import SwiftData
 @Model
 class Scripture: Codable {
   var id: UUID?
-  var createdDate: Date?
+  var createdAt: Date?
   var passage: Passage
   var translations: [Translation]
-  var isMemorized: Bool = false
-  var isFavorite: Bool = false
+  var completed: Bool = false
 
   init(passage: Passage, translations: [Translation]) {
     self.id = UUID()
-    self.createdDate = Date()
+    self.createdAt = Date()
     self.passage = passage
     self.translations = translations
   }
@@ -27,11 +26,10 @@ class Scripture: Codable {
   required init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     id = try container.decodeIfPresent(UUID.self, forKey: .id) ?? UUID()
-    createdDate = try container.decodeIfPresent(Date.self, forKey: .createdDate) ?? Date()
+    createdAt = try container.decodeIfPresent(Date.self, forKey: .createdAt) ?? Date()
     passage = try container.decode(Passage.self, forKey: .passage)
     translations = try container.decode([Translation].self, forKey: .translations)
-    isMemorized = try container.decodeIfPresent(Bool.self, forKey: .isMemorized) ?? false
-    isFavorite = try container.decodeIfPresent(Bool.self, forKey: .isFavorite) ?? false
+    completed = try container.decodeIfPresent(Bool.self, forKey: .completed) ?? false
   }
 
   func encode(to encoder: Encoder) throws {
@@ -41,9 +39,9 @@ class Scripture: Codable {
   }
 
   func addTimeInterval(_ interval: TimeInterval) {
-    if let date = self.createdDate {
+    if let date = self.createdAt {
       let adjustedDate = date.addingTimeInterval(interval)
-      self.createdDate = adjustedDate
+      self.createdAt = adjustedDate
     }
   }
 
@@ -54,10 +52,9 @@ class Scripture: Codable {
 
   private enum CodingKeys: String, CodingKey {
     case id
-    case createdDate
+    case createdAt
     case passage
     case translations
-    case isMemorized
-    case isFavorite
+    case completed
   }
 }
