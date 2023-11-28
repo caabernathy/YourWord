@@ -7,7 +7,7 @@
 import SwiftUI
 import ConfettiSwiftUI
 
-struct DoneButton: View {
+struct DoneButtonView: View {
   var doneAction: () -> Void
   @State private var counter = 0
 
@@ -31,5 +31,5 @@ struct DoneButton: View {
 }
 
 #Preview {
-  DoneButton(doneAction: {})
+  DoneButtonView(doneAction: {})
 }

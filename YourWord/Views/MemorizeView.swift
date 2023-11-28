@@ -55,29 +55,18 @@ struct MemorizeView: View {
         // Pagination
         HStack(spacing: 15) {
           ForEach(0..<memoryTexts.count, id: \.self) { index in
-            Button(action: { self.pageChangeAction(newIndex: index) }) {
-              ZStack {
-                Circle()
-                  .fill(pageIndex == index ? Color.blue : Color.gray)
-                  .frame(width: 30, height: 30)
-                Text(paginationLabel(for: index))
-                  .foregroundColor(.white)
-              }
+            DayOfWeekButtonView(text: paginationLabel(for: index), isActive: (pageIndex == index)) {
+              self.pageChangeAction(newIndex: index)
             }
           }
           ForEach(memoryTexts.count..<pageViewCount, id: \.self) { index in
-            ZStack {
-              Circle()
-                .fill(Color.white.opacity(0))
-                .frame(width: 30, height: 30)
-              Text(paginationLabel(for: index))
-            }
+            DayOfWeekLabelView(text: paginationLabel(for: index))
           }
         }
         .padding(.top, 10)
 
         if isDailyReveal && pageIndex == (pageViewCount - 1) {
-          DoneButton() {
+          DoneButtonView() {
             markMemorizationAsCompleted()
           }
           .padding(.top, 20)

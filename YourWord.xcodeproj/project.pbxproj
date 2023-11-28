@@ -29,8 +29,10 @@
 		CBF969122B14A851003D90FE /* Translation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF969112B14A851003D90FE /* Translation.swift */; };
 		CBF969142B14A87D003D90FE /* Passage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF969132B14A87D003D90FE /* Passage.swift */; };
 		CBF969182B158429003D90FE /* ScriptureRevealView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF969172B158429003D90FE /* ScriptureRevealView.swift */; };
-		CBF9691A2B15A369003D90FE /* DoneButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF969192B15A369003D90FE /* DoneButton.swift */; };
+		CBF9691A2B15A369003D90FE /* DoneButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF969192B15A369003D90FE /* DoneButtonView.swift */; };
 		CBF9691F2B15B0BE003D90FE /* ConfettiSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = CBF9691E2B15B0BE003D90FE /* ConfettiSwiftUI */; };
+		CBF969212B15B300003D90FE /* DayOfWeekLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF969202B15B300003D90FE /* DayOfWeekLabelView.swift */; };
+		CBF969232B15B3BF003D90FE /* DayOfWeekButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF969222B15B3BF003D90FE /* DayOfWeekButtonView.swift */; };
 		CBFFAB352B0B3DF700C864C9 /* ScriptureModelContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBFFAB342B0B3DF700C864C9 /* ScriptureModelContainer.swift */; };
 		CBFFAB382B0B4F2400C864C9 /* ModelContext+sqliteCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBFFAB372B0B4F2400C864C9 /* ModelContext+sqliteCommand.swift */; };
 /* End PBXBuildFile section */
@@ -78,7 +80,9 @@
 		CBF969112B14A851003D90FE /* Translation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Translation.swift; sourceTree = "<group>"; };
 		CBF969132B14A87D003D90FE /* Passage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Passage.swift; sourceTree = "<group>"; };
 		CBF969172B158429003D90FE /* ScriptureRevealView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptureRevealView.swift; sourceTree = "<group>"; };
-		CBF969192B15A369003D90FE /* DoneButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoneButton.swift; sourceTree = "<group>"; };
+		CBF969192B15A369003D90FE /* DoneButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoneButtonView.swift; sourceTree = "<group>"; };
+		CBF969202B15B300003D90FE /* DayOfWeekLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayOfWeekLabelView.swift; sourceTree = "<group>"; };
+		CBF969222B15B3BF003D90FE /* DayOfWeekButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayOfWeekButtonView.swift; sourceTree = "<group>"; };
 		CBFFAB342B0B3DF700C864C9 /* ScriptureModelContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptureModelContainer.swift; sourceTree = "<group>"; };
 		CBFFAB372B0B4F2400C864C9 /* ModelContext+sqliteCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ModelContext+sqliteCommand.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -217,7 +221,9 @@
 			isa = PBXGroup;
 			children = (
 				CBD43FA02B01E189003CF5F7 /* ScriptureView.swift */,
-				CBF969192B15A369003D90FE /* DoneButton.swift */,
+				CBF969192B15A369003D90FE /* DoneButtonView.swift */,
+				CBF969222B15B3BF003D90FE /* DayOfWeekButtonView.swift */,
+				CBF969202B15B300003D90FE /* DayOfWeekLabelView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -370,6 +376,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CBFFAB352B0B3DF700C864C9 /* ScriptureModelContainer.swift in Sources */,
+				CBF969212B15B300003D90FE /* DayOfWeekLabelView.swift in Sources */,
 				CBAC66612B0DB5C30044BBE7 /* MainTabView.swift in Sources */,
 				CBD43FA12B01E189003CF5F7 /* ScriptureView.swift in Sources */,
 				CBAC66672B12AFD60044BBE7 /* NotificationManager.swift in Sources */,
@@ -380,8 +387,9 @@
 				CBF969182B158429003D90FE /* ScriptureRevealView.swift in Sources */,
 				CB1BA6EB2B132354004F4CBE /* SettingsManager.swift in Sources */,
 				CBA2C7B22B082D9B00A27DE1 /* ScriptureManager.swift in Sources */,
-				CBF9691A2B15A369003D90FE /* DoneButton.swift in Sources */,
+				CBF9691A2B15A369003D90FE /* DoneButtonView.swift in Sources */,
 				CBD43F6B2B01DD23003CF5F7 /* YourWordApp.swift in Sources */,
+				CBF969232B15B3BF003D90FE /* DayOfWeekButtonView.swift in Sources */,
 				CBFFAB382B0B4F2400C864C9 /* ModelContext+sqliteCommand.swift in Sources */,
 				CBF969142B14A87D003D90FE /* Passage.swift in Sources */,
 				CBAC66652B0DB7A60044BBE7 /* ScripturesListView.swift in Sources */,
