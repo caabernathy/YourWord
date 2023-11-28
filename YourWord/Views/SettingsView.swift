@@ -10,6 +10,7 @@ import SwiftUI
 struct SettingsView: View {
   @AppStorage(SettingsManager.SettingsKeys.notificationTime.rawValue) private var preferredNotificationTime: Date = SettingsManager.shared.defaultDate()
   @AppStorage(SettingsManager.SettingsKeys.bibleTranslation.rawValue) var preferredBibleTranslation: BibleTranslation = .NIV
+  @AppStorage(SettingsManager.SettingsKeys.dailyRevealOverride.rawValue) var dailyRevealOverride: Bool = false
 
   var body: some View {
     NavigationView {
@@ -33,6 +34,15 @@ struct SettingsView: View {
             updateBibleTranslation()
           }
         }
+
+        Section(header: Text("Daily Memorization")) {
+          Toggle("Show All Days", isOn: $dailyRevealOverride)
+            .onChange(of: dailyRevealOverride) {
+              updateDailyRevealOverride()
+            }
+          Text("Controls your memorization experience. Gives you the option to view the entire week's Bible verses or discover them daily.")
+            .font(.caption)
+        }
       }
       .toolbar {
         ToolbarItem(placement: .principal) {
@@ -55,6 +65,10 @@ struct SettingsView: View {
 
   private func updateBibleTranslation() {
     SettingsManager.shared.updateBibleTranslation(preferredBibleTranslation)
+  }
+
+  private func updateDailyRevealOverride() {
+    SettingsManager.shared.updateDailyRevealOverride(dailyRevealOverride)
   }
 }
 

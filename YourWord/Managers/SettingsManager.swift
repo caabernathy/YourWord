@@ -9,12 +9,14 @@ import Foundation
 
 @Observable class SettingsManager {
   enum SettingsKeys: String {
-    case notificationTime, bibleTranslation
+    case notificationTime, bibleTranslation, dailyRevealOverride
   }
 
   var preferredNotificationTime: Date?
 
   var preferredBibleTranslation: BibleTranslation?
+
+  var dailyRevealOverride: Bool?
 
   static let shared = SettingsManager()
 
@@ -25,6 +27,7 @@ import Foundation
   func load() {
     preferredNotificationTime = UserDefaults.standard.object(forKey: SettingsKeys.notificationTime.rawValue) as? Date ?? defaultDate()
     preferredBibleTranslation = BibleTranslation(rawValue: UserDefaults.standard.string(forKey: SettingsKeys.bibleTranslation.rawValue) ?? BibleTranslation.NIV.rawValue) ?? .NIV
+    dailyRevealOverride = UserDefaults.standard.object(forKey: SettingsKeys.dailyRevealOverride.rawValue) as? Bool ?? false
   }
 
   func updateBibleTranslation(_ translation: BibleTranslation) {
@@ -33,6 +36,10 @@ import Foundation
 
   func updateNotificationTime(_ date: Date) {
     preferredNotificationTime = date
+  }
+
+  func updateDailyRevealOverride(_ value: Bool) {
+    dailyRevealOverride = value
   }
 
   func defaultDate() -> Date {

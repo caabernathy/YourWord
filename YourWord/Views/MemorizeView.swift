@@ -14,6 +14,7 @@ struct MemorizeView: View {
 
   let pageViewCount = 7
   let bibleTranslation = SettingsManager.shared.preferredBibleTranslation ?? BibleTranslation.NIV
+  let dailyRevealOverride = SettingsManager.shared.dailyRevealOverride ?? false
 
   @EnvironmentObject var appDelegate: AppDelegate
   @State private var dragOffset: CGFloat = 0
@@ -109,8 +110,10 @@ struct MemorizeView: View {
       // If part of the saved verses view, start at 0
       pageIndex = 0
     }
-    memoryTexts = Array(maskedTexts.prefix(dayOfWeek))
-    memorySources = Array(maskedSources.prefix(dayOfWeek))
+    // Work out how many day's worth or memorizations to show
+    let numberOfDaysToShow = isDailyReveal && !dailyRevealOverride ? dayOfWeek : pageViewCount
+    memoryTexts = Array(maskedTexts.prefix(numberOfDaysToShow))
+    memorySources = Array(maskedSources.prefix(numberOfDaysToShow))
   }
 
   private func markMemorizationAsCompleted() {
