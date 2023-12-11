@@ -15,7 +15,7 @@ struct ScriptureRevealView: View {
   var body: some View {
     Group {
       if scriptures.count > 0 {
-        NavigationView {
+        NavigationStack {
           MemorizeView(scripture: scriptures[0], isDailyReveal: true)
             .toolbar {
               ToolbarItem(placement: .principal) {

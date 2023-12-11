@@ -13,7 +13,7 @@ struct SettingsView: View {
   @AppStorage(SettingsManager.SettingsKeys.dailyRevealOverride.rawValue) var dailyRevealOverride: Bool = false
 
   var body: some View {
-    NavigationView {
+    NavigationStack {
       Form {
         Section(header: Text("Notifications")) {
           DatePicker("Daily Notification Time", selection: $preferredNotificationTime, displayedComponents: .hourAndMinute)
