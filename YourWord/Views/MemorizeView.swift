@@ -71,6 +71,9 @@ struct MemorizeView: View {
             markMemorizationAsCompleted()
           }
           .padding(.top, 20)
+        } else {
+          Spacer()
+            .frame(height: 116)
         }
 
         Spacer()
