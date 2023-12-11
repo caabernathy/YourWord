@@ -16,6 +16,7 @@ struct ScriptureView: View {
       Text(text)
         .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
         .padding()
+        .minimumScaleFactor(0.5)
       Text(source)
         .padding()
     }
