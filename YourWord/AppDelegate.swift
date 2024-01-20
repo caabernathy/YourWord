@@ -10,16 +10,18 @@ import UserNotifications
 
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, ObservableObject {
 
-  var notificationData: Int?
-
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     UNUserNotificationCenter.current().delegate = self
     return true
   }
 
   func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-    if let day = response.notification.request.content.userInfo["day"] as? Int {
-      notificationData = day
+    if response.notification.request.identifier.starts(with: NotificationManager.NotificationConstants.dailyNotificationName) {
+      if let day = response.notification.request.content.userInfo["day"] as? Int {
+        DispatchQueue.main.async {
+          NotificationManager.shared.didReceiveNotification(for: day)
+        }
+      }
     }
     completionHandler()
   }

@@ -26,6 +26,7 @@ struct MainTabView: View {
 
   @SceneStorage("MainTabView.SelectedTab") private var selectedTab: Int = 1
   @State private var savedScriptures: [Scripture] = []
+  let shouldSwitchToHomeTab = NotificationManager.shared.shouldSwitchToHomeTab
 
   var body: some View {
     TabView(selection: $selectedTab) {
@@ -47,6 +48,14 @@ struct MainTabView: View {
           Label("Settings", systemImage: "gearshape.fill")
         }
         .tag(2)
+    }
+    .onChange(of: shouldSwitchToHomeTab) {
+      if shouldSwitchToHomeTab {
+        selectedTab = 1
+      }
+    }
+    .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+      DayManager.shared.updateDay()
     }
   }
 }
