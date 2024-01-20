@@ -8,12 +8,14 @@
 import Foundation
 import UserNotifications
 
-class NotificationManager {
+@Observable class NotificationManager {
   enum NotificationConstants {
     static let dailyNotificationName = "memorizeDay"
   }
 
   static let shared = NotificationManager()
+  var shouldSwitchToHomeTab = false
+  var notificationDayOfWeek: Int?
 
   private init() {}
 
@@ -23,6 +25,16 @@ class NotificationManager {
         self.scheduleDailyNotifications(hour: hour, minute: minute)
       }
     }
+  }
+
+  func didReceiveNotification(for day: Int) {
+    shouldSwitchToHomeTab = true
+    notificationDayOfWeek = day
+  }
+
+  func clearNotificationDat() {
+    shouldSwitchToHomeTab = false
+    notificationDayOfWeek = nil
   }
 
   private func requestAuthorization(completion: @escaping  (Bool) -> Void) {

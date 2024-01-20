@@ -15,12 +15,14 @@ struct MemorizeView: View {
   let pageViewCount = 7
   let bibleTranslation = SettingsManager.shared.preferredBibleTranslation ?? BibleTranslation.NIV
   let dailyRevealOverride = SettingsManager.shared.dailyRevealOverride ?? false
+  let notificationDayOfWeek = NotificationManager.shared.notificationDayOfWeek
+  let currentDayOfWeek = DayManager.shared.currentDayOfWeek
 
-  @EnvironmentObject var appDelegate: AppDelegate
   @State private var dragOffset: CGFloat = 0
   @State private var pageIndex = 0
   @State private var memoryTexts: [String] = []
   @State private var memorySources: [String] = []
+  @State private var isSetupDone = false
 
   var body: some View {
     GeometryReader { geometry in
@@ -81,7 +83,38 @@ struct MemorizeView: View {
     }
     .onAppear(perform: {
       loadMemorizeData()
+      if isDailyReveal && !isSetupDone {
+        pageIndex = currentDayOfWeek - 1
+      }
+      isSetupDone = true
     })
+    .onChange(of: currentDayOfWeek) {
+      if isDailyReveal {
+        loadMemorizeData()
+        let newIndex = currentDayOfWeek - 1
+        self.pageChangeAction(newIndex: newIndex)
+      }
+    }
+    .onChange(of: dailyRevealOverride) {
+      if isDailyReveal {
+        loadMemorizeData()
+        // Change the page view if not showing all days and current page
+        // view will no longer be shown
+        if !dailyRevealOverride && (pageIndex > currentDayOfWeek - 1) {
+          pageIndex = currentDayOfWeek - 1
+        }
+      }
+    }
+    .onChange(of: notificationDayOfWeek) {
+      if isDailyReveal && (notificationDayOfWeek != nil) {
+        loadMemorizeData()
+        if let notificationDayOfWeek = notificationDayOfWeek {
+          pageIndex = (notificationDayOfWeek > currentDayOfWeek) ? currentDayOfWeek - 1 : notificationDayOfWeek - 1
+          // Reset notification data
+          NotificationManager.shared.clearNotificationDat()
+        }
+      }
+    }
   }
 
   private func pageChangeAction(newIndex: Int) {
@@ -95,26 +128,8 @@ struct MemorizeView: View {
       let scriptureText = scripture.translation(for: bibleTranslation) else { return }
     let maskedTexts = ScriptureManager.shared.maskScriptureText(scriptureText)
     let maskedSources = ScriptureManager.shared.maskSriptureReference(scripture.passage)
-    let dayOfWeek = isDailyReveal ? Calendar.current.component(.weekday, from: Date()) : pageViewCount
-    // Set up the starting point based on...
-    // Is it the daily memorization view?
-    if isDailyReveal {
-      // notification not nil && data <= dayOfWeek
-      // Was this opened due to a notification event?
-      if let notificationData = appDelegate.notificationData {
-        pageIndex = (notificationData > dayOfWeek) ? dayOfWeek - 1 : notificationData - 1
-        // Reset notification data
-        appDelegate.notificationData = nil
-      } else {
-        // Start at the day of the week
-        pageIndex = dayOfWeek - 1
-      }
-    } else {
-      // If part of the saved verses view, start at 0
-      pageIndex = 0
-    }
     // Work out how many day's worth or memorizations to show
-    let numberOfDaysToShow = isDailyReveal && !dailyRevealOverride ? dayOfWeek : pageViewCount
+    let numberOfDaysToShow = isDailyReveal && !dailyRevealOverride ? currentDayOfWeek : pageViewCount
     memoryTexts = Array(maskedTexts.prefix(numberOfDaysToShow))
     memorySources = Array(maskedSources.prefix(numberOfDaysToShow))
   }
