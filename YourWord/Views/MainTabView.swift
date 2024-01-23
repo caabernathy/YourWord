@@ -33,7 +33,7 @@ struct MainTabView: View {
 
       ScripturesListView(scriptures: completedScriptures)
         .tabItem {
-          Label("Completed", systemImage: "checkmark.rectangle.stack.fill")
+          Label("Archive", systemImage: "checkmark.rectangle.stack.fill")
         }
         .tag(0)
 
@@ -55,7 +55,16 @@ struct MainTabView: View {
       }
     }
     .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
-      DayManager.shared.updateDay()
+      handleScriptureSchedule()
+    }
+  }
+
+  private func handleScriptureSchedule() {
+    // Check if the day and scripture needs to be updated
+    let refrshScripture = ScheduleManager.shared.updateCheck()
+    if refrshScripture && currentScripture.count > 0 {
+      // Mark the scripture as complete
+      currentScripture[0].completed = true
     }
   }
 }
