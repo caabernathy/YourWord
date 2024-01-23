@@ -16,13 +16,14 @@ struct MemorizeView: View {
   let bibleTranslation = SettingsManager.shared.preferredBibleTranslation ?? BibleTranslation.NIV
   let dailyRevealOverride = SettingsManager.shared.dailyRevealOverride ?? false
   let notificationDayOfWeek = NotificationManager.shared.notificationDayOfWeek
-  let currentDayOfWeek = DayManager.shared.currentDayOfWeek
+  let currentDayOfWeek = ScheduleManager.shared.currentDayOfWeek
 
   @State private var dragOffset: CGFloat = 0
   @State private var pageIndex = 0
   @State private var memoryTexts: [String] = []
   @State private var memorySources: [String] = []
   @State private var isSetupDone = false
+  @State private var showToast = false
 
   var body: some View {
     GeometryReader { geometry in
@@ -81,6 +82,9 @@ struct MemorizeView: View {
         Spacer()
       }
     }
+    .toast(isPresented: $showToast, message: "New scripture available on Sunday!")
+    // Load the data but don't reset the page index when switching back
+    // and forth between tabs
     .onAppear(perform: {
       loadMemorizeData()
       if isDailyReveal && !isSetupDone {
@@ -88,6 +92,7 @@ struct MemorizeView: View {
       }
       isSetupDone = true
     })
+    // When a new scripture is loaded daily and app is in the Memorize tab
     .onChange(of: currentDayOfWeek) {
       if isDailyReveal {
         loadMemorizeData()
@@ -95,6 +100,16 @@ struct MemorizeView: View {
         self.pageChangeAction(newIndex: newIndex)
       }
     }
+    // When a new scripture is loaded at the start of the week
+    .onChange(of: scripture) {
+      if isDailyReveal {
+        withAnimation {
+          loadMemorizeData()
+          pageIndex = currentDayOfWeek - 1
+        }
+      }
+    }
+    // When the Show All Days is toggled, handle edge cses
     .onChange(of: dailyRevealOverride) {
       if isDailyReveal {
         loadMemorizeData()
@@ -105,6 +120,7 @@ struct MemorizeView: View {
         }
       }
     }
+    // Handle incoming notifications to deep link to the correct day
     .onChange(of: notificationDayOfWeek) {
       if isDailyReveal && (notificationDayOfWeek != nil) {
         loadMemorizeData()
@@ -135,7 +151,11 @@ struct MemorizeView: View {
   }
 
   private func markMemorizationAsCompleted() {
-    scripture.completed = true
+    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+      withAnimation {
+        showToast.toggle()
+      }
+    }
   }
 
   private func paginationLabel(for index: Int) -> String {
