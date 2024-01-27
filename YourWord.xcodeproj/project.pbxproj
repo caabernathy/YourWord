@@ -14,6 +14,8 @@
 		CB1BA6E92B12D02F004F4CBE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1BA6E82B12D02F004F4CBE /* AppDelegate.swift */; };
 		CB1BA6EB2B132354004F4CBE /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1BA6EA2B132354004F4CBE /* SettingsManager.swift */; };
 		CB9432AD2B60C997005F9E48 /* ScriptureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB9432AC2B60C997005F9E48 /* ScriptureViewModel.swift */; };
+		CB9432AF2B64B1D1005F9E48 /* OnboardingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB9432AE2B64B1D1005F9E48 /* OnboardingManager.swift */; };
+		CB9432B12B64B309005F9E48 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB9432B02B64B309005F9E48 /* OnboardingView.swift */; };
 		CBA2C7B22B082D9B00A27DE1 /* ScriptureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBA2C7B12B082D9B00A27DE1 /* ScriptureManager.swift */; };
 		CBA2C7B52B09BB1700A27DE1 /* StarterScriptures.json in Resources */ = {isa = PBXBuildFile; fileRef = CBA2C7B42B09BB1700A27DE1 /* StarterScriptures.json */; };
 		CBAC66612B0DB5C30044BBE7 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBAC66602B0DB5C30044BBE7 /* MainTabView.swift */; };
@@ -65,6 +67,8 @@
 		CB1BA6E82B12D02F004F4CBE /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CB1BA6EA2B132354004F4CBE /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
 		CB9432AC2B60C997005F9E48 /* ScriptureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptureViewModel.swift; sourceTree = "<group>"; };
+		CB9432AE2B64B1D1005F9E48 /* OnboardingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingManager.swift; sourceTree = "<group>"; };
+		CB9432B02B64B309005F9E48 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		CBA2C7B12B082D9B00A27DE1 /* ScriptureManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptureManager.swift; sourceTree = "<group>"; };
 		CBA2C7B42B09BB1700A27DE1 /* StarterScriptures.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = StarterScriptures.json; sourceTree = "<group>"; };
 		CBAC66602B0DB5C30044BBE7 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
@@ -135,6 +139,7 @@
 				CBA2C7B12B082D9B00A27DE1 /* ScriptureManager.swift */,
 				CBFFAB342B0B3DF700C864C9 /* ScriptureModelContainer.swift */,
 				CB1394B92B5B500F0027707D /* ScheduleManager.swift */,
+				CB9432AE2B64B1D1005F9E48 /* OnboardingManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -225,6 +230,7 @@
 			children = (
 				CBD43F9F2B01E141003CF5F7 /* Components */,
 				CBAC66602B0DB5C30044BBE7 /* MainTabView.swift */,
+				CB9432B02B64B309005F9E48 /* OnboardingView.swift */,
 				CBD43F9D2B01E105003CF5F7 /* MemorizeView.swift */,
 				CBAC66622B0DB75D0044BBE7 /* SettingsView.swift */,
 				CBF969172B158429003D90FE /* ScriptureRevealView.swift */,
@@ -392,6 +398,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CB9432AF2B64B1D1005F9E48 /* OnboardingManager.swift in Sources */,
 				CB9432AD2B60C997005F9E48 /* ScriptureViewModel.swift in Sources */,
 				CB1394BA2B5B500F0027707D /* ScheduleManager.swift in Sources */,
 				CBFFAB352B0B3DF700C864C9 /* ScriptureModelContainer.swift in Sources */,
@@ -409,6 +416,7 @@
 				CBF9691A2B15A369003D90FE /* DoneButtonView.swift in Sources */,
 				CBD43F6B2B01DD23003CF5F7 /* YourWordApp.swift in Sources */,
 				CBF969232B15B3BF003D90FE /* DayOfWeekButtonView.swift in Sources */,
+				CB9432B12B64B309005F9E48 /* OnboardingView.swift in Sources */,
 				CBFFAB382B0B4F2400C864C9 /* ModelContext+sqliteCommand.swift in Sources */,
 				CBF969142B14A87D003D90FE /* Passage.swift in Sources */,
 				CB1394BC2B5CD30A0027707D /* View+toast.swift in Sources */,
@@ -590,7 +598,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.6;
+				MARKETING_VERSION = 0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.elidora.apps.YourWord;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -619,7 +627,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.6;
+				MARKETING_VERSION = 0.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.elidora.apps.YourWord;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
