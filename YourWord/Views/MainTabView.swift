@@ -64,7 +64,9 @@ struct MainTabView: View {
     let refrshScripture = ScheduleManager.shared.updateCheck()
     if refrshScripture && currentScripture.count > 0 {
       // Mark the scripture as complete
-      currentScripture[0].completed = true
+      withAnimation(.smooth) {
+        currentScripture[0].completed = true
+      }
     }
   }
 }
