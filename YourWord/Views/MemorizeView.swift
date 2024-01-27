@@ -11,6 +11,13 @@ import SwiftData
 struct MemorizeView: View {
   var scripture: Scripture
   var isDailyReveal: Bool
+  var scriptureViewModel: ScriptureViewModel
+
+  init(scripture: Scripture, isDailyReveal: Bool) {
+    self.scripture = scripture
+    self.isDailyReveal = isDailyReveal
+    self.scriptureViewModel = ScriptureViewModel(scripture: scripture)
+  }
 
   let pageViewCount = 7
   let bibleTranslation = SettingsManager.shared.preferredBibleTranslation ?? BibleTranslation.NIV
@@ -20,20 +27,20 @@ struct MemorizeView: View {
 
   @State private var dragOffset: CGFloat = 0
   @State private var pageIndex = 0
-  @State private var memoryTexts: [String] = []
-  @State private var memorySources: [String] = []
   @State private var isSetupDone = false
   @State private var showToast = false
 
   var body: some View {
+    let numberOfDaysToShow = isDailyReveal && !dailyRevealOverride ? currentDayOfWeek : pageViewCount
+    let _ = scriptureViewModel.mask(for: bibleTranslation, days: numberOfDaysToShow)
     GeometryReader { geometry in
       VStack {
 
         // Content
         ScrollView(.horizontal, showsIndicators: false) {
           HStack(spacing: 0) {
-            ForEach(0..<memoryTexts.count, id: \.self) { index in
-              ScriptureView(text: memoryTexts[index], source: "\(memorySources[index]) \(bibleTranslation.rawValue)")
+            ForEach(0..<scriptureViewModel.memoryTexts.count, id: \.self) { index in
+              ScriptureView(text: scriptureViewModel.memoryTexts[index], source: "\(scriptureViewModel.memorySources[index]) \(bibleTranslation.rawValue)")
                 .padding()
                 .frame(width: geometry.size.width)
             }
@@ -49,7 +56,7 @@ struct MemorizeView: View {
               withAnimation(.smooth) {
                 let offset = value.translation.width
                 let newIndex = (CGFloat(pageIndex) - (offset / geometry.size.width)).rounded()
-                pageIndex = min(max(Int(newIndex), 0), memoryTexts.count - 1)
+                pageIndex = min(max(Int(newIndex), 0), scriptureViewModel.memoryTexts.count - 1)
                 dragOffset = 0
               }
             }
@@ -58,12 +65,12 @@ struct MemorizeView: View {
 
         // Pagination
         HStack(spacing: 15) {
-          ForEach(0..<memoryTexts.count, id: \.self) { index in
+          ForEach(0..<scriptureViewModel.memoryTexts.count, id: \.self) { index in
             DayOfWeekButtonView(text: paginationLabel(for: index), isActive: (pageIndex == index)) {
               self.pageChangeAction(newIndex: index)
             }
           }
-          ForEach(memoryTexts.count..<pageViewCount, id: \.self) { index in
+          ForEach(scriptureViewModel.memoryTexts.count..<pageViewCount, id: \.self) { index in
             DayOfWeekLabelView(text: paginationLabel(for: index))
           }
         }
@@ -86,7 +93,6 @@ struct MemorizeView: View {
     // Load the data but don't reset the page index when switching back
     // and forth between tabs
     .onAppear(perform: {
-      loadMemorizeData()
       if isDailyReveal && !isSetupDone {
         pageIndex = currentDayOfWeek - 1
       }
@@ -95,24 +101,12 @@ struct MemorizeView: View {
     // When a new scripture is loaded daily and app is in the Memorize tab
     .onChange(of: currentDayOfWeek) {
       if isDailyReveal {
-        loadMemorizeData()
         let newIndex = currentDayOfWeek - 1
         self.pageChangeAction(newIndex: newIndex)
       }
     }
-    // When a new scripture is loaded at the start of the week
-    .onChange(of: scripture) {
-      if isDailyReveal {
-        withAnimation {
-          loadMemorizeData()
-          pageIndex = currentDayOfWeek - 1
-        }
-      }
-    }
-    // When the Show All Days is toggled, handle edge cses
     .onChange(of: dailyRevealOverride) {
       if isDailyReveal {
-        loadMemorizeData()
         // Change the page view if not showing all days and current page
         // view will no longer be shown
         if !dailyRevealOverride && (pageIndex > currentDayOfWeek - 1) {
@@ -123,7 +117,6 @@ struct MemorizeView: View {
     // Handle incoming notifications to deep link to the correct day
     .onChange(of: notificationDayOfWeek) {
       if isDailyReveal && (notificationDayOfWeek != nil) {
-        loadMemorizeData()
         if let notificationDayOfWeek = notificationDayOfWeek {
           pageIndex = (notificationDayOfWeek > currentDayOfWeek) ? currentDayOfWeek - 1 : notificationDayOfWeek - 1
           // Reset notification data
@@ -137,17 +130,6 @@ struct MemorizeView: View {
     withAnimation(.smooth) {
       pageIndex = newIndex
     }
-  }
-
-  private func loadMemorizeData() {
-    guard
-      let scriptureText = scripture.translation(for: bibleTranslation) else { return }
-    let maskedTexts = ScriptureManager.shared.maskScriptureText(scriptureText)
-    let maskedSources = ScriptureManager.shared.maskSriptureReference(scripture.passage)
-    // Work out how many day's worth or memorizations to show
-    let numberOfDaysToShow = isDailyReveal && !dailyRevealOverride ? currentDayOfWeek : pageViewCount
-    memoryTexts = Array(maskedTexts.prefix(numberOfDaysToShow))
-    memorySources = Array(maskedSources.prefix(numberOfDaysToShow))
   }
 
   private func markMemorizationAsCompleted() {

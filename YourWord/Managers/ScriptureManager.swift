@@ -32,54 +32,6 @@ import Foundation
     return scriptures
   }
 
-  func maskScriptureText(_ translation: Translation) -> [String] {
-    var words = translation.text.components(separatedBy: " ")
-    var replacedWords: [String] = []
-    // Mask words in a passage based on mask key configured during initialization
-    for i in 0..<memorizeCount {
-      // Modifying words
-      if !translation.maskingKey.isEmpty {
-        for j in 0..<words.count {
-          if i >= translation.maskingKey[j] {
-            words[j] = replaceWithUnderscore(text: words[j])
-          }
-        }
-      }
-      replacedWords.append(words.joined(separator: " "))
-    }
-    return replacedWords
-  }
-
-  func maskSriptureReference(_ passage: Passage) -> [String] {
-    var replacedSources: [String] = []
-    // Mask source
-    for i in 0..<memorizeCount {
-      // Modifiying source
-      if !passage.maskingKey.isEmpty && passage.maskingKey[i] {
-        // Switch up the masking, last element will be msked
-        let lastRound = (i == memorizeCount - 1)
-        // Even, mask book
-        let modifiedBook = lastRound || (i % 2 == 0) ? replaceWithUnderscore(text: passage.book) : passage.book
-        // Odd, mask chapter and verses
-        let modifiedChapter = lastRound || (i % 2 != 0) ? replaceWithUnderscore(text: String(passage.chapter)) : String(passage.chapter)
-        let modifiedVerses = lastRound || (i % 2 != 0) ? replaceWithUnderscore(text: passage.verses) : passage.verses
-        replacedSources.append(formatSource(book: modifiedBook, chapter: modifiedChapter, verses: modifiedVerses))
-      } else {
-        // Source not being modified
-        replacedSources.append(formatSource(book: passage.book, chapter: String(passage.chapter), verses: passage.verses))
-      }
-    }
-    return replacedSources
-  }
-
-  private func formatSource(book: String, chapter: String, verses: String) -> String {
-    return "\(book) \(chapter):\(verses)"
-  }
-
-  private func replaceWithUnderscore(text: String) -> String {
-    return text.replacingOccurrences(of: "\\w", with: "_", options: .regularExpression)
-  }
-
   func createTextMaskingKey(for text: String) -> [Int] {
     let words = text.components(separatedBy: " ")
     var textKey = (1..<memorizeCount).map { $0 }
