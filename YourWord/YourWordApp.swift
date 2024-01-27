@@ -11,14 +11,20 @@ import SwiftData
 @main
 struct YourWordApp: App {
   @UIApplicationDelegateAdaptor private var appDelegate: AppDelegate
+  @State private var onboardingManager = OnboardingManager()
   let notificationManager = NotificationManager.shared
 
   var body: some Scene {
     WindowGroup {
-      MainTabView()
-        .onAppear {
-          notificationManager.configureUserNotifications()
-        }
+      if onboardingManager.hasCompletedOnboarding {
+        MainTabView()
+          .onAppear {
+            notificationManager.configureUserNotifications()
+          }
+      } else {
+        OnboardingView()
+          .environment(onboardingManager)
+      }
     }
     .modelContainer(sharedModelContainer)
   }

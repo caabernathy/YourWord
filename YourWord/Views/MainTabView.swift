@@ -33,7 +33,7 @@ struct MainTabView: View {
 
       ScripturesListView(scriptures: completedScriptures)
         .tabItem {
-          Label("Archive", systemImage: "checkmark.rectangle.stack.fill")
+          Label("Review", systemImage: "checkmark.rectangle.stack.fill")
         }
         .tag(0)
 
