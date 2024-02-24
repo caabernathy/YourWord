@@ -9,6 +9,9 @@ import SwiftUI
 import SwiftData
 
 struct MemorizeView: View {
+  // Access the current color scheme
+  @Environment(\.colorScheme) var colorScheme
+
   var scripture: Scripture
   var isDailyReveal: Bool
   var scriptureViewModel: ScriptureViewModel
@@ -25,10 +28,13 @@ struct MemorizeView: View {
   let notificationDayOfWeek = NotificationManager.shared.notificationDayOfWeek
   let currentDayOfWeek = ScheduleManager.shared.currentDayOfWeek
 
+  let colors: [Color] = [.blue, .green, .purple, .brown, .orange]
+
   @State private var dragOffset: CGFloat = 0
   @State private var pageIndex = 0
   @State private var isSetupDone = false
   @State private var showToast = false
+  @State private var viewBackgroundColor: Color = .clear
 
   var body: some View {
     let numberOfDaysToShow = isDailyReveal && !dailyRevealOverride ? currentDayOfWeek : pageViewCount
@@ -89,12 +95,17 @@ struct MemorizeView: View {
         Spacer()
       }
     }
+    .background(colorScheme == .dark ? Color.black.opacity(0.3) : .clear)
+    .background(colorScheme == .dark ?
+                LinearGradient(gradient: Gradient(colors: [viewBackgroundColor, viewBackgroundColor.opacity(0.2)]), startPoint: .top, endPoint: .bottom) :
+                  LinearGradient(gradient: Gradient(colors: [Color.white, viewBackgroundColor.opacity(0.2)]), startPoint: .top, endPoint: .bottom))
     .toast(isPresented: $showToast, message: "New scripture available on Sunday!")
     // Load the data but don't reset the page index when switching back
     // and forth between tabs
     .onAppear(perform: {
       if isDailyReveal && !isSetupDone {
         pageIndex = currentDayOfWeek - 1
+        randomizeGradientColors()
       }
       isSetupDone = true
     })
@@ -159,5 +170,9 @@ struct MemorizeView: View {
     default:
       return "X" // For indices not between 0 and 6
     }
+  }
+
+  private func randomizeGradientColors() {
+    viewBackgroundColor = colors.randomElement() ?? Color.blue
   }
 }
