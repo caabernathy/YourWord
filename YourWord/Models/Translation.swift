@@ -20,30 +20,30 @@ enum BibleVersion: String, Codable, CaseIterable, Identifiable {
 
 @Model
 class Translation: Codable {
-  @Attribute(originalName: "name") var version: BibleVersion
+  var name: BibleVersion
   var text: String
   var maskingKey: [Int] = []
 
   init(name: BibleVersion, text: String) {
-    self.version = name
+    self.name = name
     self.text = text
   }
 
   required init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
-    version = try container.decode(BibleVersion.self, forKey: .version)
+    name = try container.decode(BibleVersion.self, forKey: .name)
     text = try container.decode(String.self, forKey: .text)
     maskingKey = try container.decodeIfPresent([Int].self, forKey: .maskingKey) ?? []
   }
 
   func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(version, forKey: .version)
+    try container.encode(name, forKey: .name)
     try container.encode(text, forKey: .text)
   }
 
   private enum CodingKeys: String, CodingKey {
-    case version
+    case name
     case text
     case maskingKey
   }

@@ -13,14 +13,14 @@ class Scripture: Codable {
   var id: UUID?
   var createdAt: Date?
   var passage: Passage
-  @Attribute(originalName: "translations") var versions: [Translation]
+  var translations: [Translation]
   var completed: Bool = false
 
-  init(passage: Passage, versions: [Translation]) {
+  init(passage: Passage, translations: [Translation]) {
     self.id = UUID()
     self.createdAt = Date()
     self.passage = passage
-    self.versions = versions
+    self.translations = translations
   }
 
   required init(from decoder: Decoder) throws {
@@ -28,14 +28,14 @@ class Scripture: Codable {
     id = try container.decodeIfPresent(UUID.self, forKey: .id) ?? UUID()
     createdAt = try container.decodeIfPresent(Date.self, forKey: .createdAt) ?? Date()
     passage = try container.decode(Passage.self, forKey: .passage)
-    versions = try container.decode([Translation].self, forKey: .versions)
+    translations = try container.decode([Translation].self, forKey: .translations)
     completed = try container.decodeIfPresent(Bool.self, forKey: .completed) ?? false
   }
 
   func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
     try container.encode(passage, forKey: .passage)
-    try container.encode(versions, forKey: .versions)
+    try container.encode(translations, forKey: .translations)
   }
 
   func addTimeInterval(_ interval: TimeInterval) {
@@ -47,14 +47,14 @@ class Scripture: Codable {
 
   // Method to get a version by name
   func version(for version: BibleVersion) -> Translation? {
-    return versions.first { $0.version == version }
+    return translations.first { $0.name == version }
   }
 
   private enum CodingKeys: String, CodingKey {
     case id
     case createdAt
     case passage
-    case versions
+    case translations
     case completed
   }
 }
