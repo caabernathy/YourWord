@@ -9,7 +9,7 @@ import Foundation
 
 import SwiftData
 
-enum BibleTranslation: String, Codable, CaseIterable, Identifiable {
+enum BibleVersion: String, Codable, CaseIterable, Identifiable {
   case NIV
   case ESV
   case NLT
@@ -20,30 +20,30 @@ enum BibleTranslation: String, Codable, CaseIterable, Identifiable {
 
 @Model
 class Translation: Codable {
-  var name: BibleTranslation
+  @Attribute(originalName: "name") var version: BibleVersion
   var text: String
   var maskingKey: [Int] = []
 
-  init(name: BibleTranslation, text: String) {
-    self.name = name
+  init(name: BibleVersion, text: String) {
+    self.version = name
     self.text = text
   }
 
   required init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
-    name = try container.decode(BibleTranslation.self, forKey: .name)
+    version = try container.decode(BibleVersion.self, forKey: .version)
     text = try container.decode(String.self, forKey: .text)
     maskingKey = try container.decodeIfPresent([Int].self, forKey: .maskingKey) ?? []
   }
 
   func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(name, forKey: .name)
+    try container.encode(version, forKey: .version)
     try container.encode(text, forKey: .text)
   }
 
   private enum CodingKeys: String, CodingKey {
-    case name
+    case version
     case text
     case maskingKey
   }

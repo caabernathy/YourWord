@@ -17,9 +17,9 @@ import Foundation
     self.scripture = scripture
   }
 
-  func mask(for bibleTranslation: BibleTranslation, days numberOfDaysToShow: Int) -> Bool {
+  func mask(for bibleVersion: BibleVersion, days numberOfDaysToShow: Int) -> Bool {
     guard
-      let scriptureText = scripture.translation(for: bibleTranslation) else { return false }
+      let scriptureText = scripture.version(for: bibleVersion) else { return false }
     let maskedTexts = maskScriptureText(scriptureText)
     let maskedSources = maskSriptureReference(scripture.passage)
     memoryTexts = Array(maskedTexts.prefix(numberOfDaysToShow))
@@ -27,15 +27,15 @@ import Foundation
     return true
   }
 
-  func maskScriptureText(_ translation: Translation) -> [String] {
-    var words = translation.text.components(separatedBy: " ")
+  func maskScriptureText(_ version: Translation) -> [String] {
+    var words = version.text.components(separatedBy: " ")
     var replacedWords: [String] = []
     // Mask words in a passage based on mask key configured during initialization
     for i in 0..<ScriptureManager.shared.memorizeCount {
       // Modifying words
-      if !translation.maskingKey.isEmpty {
+      if !version.maskingKey.isEmpty {
         for j in 0..<words.count {
-          if i >= translation.maskingKey[j] {
+          if i >= version.maskingKey[j] {
             words[j] = replaceWithUnderscore(text: words[j])
           }
         }

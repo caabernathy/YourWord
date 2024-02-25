@@ -16,6 +16,8 @@
 		CB9432AD2B60C997005F9E48 /* ScriptureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB9432AC2B60C997005F9E48 /* ScriptureViewModel.swift */; };
 		CB9432AF2B64B1D1005F9E48 /* OnboardingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB9432AE2B64B1D1005F9E48 /* OnboardingManager.swift */; };
 		CB9432B12B64B309005F9E48 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB9432B02B64B309005F9E48 /* OnboardingView.swift */; };
+		CB9432B32B8AA760005F9E48 /* Bible.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB9432B22B8AA760005F9E48 /* Bible.swift */; };
+		CB9432B52B8AA7B7005F9E48 /* ScriptureSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB9432B42B8AA7B7005F9E48 /* ScriptureSelectorView.swift */; };
 		CBA2C7B22B082D9B00A27DE1 /* ScriptureManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBA2C7B12B082D9B00A27DE1 /* ScriptureManager.swift */; };
 		CBA2C7B52B09BB1700A27DE1 /* StarterScriptures.json in Resources */ = {isa = PBXBuildFile; fileRef = CBA2C7B42B09BB1700A27DE1 /* StarterScriptures.json */; };
 		CBAC66612B0DB5C30044BBE7 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBAC66602B0DB5C30044BBE7 /* MainTabView.swift */; };
@@ -69,6 +71,8 @@
 		CB9432AC2B60C997005F9E48 /* ScriptureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptureViewModel.swift; sourceTree = "<group>"; };
 		CB9432AE2B64B1D1005F9E48 /* OnboardingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingManager.swift; sourceTree = "<group>"; };
 		CB9432B02B64B309005F9E48 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		CB9432B22B8AA760005F9E48 /* Bible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bible.swift; sourceTree = "<group>"; };
+		CB9432B42B8AA7B7005F9E48 /* ScriptureSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptureSelectorView.swift; sourceTree = "<group>"; };
 		CBA2C7B12B082D9B00A27DE1 /* ScriptureManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptureManager.swift; sourceTree = "<group>"; };
 		CBA2C7B42B09BB1700A27DE1 /* StarterScriptures.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = StarterScriptures.json; sourceTree = "<group>"; };
 		CBAC66602B0DB5C30044BBE7 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
@@ -221,6 +225,7 @@
 				CBF969132B14A87D003D90FE /* Passage.swift */,
 				CBD43F972B01DEA2003CF5F7 /* Scripture.swift */,
 				CBF969112B14A851003D90FE /* Translation.swift */,
+				CB9432B22B8AA760005F9E48 /* Bible.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -246,6 +251,7 @@
 				CBF969192B15A369003D90FE /* DoneButtonView.swift */,
 				CBF969222B15B3BF003D90FE /* DayOfWeekButtonView.swift */,
 				CBF969202B15B300003D90FE /* DayOfWeekLabelView.swift */,
+				CB9432B42B8AA7B7005F9E48 /* ScriptureSelectorView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -402,6 +408,7 @@
 				CB9432AD2B60C997005F9E48 /* ScriptureViewModel.swift in Sources */,
 				CB1394BA2B5B500F0027707D /* ScheduleManager.swift in Sources */,
 				CBFFAB352B0B3DF700C864C9 /* ScriptureModelContainer.swift in Sources */,
+				CB9432B52B8AA7B7005F9E48 /* ScriptureSelectorView.swift in Sources */,
 				CBF969212B15B300003D90FE /* DayOfWeekLabelView.swift in Sources */,
 				CBAC66612B0DB5C30044BBE7 /* MainTabView.swift in Sources */,
 				CBD43FA12B01E189003CF5F7 /* ScriptureView.swift in Sources */,
@@ -417,6 +424,7 @@
 				CBD43F6B2B01DD23003CF5F7 /* YourWordApp.swift in Sources */,
 				CBF969232B15B3BF003D90FE /* DayOfWeekButtonView.swift in Sources */,
 				CB9432B12B64B309005F9E48 /* OnboardingView.swift in Sources */,
+				CB9432B32B8AA760005F9E48 /* Bible.swift in Sources */,
 				CBFFAB382B0B4F2400C864C9 /* ModelContext+sqliteCommand.swift in Sources */,
 				CBF969142B14A87D003D90FE /* Passage.swift in Sources */,
 				CB1394BC2B5CD30A0027707D /* View+toast.swift in Sources */,

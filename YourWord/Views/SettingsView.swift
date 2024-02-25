@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SettingsView: View {
   @AppStorage(SettingsManager.SettingsKeys.notificationTime.rawValue) private var preferredNotificationTime: Date = SettingsManager.shared.defaultDate()
-  @AppStorage(SettingsManager.SettingsKeys.bibleTranslation.rawValue) var preferredBibleTranslation: BibleTranslation = .NIV
+  @AppStorage(SettingsManager.SettingsKeys.bibleVersion.rawValue) var preferredBibleVersion: BibleVersion = .NIV
   @AppStorage(SettingsManager.SettingsKeys.dailyRevealOverride.rawValue) var dailyRevealOverride: Bool = false
 
   var body: some View {
@@ -22,16 +22,16 @@ struct SettingsView: View {
             }
         }
 
-        Section(header: Text("Bible Translation")) {
-          Picker("Select Translation", selection: $preferredBibleTranslation) {
-            ForEach(BibleTranslation.allCases, id: \.self) { translation in
-              Text(translation.rawValue)
-                .tag(translation)
+        Section(header: Text("Bible Version")) {
+          Picker("Select Version", selection: $preferredBibleVersion) {
+            ForEach(BibleVersion.allCases, id: \.self) { version in
+              Text(version.rawValue)
+                .tag(version)
             }
           }
           .pickerStyle(SegmentedPickerStyle())
-          .onChange(of: preferredBibleTranslation) {
-            updateBibleTranslation()
+          .onChange(of: preferredBibleVersion) {
+            updateBibleVersion()
           }
         }
 
@@ -63,8 +63,8 @@ struct SettingsView: View {
     }
   }
 
-  private func updateBibleTranslation() {
-    SettingsManager.shared.updateBibleTranslation(preferredBibleTranslation)
+  private func updateBibleVersion() {
+    SettingsManager.shared.updateBibleVersion(preferredBibleVersion)
   }
 
   private func updateDailyRevealOverride() {

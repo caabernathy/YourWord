@@ -6,21 +6,21 @@
             "startVerse": 10,
             "endVerse": 10
         },
-        "translations": [
+        "versions": [
             {
-                "name": "NIV",
+                "version": "NIV",
                 "text": "Be still, and know that I am God; I will be exalted among the nations, I will be exalted in the earth."
             },
             {
-                "name": "ESV",
+                "version": "ESV",
                 "text": "Be still, and know that I am God. I will be exalted among the nations, I will be exalted in the earth!"
             },
             {
-                "name": "NLT",
+                "version": "NLT",
                 "text": "Be still, and know that I am God! I will be honored by every nation. I will be honored throughout the world."
             },
             {
-                "name": "KJV",
+                "version": "KJV",
                 "text": "Be still, and know that I am God: I will be exalted among the heathen, I will be exalted in the earth."
             }
         ]
@@ -32,21 +32,21 @@
             "startVerse": 16,
             "endVerse": 16
         },
-        "translations": [
+        "versions": [
             {
-                "name": "NIV",
+                "version": "NIV",
                 "text": "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life."
             },
             {
-                "name": "ESV",
+                "version": "ESV",
                 "text": "For God so loved the world, that he gave his only Son, that whoever believes in him should not perish but have eternal life."
             },
             {
-                "name": "NLT",
+                "version": "NLT",
                 "text": "For this is how God loved the world: He gave his one and only Son, so that everyone who believes in him will not perish but have eternal life."
             },
             {
-                "name": "KJV",
+                "version": "KJV",
                 "text": "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life."
             }
         ]
@@ -58,21 +58,21 @@
             "startVerse": 15,
             "endVerse": 15
         },
-        "translations": [
+        "versions": [
             {
-                "name": "NIV",
+                "version": "NIV",
                 "text": "But if serving the Lord seems undesirable to you, then choose for yourselves this day whom you will serve, whether the gods your ancestors served beyond the Euphrates, or the gods of the Amorites, in whose land you are living. But as for me and my household, we will serve the LORD."
             },
             {
-                "name": "ESV",
+                "version": "ESV",
                 "text": "And if it is evil in your eyes to serve the Lord, choose this day whom you will serve, whether the gods your fathers served in the region beyond the River, or the gods of the Amorites in whose land you dwell. But as for me and my house, we will serve the LORD."
             },
             {
-                "name": "NLT",
+                "version": "NLT",
                 "text": "But if you refuse to serve the Lord, then choose today whom you will serve. Would you prefer the gods your ancestors served beyond the Euphrates? Or will it be the gods of the Amorites in whose land you now live? But as for me and my family, we will serve the LORD."
             },
             {
-                "name": "KJV",
+                "version": "KJV",
                 "text": "And if it seem evil unto you to serve the Lord, choose you this day whom ye will serve; whether the gods which your fathers served that were on the other side of the flood, or the gods of the Amorites, in whose land ye dwell: but as for me and my house, we will serve the LORD."
             }
         ]
@@ -84,21 +84,21 @@
             "startVerse": 31,
             "endVerse": 32
         },
-        "translations": [
+        "versions": [
             {
-                "name": "NIV",
+                "version": "NIV",
                 "text": "What, then, shall we say in response to these things? If God is for us, who can be against us? He who did not spare his own Son, but gave him up for us all—how will he not also, along with him, graciously give us all things?"
             },
             {
-                "name": "ESV",
+                "version": "ESV",
                 "text": "What then shall we say to these things? If God is for us, who can be against us? He who did not spare his own Son but gave him up for us all, how will he not also with him graciously give us all things?"
             },
             {
-                "name": "NLT",
+                "version": "NLT",
                 "text": "What shall we say about such wonderful things as these? If God is for us, who can ever be against us? Since he did not spare even his own Son but gave him up for us all, won't he also give us everything else?"
             },
             {
-                "name": "KJV",
+                "version": "KJV",
                 "text": "What shall we then say to these things? If God be for us, who can be against us? He that spared not his own Son, but delivered him up for us all, how shall he not with him also freely give us all things?"
             }
         ]
@@ -110,21 +110,21 @@
             "startVerse": 11,
             "endVerse": 11
         },
-        "translations": [
+        "versions": [
             {
-                "name": "NIV",
+                "version": "NIV",
                 "text": "For I know the plans I have for you, declares the Lord, plans for welfare and not for evil, to give you a future and a hope."
             },
             {
-                "name": "ESV",
+                "version": "ESV",
                 "text": "For I know the plans I have for you, declares the Lord, plans for welfare and not for evil, to give you a future and a hope."
             },
             {
-                "name": "NLT",
+                "version": "NLT",
                 "text": "For I know the plans I have for you, says the Lord. They are plans for good and not for disaster, to give you a future and a hope."
             },
             {
-                "name": "KJV",
+                "version": "KJV",
                 "text": "For I know the thoughts that I think toward you, saith the Lord, thoughts of peace, and not of evil, to give you an expected end."
             }
         ]
@@ -136,21 +136,21 @@
             "startVerse": 9,
             "endVerse": 11
         },
-        "translations": [
+        "versions": [
             {
-                "name": "NIV",
+                "version": "NIV",
                 "text": "Therefore God exalted him to the highest place and gave him the name that is above every name, that at the name of Jesus every knee should bow, in heaven and on earth and under the earth, and every tongue acknowledge that Jesus Christ is Lord, to the glory of God the Father."
             },
             {
-                "name": "ESV",
+                "version": "ESV",
                 "text": "Therefore God has highly exalted him and bestowed on him the name that is above every name, so that at the name of Jesus every knee should bow, in heaven and on earth and under the earth, and every tongue confess that Jesus Christ is Lord, to the glory of God the Father."
             },
             {
-                "name": "NLT",
+                "version": "NLT",
                 "text": "Therefore, God elevated him to the place of highest honor and gave him the name above all other names, that at the name of Jesus every knee should bow, in heaven and on earth and under the earth, and every tongue declare that Jesus Christ is Lord, to the glory of God the Father."
             },
             {
-                "name": "KJV",
+                "version": "KJV",
                 "text": "Wherefore God also hath highly exalted him, and given him a name which is above every name: That at the name of Jesus every knee should bow, of things in heaven, and things in earth, and things under the earth; And that every tongue should confess that Jesus Christ is Lord, to the glory of God the Father."
             }
         ]
@@ -162,21 +162,21 @@
             "startVerse": 31,
             "endVerse": 31
         },
-        "translations": [
+        "versions": [
             {
-                "name": "NIV",
+                "version": "NIV",
                 "text": "but those who hope in the Lord will renew their strength. They will soar on wings like eagles; they will run and not grow weary, they will walk and not be faint."
             },
             {
-                "name": "ESV",
+                "version": "ESV",
                 "text": "but they who wait for the Lord shall renew their strength; they shall mount up with wings like eagles; they shall run and not be weary; they shall walk and not faint."
             },
             {
-                "name": "NLT",
+                "version": "NLT",
                 "text": "But those who trust in the Lord will find new strength. They will soar high on wings like eagles. They will run and not grow weary. They will walk and not faint."
             },
             {
-                "name": "KJV",
+                "version": "KJV",
                 "text": "But they that wait upon the Lord shall renew their strength; they shall mount up with wings as eagles; they shall run, and not be weary; and they shall walk, and not faint."
             }
         ]
