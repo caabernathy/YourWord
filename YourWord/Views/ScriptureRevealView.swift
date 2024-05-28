@@ -8,34 +8,67 @@
 import SwiftUI
 
 struct ScriptureRevealView: View {
+  enum LinkViews {
+    case preset
+    case custom
+  }
+
   var scriptures: [Scripture]
+//  @ViewBuilder var dailyView: () -> Group<Any>
 
   let shareURL = URL(string: "https://app.malachidaily.com/")!
 
+  @State private var isDailyReveal = true
+  @State private var currentView: LinkViews = .preset
+
+
+//  init(scriptures: [Scripture]) {
+//    self.scriptures = scriptures
+//  }
+
   var body: some View {
-    Group {
-      if scriptures.count > 0 {
-        NavigationStack {
-          MemorizeView(scripture: scriptures[0], isDailyReveal: true)
-            .toolbar {
-              ToolbarItem(placement: .principal) {
-                Text("Your Daily Word")
-                  .font(.headline)
-                  .foregroundColor(.primary)
-              }
-              ToolbarItem(placement: .navigationBarTrailing) {
-                ShareLink("Share", item: shareURL)
-              }
+    NavigationStack {
+      Group {
+        if currentView == .preset {
+          Group {
+            if scriptures.count > 0 {
+              MemorizeView(scripture: scriptures[0], isDailyReveal: true)
+            } else {
+              Text("There are no scriptures to memorize at this time")
+                .padding()
+            }
+          }
+        } else {
+          CustomMemorizeView()
+        }
+      }
+      .toolbar {
+        ToolbarItemGroup(placement: .navigationBarLeading) {
+          ToolbarLinkView(
+            text: "Daily Word",
+            isSelected: currentView == .preset) {
+              linkTapped(for: .preset)
+            }
+          ToolbarLinkView(
+            text: "Your Verses",
+            isSelected: currentView == .custom) {
+              linkTapped(for: .custom)
             }
         }
-      } else {
-        Text("There are no scriptures to memorize at this time")
-          .padding()
+        ToolbarItem(placement: .navigationBarTrailing) {
+          ShareLink("Share", item: shareURL)
+        }
       }
+    }
+  }
+
+  private func linkTapped(for view: LinkViews) {
+    withAnimation(.easeInOut(duration: 0.2)) {
+      currentView = view
     }
   }
 }
 
 #Preview {
-  ScriptureRevealView(scriptures: [])
+  ScriptureRevealView(scriptures: []) //PreviewData.scriptures
 }

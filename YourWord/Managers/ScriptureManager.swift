@@ -48,4 +48,38 @@ import Foundation
     referenceKey[memorizeCount-1] = true
     return referenceKey
   }
+
+  func loadBibleComposition() -> [BibleComposition] {
+    return PreviewData.bibleComposition
+  }
+
+  func loadBible() -> [Bible] {
+    return PreviewData.bible
+  }
+
+  // Function to decode BibleComposition from JSON
+  func decodeBibleComposition(from jsonString: String) -> [BibleComposition] {
+    guard let jsonData = jsonString.data(using: .utf8) else { return [] }
+    let decoder = JSONDecoder()
+    do {
+      let bibleComposition = try decoder.decode([BibleComposition].self, from: jsonData)
+      return bibleComposition
+    } catch {
+      print("Error decoding BibleComposition: \(error)")
+      return []
+    }
+  }
+
+  // Function to decode Bible from JSON
+  func decodeBible(from jsonString: String) -> [Bible] {
+    guard let jsonData = jsonString.data(using: .utf8) else { return [] }
+    let decoder = JSONDecoder()
+    do {
+      let bible = try decoder.decode([Bible].self, from: jsonData)
+      return bible
+    } catch {
+      print("Error decoding Bible: \(error)")
+      return []
+    }
+  }
 }

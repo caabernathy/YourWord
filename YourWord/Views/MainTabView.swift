@@ -73,4 +73,5 @@ struct MainTabView: View {
 
 #Preview {
   MainTabView()
+    .modelContainer(previewContainer)
 }

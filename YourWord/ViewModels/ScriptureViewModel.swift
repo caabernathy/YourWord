@@ -19,8 +19,8 @@ import Foundation
 
   func mask(for bibleVersion: BibleVersion, days numberOfDaysToShow: Int) -> Bool {
     guard
-      let scriptureText = scripture.version(for: bibleVersion) else { return false }
-    let maskedTexts = maskScriptureText(scriptureText)
+      let scriptureVersion = scripture.version(for: bibleVersion) else { return false }
+    let maskedTexts = maskScriptureText(scriptureVersion)
     let maskedSources = maskSriptureReference(scripture.passage)
     memoryTexts = Array(maskedTexts.prefix(numberOfDaysToShow))
     memorySources = Array(maskedSources.prefix(numberOfDaysToShow))
