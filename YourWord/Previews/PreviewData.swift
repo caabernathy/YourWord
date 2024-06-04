@@ -13,17 +13,20 @@ struct PreviewData {
       passage: Passage(book: "Genesis", chapter: 1, startVerse: 1, endVerse: 1),
       translations: [
         Translation(name: .NIV, text: "In the beginning God created the heavens and the earth."),
-      ]),
+      ],
+      source: .system),
     Scripture(
       passage: Passage(book: "Deuteronomy", chapter: 4, startVerse: 4, endVerse: 4),
       translations: [
         Translation(name: .NIV, text: "Hear, O Israel: The LORD our God, the LORD is one."),
-      ]),
+      ],
+      source: .system),
     Scripture(
       passage: Passage(book: "John", chapter: 1, startVerse: 1, endVerse: 1),
       translations: [
         Translation(name: .NIV, text: "In the beginning was the Word, and the Word was with God, and the Word was God."),
-      ]),
+      ],
+      source: .userDefined),
   ]
 
   static let bibleComposition: [BibleComposition] = [

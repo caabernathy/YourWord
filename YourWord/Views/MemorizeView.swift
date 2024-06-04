@@ -152,6 +152,9 @@ struct MemorizeView: View {
   }
 
   private func paginationLabel(for index: Int) -> String {
+    if !isDailyReveal {
+      return "\(index+1)"
+    }
     switch index {
     case 0:
       return "S" // Sunday

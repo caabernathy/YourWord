@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct ScriptureSelectorView: View {
-  @Environment(\.modelContext) private var modelContext
-  @Binding var scripture: Scripture?
-  @Binding var showScriptureSelector: Bool
+  var cancelAction: () -> Void
+  var submitAction: (String, Int, Int, Int) -> Void
 
   let bibleComposition = ScriptureManager.shared.loadBibleComposition()
   let bible = ScriptureManager.shared.loadBible()
@@ -57,9 +56,7 @@ struct ScriptureSelectorView: View {
         VStack {
           HStack {
             Spacer()
-            Button(action: {
-              showScriptureSelector = false
-            }) {
+            Button(action: cancelAction) {
               Image(systemName: "xmark")
                 .foregroundColor(.gray)
                 .padding()
@@ -73,7 +70,7 @@ struct ScriptureSelectorView: View {
               .padding()
             Spacer()
             Button(action: {
-              fetchScripture()
+              submitAction(sortedBooks[selectedBookIndex].name, selectedChapter, selectedStartVerse, selectedEndVerse)
             }) {
               Text("GO")
                 .foregroundColor(.white)
@@ -135,29 +132,9 @@ struct ScriptureSelectorView: View {
       loadBibleBooks(for: bibleVersion)
     })
   }
-
-  func fetchScripture() {
-    APIService.shared.fetchScripture(book: sortedBooks[selectedBookIndex].name, chapter: selectedChapter, startVerse: selectedStartVerse, endVerse: selectedEndVerse) { result in
-      switch result {
-      case .success(let scripture):
-        DispatchQueue.main.async {
-          modelContext.insert(scripture)
-          for (index, version) in scripture.translations.enumerated() {
-            let scriptureTextKey = ScriptureManager.shared.createTextMaskingKey(for: version.text)
-            scripture.translations[index].maskingKey = scriptureTextKey
-          }
-          scripture.passage.maskingKey = ScriptureManager.shared.createReferenceMaskingKey()
-          self.scripture = scripture
-          showScriptureSelector = false
-        }
-      case .failure(let error):
-        print("Error fetching scripture: \(error.localizedDescription)")
-      }
-    }
-  }
 }
 
 
 #Preview {
-  ScriptureSelectorView(scripture: .constant(nil), showScriptureSelector: .constant(true))
+  ScriptureSelectorView(cancelAction: {}, submitAction: {_,_,_,_ in })
 }

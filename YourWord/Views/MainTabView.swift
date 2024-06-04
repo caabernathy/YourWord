@@ -12,10 +12,10 @@ struct MainTabView: View {
   @Environment(\.modelContext) private var modelContext
 
   static var currentScriptureFetchDescriptor: FetchDescriptor<Scripture> {
-    var descriptor = FetchDescriptor<Scripture>(
+    let descriptor = FetchDescriptor<Scripture>(
       predicate: #Predicate<Scripture> { !$0.completed },
       sortBy: [SortDescriptor(\Scripture.createdAt, order: .forward)])
-    descriptor.fetchLimit = 1
+//    descriptor.fetchLimit = 1
     return descriptor
   }
 

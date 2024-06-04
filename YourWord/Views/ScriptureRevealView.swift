@@ -8,51 +8,48 @@
 import SwiftUI
 
 struct ScriptureRevealView: View {
-  enum LinkViews {
-    case preset
-    case custom
+  var scriptures: [Scripture]
+
+  var systemScripture: Scripture? {
+     return scriptures.first { $0.source == .system }
   }
 
-  var scriptures: [Scripture]
-//  @ViewBuilder var dailyView: () -> Group<Any>
+  var userDefinedScripture: Scripture? {
+     return scriptures.first { $0.source == .userDefined }
+  }
 
   let shareURL = URL(string: "https://app.malachidaily.com/")!
 
   @State private var isDailyReveal = true
-  @State private var currentView: LinkViews = .preset
-
-
-//  init(scriptures: [Scripture]) {
-//    self.scriptures = scriptures
-//  }
+  @State private var currentView: ScriptureSource = .system
 
   var body: some View {
     NavigationStack {
       Group {
-        if currentView == .preset {
+        if currentView == .system {
           Group {
-            if scriptures.count > 0 {
-              MemorizeView(scripture: scriptures[0], isDailyReveal: true)
+            if let systemScripture = systemScripture {
+              MemorizeView(scripture: systemScripture, isDailyReveal: true)
             } else {
               Text("There are no scriptures to memorize at this time")
                 .padding()
             }
           }
         } else {
-          CustomMemorizeView()
+          UserMemorizeView(scripture: userDefinedScripture)
         }
       }
       .toolbar {
         ToolbarItemGroup(placement: .navigationBarLeading) {
           ToolbarLinkView(
             text: "Daily Word",
-            isSelected: currentView == .preset) {
-              linkTapped(for: .preset)
+            isSelected: currentView == .system) {
+              linkTapped(for: .system)
             }
           ToolbarLinkView(
             text: "Your Verses",
-            isSelected: currentView == .custom) {
-              linkTapped(for: .custom)
+            isSelected: currentView == .userDefined) {
+              linkTapped(for: .userDefined)
             }
         }
         ToolbarItem(placement: .navigationBarTrailing) {
@@ -62,7 +59,7 @@ struct ScriptureRevealView: View {
     }
   }
 
-  private func linkTapped(for view: LinkViews) {
+  private func linkTapped(for view: ScriptureSource) {
     withAnimation(.easeInOut(duration: 0.2)) {
       currentView = view
     }
@@ -70,5 +67,5 @@ struct ScriptureRevealView: View {
 }
 
 #Preview {
-  ScriptureRevealView(scriptures: []) //PreviewData.scriptures
+  ScriptureRevealView(scriptures: [])
 }
