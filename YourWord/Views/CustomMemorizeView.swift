@@ -16,21 +16,28 @@ struct CustomMemorizeView: View {
   let bibleVersion = SettingsManager.shared.preferredBibleVersion ?? BibleVersion.NIV
 
   var body: some View {
-    VStack {
+    ZStack {
       if let scripture = scripture {
         MemorizeView(scripture: scripture, isDailyReveal: false)
       } else {
-        Text("You haven't set up any scriptures to memorize.")
+        Text("Click + to add a Scripture to memorize.")
           .padding()
       }
-      Button(action: {
-        showScriptureSelector = true
-      }) {
-        Text("New Scripture")
-          .foregroundColor(.white)
-          .padding()
-          .background(Color.blue)
-          .cornerRadius(10)
+      // Floating add button
+      VStack {
+        Spacer()
+        HStack {
+          Spacer()
+          if let scripture = scripture {
+            SaveButtonView() {
+              scripture.completed = true
+            }
+          } else {
+            AddButtonView() {
+              showScriptureSelector = true
+            }
+          }
+        }
       }
     }
     .sheet(isPresented: $showScriptureSelector) {
@@ -61,5 +68,6 @@ struct CustomMemorizeView: View {
 }
 
 #Preview {
-  CustomMemorizeView(scripture: nil)
+  let _ = previewContainer
+  return CustomMemorizeView(scripture: nil).modelContainer(previewContainer)
 }

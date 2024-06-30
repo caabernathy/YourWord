@@ -62,10 +62,13 @@ struct MainTabView: View {
   private func handleScriptureSchedule() {
     // Check if the day and scripture needs to be updated
     let refrshScripture = ScheduleManager.shared.updateCheck()
-    if refrshScripture && currentScripture.count > 0 {
-      // Mark the scripture as complete
-      withAnimation(.smooth) {
-        currentScripture[0].completed = true
+    let currentSystemScripture = currentScripture.first { $0.source == .system || $0.source == nil }
+    if refrshScripture {
+      if let systemScripture = currentSystemScripture {
+        // Mark the scripture as complete
+        withAnimation(.smooth) {
+          systemScripture.completed = true
+        }
       }
     }
   }
