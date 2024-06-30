@@ -20,8 +20,9 @@ class Scripture: Codable {
   var createdAt: Date?
   var passage: Passage
   var translations: [Translation]
-  var source: ScriptureSource
+  var source: ScriptureSource? = ScriptureSource.system
   var completed: Bool = false
+
 
   init(passage: Passage, translations: [Translation], source: ScriptureSource = .system) {
     self.id = UUID()

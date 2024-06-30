@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct UserMemorizeView: View {
+struct CustomMemorizeView: View {
   @Environment(\.modelContext) private var modelContext
   var scripture: Scripture?
 
@@ -68,5 +68,5 @@ struct UserMemorizeView: View {
 }
 
 #Preview {
-  UserMemorizeView(scripture: nil)
+  CustomMemorizeView(scripture: nil)
 }

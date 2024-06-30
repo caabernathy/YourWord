@@ -11,7 +11,7 @@ struct ScriptureRevealView: View {
   var scriptures: [Scripture]
 
   var systemScripture: Scripture? {
-     return scriptures.first { $0.source == .system }
+     return scriptures.first { $0.source == .system || $0.source == nil }
   }
 
   var userDefinedScripture: Scripture? {
@@ -27,16 +27,9 @@ struct ScriptureRevealView: View {
     NavigationStack {
       Group {
         if currentView == .system {
-          Group {
-            if let systemScripture = systemScripture {
-              MemorizeView(scripture: systemScripture, isDailyReveal: true)
-            } else {
-              Text("There are no scriptures to memorize at this time")
-                .padding()
-            }
-          }
+          PresetMemorizeView(scripture: systemScripture)
         } else {
-          UserMemorizeView(scripture: userDefinedScripture)
+          CustomMemorizeView(scripture: userDefinedScripture)
         }
       }
       .toolbar {
