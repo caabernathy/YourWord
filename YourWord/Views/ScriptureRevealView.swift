@@ -59,6 +59,14 @@ struct ScriptureRevealView: View {
   }
 }
 
-#Preview {
+#Preview("No Scriptures") {
   ScriptureRevealView(scriptures: [])
+}
+
+#Preview("Scriptures") {
+  let _ = previewContainer
+  return ScriptureRevealView(
+    scriptures: PreviewData.scriptures
+  )
+  .modelContainer(previewContainer)
 }

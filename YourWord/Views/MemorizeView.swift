@@ -179,3 +179,12 @@ struct MemorizeView: View {
     viewBackgroundColor = colors.randomElement() ?? Color.blue
   }
 }
+
+#Preview {
+  let _ = previewContainer
+  return MemorizeView(
+    scripture: PreviewData.scriptures[0],
+    isDailyReveal: true
+  )
+  .modelContainer(previewContainer)
+}

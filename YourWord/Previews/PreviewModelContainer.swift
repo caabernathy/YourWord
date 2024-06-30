@@ -12,9 +12,9 @@ import SwiftData
 let previewContainer: ModelContainer = {
   do {
     let schema = Schema([
-//      Translation.self,
-//      Passage.self,
       Scripture.self,
+      Passage.self,
+      Translation.self,
     ])
     let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
     let container = try ModelContainer(for: schema, configurations: [modelConfiguration])
