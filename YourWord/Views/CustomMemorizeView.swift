@@ -23,7 +23,7 @@ struct CustomMemorizeView: View {
         Text("Click + to add a Scripture to memorize.")
           .padding()
       }
-      // Floating add button
+      // Floating action button
       VStack {
         Spacer()
         HStack {
