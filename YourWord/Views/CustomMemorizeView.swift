@@ -12,7 +12,6 @@ struct CustomMemorizeView: View {
   var scripture: Scripture?
 
   @State private var showScriptureSelector = false
-//  @State private var scripture: Scripture?
 
   let bibleVersion = SettingsManager.shared.preferredBibleVersion ?? BibleVersion.NIV
 
@@ -51,13 +50,7 @@ struct CustomMemorizeView: View {
       case .success(let scripture):
         DispatchQueue.main.async {
           scripture.source = .userDefined
-          modelContext.insert(scripture)
-          for (index, version) in scripture.translations.enumerated() {
-            let scriptureTextKey = ScriptureManager.shared.createTextMaskingKey(for: version.text)
-            scripture.translations[index].maskingKey = scriptureTextKey
-          }
-          scripture.passage.maskingKey = ScriptureManager.shared.createReferenceMaskingKey()
-//          self.scripture = scripture
+          ScriptureManager.shared.storeScripture(scripture, context: modelContext)
           showScriptureSelector = false
         }
       case .failure(let error):

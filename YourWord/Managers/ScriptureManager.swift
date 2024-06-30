@@ -6,6 +6,7 @@
  */
 
 import Foundation
+import SwiftData
 
 @Observable class ScriptureManager {
   enum FileConstants {
@@ -47,6 +48,15 @@ import Foundation
     referenceKey[0] = false
     referenceKey[memorizeCount-1] = true
     return referenceKey
+  }
+
+  func storeScripture(_ scripture: Scripture, context: ModelContext) {
+    context.insert(scripture)
+    for (index, version) in scripture.translations.enumerated() {
+      let scriptureTextKey = createTextMaskingKey(for: version.text)
+      scripture.translations[index].maskingKey = scriptureTextKey
+    }
+    scripture.passage.maskingKey = createReferenceMaskingKey()
   }
 
   func loadBibleComposition() -> [BibleComposition] {

@@ -32,15 +32,9 @@ let sharedModelContainer: ModelContainer = {
     // If persistent store is empty fetch starter scriptures
     let scriptures = ScriptureManager.shared.loadInitialScriptures()
 
+    // Persist scripture to store
     for scripture in scriptures {
-      container.mainContext.insert(scripture)
-    }
-    for scripture in scriptures {
-      for (index, version) in scripture.translations.enumerated() {
-        let scriptureTextKey = ScriptureManager.shared.createTextMaskingKey(for: version.text)
-        scripture.translations[index].maskingKey = scriptureTextKey
-      }
-      scripture.passage.maskingKey = ScriptureManager.shared.createReferenceMaskingKey()
+      ScriptureManager.shared.storeScripture(scripture, context: container.mainContext)
     }
     return container
   } catch {
