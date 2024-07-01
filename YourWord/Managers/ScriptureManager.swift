@@ -11,6 +11,7 @@ import SwiftData
 @Observable class ScriptureManager {
   enum FileConstants {
     static let initScriptureFileName = "StarterScriptures"
+    static let bibleFileName = "Bible"
   }
 
   static let shared = ScriptureManager()
@@ -59,37 +60,21 @@ import SwiftData
     scripture.passage.maskingKey = createReferenceMaskingKey()
   }
 
-  func loadBibleComposition() -> [BibleComposition] {
-    return PreviewData.bibleComposition
-  }
-
   func loadBible() -> [Bible] {
-    return PreviewData.bible
-  }
-
-  // Function to decode BibleComposition from JSON
-  func decodeBibleComposition(from jsonString: String) -> [BibleComposition] {
-    guard let jsonData = jsonString.data(using: .utf8) else { return [] }
-    let decoder = JSONDecoder()
-    do {
-      let bibleComposition = try decoder.decode([BibleComposition].self, from: jsonData)
-      return bibleComposition
-    } catch {
-      print("Error decoding BibleComposition: \(error)")
+    guard
+      let bundleURL = Bundle.main.url(forResource: FileConstants.bibleFileName, withExtension: "json"),
+      let bibleData = try? Data(contentsOf: bundleURL),
+      let bible = try? JSONDecoder().decode(Bible.self, from: bibleData)
+    else {
       return []
     }
-  }
-
-  // Function to decode Bible from JSON
-  func decodeBible(from jsonString: String) -> [Bible] {
-    guard let jsonData = jsonString.data(using: .utf8) else { return [] }
-    let decoder = JSONDecoder()
-    do {
-      let bible = try decoder.decode([Bible].self, from: jsonData)
-      return bible
-    } catch {
-      print("Error decoding Bible: \(error)")
-      return []
-    }
+    // Fpr now, just repeat NIV, ESV, NLT, KJV info
+    let bibles: [Bible] = [
+      Bible(version: .NIV, books: bible.books),
+      Bible(version: .ESV, books: bible.books),
+      Bible(version: .NLT, books: bible.books),
+      Bible(version: .KJV, books: bible.books)
+    ]
+    return bibles
   }
 }

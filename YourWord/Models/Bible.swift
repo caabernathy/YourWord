@@ -7,48 +7,34 @@
 
 import Foundation
 
-class Bible: Identifiable, Codable, Comparable {
+class Bible: Identifiable, Codable {
   let id: UUID?
-  var compositionId: String
-  var bookOrder: Int
   var version: BibleVersion
+  var books: [Book]
 
-  init(compositionId: String, bookOrder: Int, version: BibleVersion) {
+  init(version: BibleVersion, books: [Book]) {
     self.id = UUID()
-    self.compositionId = compositionId
-    self.bookOrder = bookOrder
     self.version = version
+    self.books = books
   }
 
   required init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     id = try container.decodeIfPresent(UUID.self, forKey: .id) ?? UUID()
-    compositionId = try container.decode(String.self, forKey: .compositionId)
-    bookOrder = try container.decode(Int.self, forKey: .bookOrder)
     version = try container.decode(BibleVersion.self, forKey: .version)
+    books = try container.decode([Book].self, forKey: .books)
   }
 
   func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
     try container.encode(id, forKey: .id)
-    try container.encode(compositionId, forKey: .compositionId)
-    try container.encode(bookOrder, forKey: .bookOrder)
     try container.encode(version, forKey: .version)
-  }
-
-  // Implement Comparable for sorting
-  static func < (lhs: Bible, rhs: Bible) -> Bool {
-    return lhs.bookOrder < rhs.bookOrder
-  }
-
-  static func == (lhs: Bible, rhs: Bible) -> Bool {
-    return lhs.bookOrder == rhs.bookOrder
+    try container.encode(books, forKey: .books)
   }
 
   private enum CodingKeys: String, CodingKey {
     case id
-    case compositionId
-    case bookOrder
     case version
+    case books
   }
 }

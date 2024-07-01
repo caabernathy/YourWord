@@ -6,17 +6,7 @@
  */
 
 import Foundation
-
 import SwiftData
-
-enum BibleVersion: String, Codable, CaseIterable, Identifiable {
-  case NIV
-  case ESV
-  case NLT
-  case KJV
-
-  var id: Self { self }
-}
 
 @Model
 class Translation: Codable {

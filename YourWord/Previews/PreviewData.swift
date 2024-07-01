@@ -29,10 +29,11 @@ struct PreviewData {
       source: .userDefined),
   ]
 
-  static let bibleComposition: [BibleComposition] = [
-    BibleComposition(
+  static let bibleBooks: [Book] = [
+    Book(
       id: "uuid-genesis",
       name: "Genesis",
+      order: 1,
       chaptersAndVerses:
         [
           1: 31, 2: 25, 3: 24, 4: 26, 5: 32, 6: 22, 7: 24, 8: 22, 9: 29,
@@ -43,9 +44,10 @@ struct PreviewData {
           42: 38, 43: 34, 44: 34, 45: 28, 46: 34, 47: 31, 48: 22, 49: 33,
           50: 26
         ]),
-    BibleComposition(
+    Book(
       id: "uuid-acts",
       name: "Acts",
+      order: 20,
       chaptersAndVerses:
         [
           1: 26, 2: 47, 3: 26, 4: 37, 5: 42, 6: 15, 7: 60, 8: 40,
@@ -53,9 +55,10 @@ struct PreviewData {
           16: 40, 17: 34, 18: 28, 19: 41, 20: 38, 21: 40, 22: 30,
           23: 35, 24: 27, 25: 27, 26: 32, 27: 44, 28: 31
         ]),
-    BibleComposition(
+    Book(
       id: "uuid-romans",
       name: "Romans",
+      order: 30,
       chaptersAndVerses:
         [
           1: 32, 2: 29, 3: 31, 4: 25, 5: 21, 6: 23, 7: 25, 8: 39,
@@ -64,9 +67,10 @@ struct PreviewData {
         ]),
   ]
 
-  static let bible: [Bible] = [
-    Bible(compositionId: "uuid-genesis", bookOrder: 1, version: .NIV),
-    Bible(compositionId: "uuid-acts", bookOrder: 20, version: .NIV),
-    Bible(compositionId: "uuid-romans", bookOrder: 30, version: .NIV)
+  static let bibles: [Bible] = [
+    Bible(version: .NIV, books: bibleBooks),
+    Bible(version: .ESV, books: bibleBooks),
+    Bible(version: .NLT, books: bibleBooks),
+    Bible(version: .KJV, books: bibleBooks)
   ]
 }

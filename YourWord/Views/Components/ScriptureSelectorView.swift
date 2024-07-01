@@ -11,13 +11,12 @@ struct ScriptureSelectorView: View {
   var cancelAction: () -> Void
   var submitAction: (String, Int, Int, Int) -> Void
 
-  let bibleComposition = ScriptureManager.shared.loadBibleComposition()
-  let bible = ScriptureManager.shared.loadBible()
+  let bibles = ScriptureManager.shared.loadBible()
 
   let bibleVersion = SettingsManager.shared.preferredBibleVersion ?? BibleVersion.NIV
 
-  @State private var bibleBooks: [BibleComposition] = []
-  @State private var sortedBooks: [BibleComposition] = []
+  @State private var bibleBooks: [Book] = []
+  @State private var sortedBooks: [Book] = []
   @State private var numberOfChaptersInBook = 0
   @State private var numberOfVersesInChapter = 0
   @State private var selectedBookIndex = 0
@@ -27,9 +26,9 @@ struct ScriptureSelectorView: View {
   @State private var isAlphabeticallySorted = false
 
   private func loadBibleBooks(for version: BibleVersion) {
-    let versionBibleBooks = bible.filter { $0.version == bibleVersion }
-    bibleBooks = bibleComposition.filter { composition in
-      versionBibleBooks.contains(where: { $0.compositionId == composition.id })
+    let versionBible = bibles.first { $0.version == bibleVersion }
+    if let versionBible = versionBible {
+      bibleBooks = versionBible.books
     }
     displayBibleBooks()
   }
@@ -37,11 +36,15 @@ struct ScriptureSelectorView: View {
   private func displayBibleBooks() {
     selectedBookIndex = 0
     sortedBooks = isAlphabeticallySorted ? bibleBooks.sorted() : bibleBooks
-    setupPickerSelections()
+    onSelectedBookChange()
   }
 
-  private func setupPickerSelections() {
+  private func onSelectedBookChange() {
     selectedChapter = 1
+    onSelectedChapterChange()
+  }
+
+  private func onSelectedChapterChange() {
     selectedStartVerse = 1
     selectedEndVerse = 1
     let selectedBook = sortedBooks[selectedBookIndex]
@@ -105,12 +108,11 @@ struct ScriptureSelectorView: View {
           }
           .onChange(of: selectedBookIndex) {
             // Reset chapter and verse selections when the book changes
-            setupPickerSelections()
+            onSelectedBookChange()
           }
           .onChange(of: selectedChapter) {
             // Reset verse selections when the chapter changes
-            selectedStartVerse = 1
-            selectedEndVerse = 1
+            onSelectedChapterChange()
           }
           .pickerStyle(.wheel)
 
