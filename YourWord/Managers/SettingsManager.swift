@@ -9,12 +9,12 @@ import Foundation
 
 @Observable class SettingsManager {
   enum SettingsKeys: String {
-    case notificationTime, bibleTranslation, dailyRevealOverride
+    case notificationTime, bibleVersion, dailyRevealOverride
   }
 
   var preferredNotificationTime: Date?
 
-  var preferredBibleTranslation: BibleTranslation?
+  var preferredBibleVersion: BibleVersion?
 
   var dailyRevealOverride: Bool?
 
@@ -26,12 +26,12 @@ import Foundation
 
   func load() {
     preferredNotificationTime = UserDefaults.standard.object(forKey: SettingsKeys.notificationTime.rawValue) as? Date ?? defaultDate()
-    preferredBibleTranslation = BibleTranslation(rawValue: UserDefaults.standard.string(forKey: SettingsKeys.bibleTranslation.rawValue) ?? BibleTranslation.NIV.rawValue) ?? .NIV
+    preferredBibleVersion = BibleVersion(rawValue: UserDefaults.standard.string(forKey: SettingsKeys.bibleVersion.rawValue) ?? BibleVersion.NIV.rawValue) ?? .NIV
     dailyRevealOverride = UserDefaults.standard.object(forKey: SettingsKeys.dailyRevealOverride.rawValue) as? Bool ?? false
   }
 
-  func updateBibleTranslation(_ translation: BibleTranslation) {
-    preferredBibleTranslation = translation
+  func updateBibleVersion(_ version: BibleVersion) {
+    preferredBibleVersion = version
   }
 
   func updateNotificationTime(_ date: Date) {

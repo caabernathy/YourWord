@@ -23,7 +23,7 @@ struct MemorizeView: View {
   }
 
   let pageViewCount = 7
-  let bibleTranslation = SettingsManager.shared.preferredBibleTranslation ?? BibleTranslation.NIV
+  let bibleVersion = SettingsManager.shared.preferredBibleVersion ?? BibleVersion.NIV
   let dailyRevealOverride = SettingsManager.shared.dailyRevealOverride ?? false
   let notificationDayOfWeek = NotificationManager.shared.notificationDayOfWeek
   let currentDayOfWeek = ScheduleManager.shared.currentDayOfWeek
@@ -38,7 +38,7 @@ struct MemorizeView: View {
 
   var body: some View {
     let numberOfDaysToShow = isDailyReveal && !dailyRevealOverride ? currentDayOfWeek : pageViewCount
-    let _ = scriptureViewModel.mask(for: bibleTranslation, days: numberOfDaysToShow)
+    let _ = scriptureViewModel.mask(for: bibleVersion, days: numberOfDaysToShow)
     GeometryReader { geometry in
       VStack {
 
@@ -46,7 +46,7 @@ struct MemorizeView: View {
         ScrollView(.horizontal, showsIndicators: false) {
           HStack(spacing: 0) {
             ForEach(0..<scriptureViewModel.memoryTexts.count, id: \.self) { index in
-              ScriptureView(text: scriptureViewModel.memoryTexts[index], source: "\(scriptureViewModel.memorySources[index]) \(bibleTranslation.rawValue)")
+              ScriptureView(text: scriptureViewModel.memoryTexts[index], source: "\(scriptureViewModel.memorySources[index]) \(bibleVersion.rawValue)")
                 .padding()
                 .frame(width: geometry.size.width)
             }
@@ -152,6 +152,9 @@ struct MemorizeView: View {
   }
 
   private func paginationLabel(for index: Int) -> String {
+    if !isDailyReveal {
+      return "\(index+1)"
+    }
     switch index {
     case 0:
       return "S" // Sunday
@@ -175,4 +178,13 @@ struct MemorizeView: View {
   private func randomizeGradientColors() {
     viewBackgroundColor = colors.randomElement() ?? Color.blue
   }
+}
+
+#Preview {
+  let _ = previewContainer
+  return MemorizeView(
+    scripture: PreviewData.scriptures[0],
+    isDailyReveal: true
+  )
+  .modelContainer(previewContainer)
 }

@@ -10,32 +10,63 @@ import SwiftUI
 struct ScriptureRevealView: View {
   var scriptures: [Scripture]
 
+  var systemScripture: Scripture? {
+     return scriptures.first { $0.source == .system || $0.source == nil }
+  }
+
+  var userDefinedScripture: Scripture? {
+     return scriptures.first { $0.source == .userDefined }
+  }
+
   let shareURL = URL(string: "https://app.malachidaily.com/")!
 
+  @State private var isDailyReveal = true
+  @State private var currentView: ScriptureSource = .system
+
   var body: some View {
-    Group {
-      if scriptures.count > 0 {
-        NavigationStack {
-          MemorizeView(scripture: scriptures[0], isDailyReveal: true)
-            .toolbar {
-              ToolbarItem(placement: .principal) {
-                Text("Your Daily Word")
-                  .font(.headline)
-                  .foregroundColor(.primary)
-              }
-              ToolbarItem(placement: .navigationBarTrailing) {
-                ShareLink("Share", item: shareURL)
-              }
+    NavigationStack {
+      Group {
+        if currentView == .system {
+          PresetMemorizeView(scripture: systemScripture)
+        } else {
+          CustomMemorizeView(scripture: userDefinedScripture)
+        }
+      }
+      .toolbar {
+        ToolbarItemGroup(placement: .navigationBarLeading) {
+          ToolbarLinkView(
+            text: "Daily Word",
+            isSelected: currentView == .system) {
+              linkTapped(for: .system)
+            }
+          ToolbarLinkView(
+            text: "Your Verses",
+            isSelected: currentView == .userDefined) {
+              linkTapped(for: .userDefined)
             }
         }
-      } else {
-        Text("There are no scriptures to memorize at this time")
-          .padding()
+        ToolbarItem(placement: .navigationBarTrailing) {
+          ShareLink("Share", item: shareURL)
+        }
       }
+    }
+  }
+
+  private func linkTapped(for view: ScriptureSource) {
+    withAnimation(.easeInOut(duration: 0.2)) {
+      currentView = view
     }
   }
 }
 
-#Preview {
+#Preview("No Scriptures") {
   ScriptureRevealView(scriptures: [])
+}
+
+#Preview("Scriptures") {
+  let _ = previewContainer
+  return ScriptureRevealView(
+    scriptures: PreviewData.scriptures
+  )
+  .modelContainer(previewContainer)
 }

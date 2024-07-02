@@ -8,19 +8,28 @@
 import Foundation
 import SwiftData
 
+enum ScriptureSource: String, Codable {
+  case system
+  case userDefined
+  case community
+}
+
 @Model
 class Scripture: Codable {
   var id: UUID?
   var createdAt: Date?
   var passage: Passage
   var translations: [Translation]
+  var source: ScriptureSource? = ScriptureSource.system
   var completed: Bool = false
 
-  init(passage: Passage, translations: [Translation]) {
+
+  init(passage: Passage, translations: [Translation], source: ScriptureSource = .system) {
     self.id = UUID()
     self.createdAt = Date()
     self.passage = passage
     self.translations = translations
+    self.source = source
   }
 
   required init(from decoder: Decoder) throws {
@@ -29,6 +38,7 @@ class Scripture: Codable {
     createdAt = try container.decodeIfPresent(Date.self, forKey: .createdAt) ?? Date()
     passage = try container.decode(Passage.self, forKey: .passage)
     translations = try container.decode([Translation].self, forKey: .translations)
+    source = try container.decodeIfPresent(ScriptureSource.self, forKey: .source) ?? .system
     completed = try container.decodeIfPresent(Bool.self, forKey: .completed) ?? false
   }
 
@@ -36,6 +46,7 @@ class Scripture: Codable {
     var container = encoder.container(keyedBy: CodingKeys.self)
     try container.encode(passage, forKey: .passage)
     try container.encode(translations, forKey: .translations)
+    try container.encode(source, forKey: .source)
   }
 
   func addTimeInterval(_ interval: TimeInterval) {
@@ -45,9 +56,9 @@ class Scripture: Codable {
     }
   }
 
-  // Method to get a translation by name
-  func translation(for name: BibleTranslation) -> Translation? {
-    return translations.first { $0.name == name }
+  // Method to get a version by name
+  func version(for version: BibleVersion) -> Translation? {
+    return translations.first { $0.name == version }
   }
 
   private enum CodingKeys: String, CodingKey {
@@ -55,6 +66,7 @@ class Scripture: Codable {
     case createdAt
     case passage
     case translations
+    case source
     case completed
   }
 }

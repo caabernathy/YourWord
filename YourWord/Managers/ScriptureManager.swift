@@ -6,10 +6,12 @@
  */
 
 import Foundation
+import SwiftData
 
 @Observable class ScriptureManager {
   enum FileConstants {
     static let initScriptureFileName = "StarterScriptures"
+    static let bibleFileName = "Bible"
   }
 
   static let shared = ScriptureManager()
@@ -47,5 +49,41 @@ import Foundation
     referenceKey[0] = false
     referenceKey[memorizeCount-1] = true
     return referenceKey
+  }
+
+  func storeScripture(_ scripture: Scripture, context: ModelContext) {
+    context.insert(scripture)
+    for (index, version) in scripture.translations.enumerated() {
+      let scriptureTextKey = createTextMaskingKey(for: version.text)
+      scripture.translations[index].maskingKey = scriptureTextKey
+    }
+    scripture.passage.maskingKey = createReferenceMaskingKey()
+  }
+
+  func removeScripture(_ scripture: Scripture, context: ModelContext) {
+    context.delete(scripture)
+    do {
+      try context.save()
+    } catch {
+      print("Error deleting scripture: \(error)")
+    }
+  }
+
+  func loadBible() -> [Bible] {
+    guard
+      let bundleURL = Bundle.main.url(forResource: FileConstants.bibleFileName, withExtension: "json"),
+      let bibleData = try? Data(contentsOf: bundleURL),
+      let bible = try? JSONDecoder().decode(Bible.self, from: bibleData)
+    else {
+      return []
+    }
+    // Fpr now, just repeat NIV, ESV, NLT, KJV info
+    let bibles: [Bible] = [
+      Bible(version: .NIV, books: bible.books),
+      Bible(version: .ESV, books: bible.books),
+      Bible(version: .NLT, books: bible.books),
+      Bible(version: .KJV, books: bible.books)
+    ]
+    return bibles
   }
 }
