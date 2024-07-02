@@ -34,6 +34,7 @@ struct PreviewData {
       id: "uuid-genesis",
       name: "Genesis",
       order: 1,
+      testament: .old,
       chaptersAndVerses:
         [
           1: 31, 2: 25, 3: 24, 4: 26, 5: 32, 6: 22, 7: 24, 8: 22, 9: 29,
@@ -48,6 +49,7 @@ struct PreviewData {
       id: "uuid-acts",
       name: "Acts",
       order: 20,
+      testament: .new,
       chaptersAndVerses:
         [
           1: 26, 2: 47, 3: 26, 4: 37, 5: 42, 6: 15, 7: 60, 8: 40,
@@ -59,6 +61,7 @@ struct PreviewData {
       id: "uuid-romans",
       name: "Romans",
       order: 30,
+      testament: .new,
       chaptersAndVerses:
         [
           1: 32, 2: 29, 3: 31, 4: 25, 5: 21, 6: 23, 7: 25, 8: 39,

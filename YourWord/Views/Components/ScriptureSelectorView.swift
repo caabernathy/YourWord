@@ -24,6 +24,7 @@ struct ScriptureSelectorView: View {
   @State private var selectedStartVerse = 1
   @State private var selectedEndVerse = 1
   @State private var isAlphabeticallySorted = false
+  @State private var selectedTestamentFilter: TestamentFilter = .all
 
   private func loadBibleBooks(for version: BibleVersion) {
     let versionBible = bibles.first { $0.version == bibleVersion }
@@ -35,7 +36,10 @@ struct ScriptureSelectorView: View {
 
   private func displayBibleBooks() {
     selectedBookIndex = 0
-    sortedBooks = isAlphabeticallySorted ? bibleBooks.sorted() : bibleBooks
+    let filteredByTestament = filterBooks(bibleBooks)
+    let sortedByName = filteredByTestament.sorted()
+    let sortedByOrder = filteredByTestament.sorted { $0.order < $1.order }
+    sortedBooks = isAlphabeticallySorted ? sortedByName : sortedByOrder
     onSelectedBookChange()
   }
 
@@ -50,6 +54,15 @@ struct ScriptureSelectorView: View {
     let selectedBook = sortedBooks[selectedBookIndex]
     numberOfChaptersInBook = selectedBook.numberOfChapters
     numberOfVersesInChapter = selectedBook.chaptersAndVerses[selectedChapter] ?? 0
+  }
+
+  private func filterBooks(_ books: [Book]) -> [Book] {
+    switch selectedTestamentFilter {
+    case .all:
+      return books
+    case .testament(let testament):
+      return books.filter { $0.testament == testament }
+    }
   }
 
   var body: some View {
@@ -114,7 +127,13 @@ struct ScriptureSelectorView: View {
             // Reset verse selections when the chapter changes
             onSelectedChapterChange()
           }
+          .padding()
           .pickerStyle(.wheel)
+
+          TestamentFilterView(selectedFilter: $selectedTestamentFilter)
+            .onChange(of: selectedTestamentFilter) {
+              displayBibleBooks()
+            }
 
           Toggle(isOn: $isAlphabeticallySorted) {
             Text("Sort Books Alphabetically")

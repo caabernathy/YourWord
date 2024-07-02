@@ -7,16 +7,23 @@
 
 import Foundation
 
+enum Testament: String, Codable, CaseIterable {
+  case old
+  case new
+}
+
 class Book: Identifiable, Codable, Comparable {
   var id: String
   var name: String
   var order: Int
+  var testament: Testament
   var chaptersAndVerses: [Int: Int]
 
-  init(id: String, name: String, order: Int, chaptersAndVerses: [Int : Int]) {
+  init(id: String, name: String, order: Int, testament: Testament, chaptersAndVerses: [Int : Int]) {
     self.id = id
     self.name = name
     self.order = order
+    self.testament = testament
     self.chaptersAndVerses = chaptersAndVerses
   }
 
@@ -25,6 +32,7 @@ class Book: Identifiable, Codable, Comparable {
     self.id = try container.decode(String.self, forKey: .id)
     self.name = try container.decode(String.self, forKey: .name)
     self.order = try container.decode(Int.self, forKey: .order)
+    self.testament = try container.decode(Testament.self, forKey: .testament)
     self.chaptersAndVerses = try container.decode([Int : Int].self, forKey: .chaptersAndVerses)
   }
 
@@ -33,6 +41,7 @@ class Book: Identifiable, Codable, Comparable {
     try container.encode(id, forKey: .id)
     try container.encode(name, forKey: .name)
     try container.encode(order, forKey: .order)
+    try container.encode(testament, forKey: .testament)
     try container.encode(chaptersAndVerses, forKey: .chaptersAndVerses)
   }
 
@@ -53,6 +62,7 @@ class Book: Identifiable, Codable, Comparable {
     case id
     case name
     case order
+    case testament
     case chaptersAndVerses
   }
 }
