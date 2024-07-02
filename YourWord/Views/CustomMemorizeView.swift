@@ -12,6 +12,7 @@ struct CustomMemorizeView: View {
   var scripture: Scripture?
 
   @State private var showScriptureSelector = false
+  @State private var showScriptureDeleteConfirmation = false
 
   let bibleVersion = SettingsManager.shared.preferredBibleVersion ?? BibleVersion.NIV
 
@@ -27,6 +28,11 @@ struct CustomMemorizeView: View {
       VStack {
         Spacer()
         HStack {
+          if let _ = scripture {
+            DeleteButtonView() {
+              showScriptureDeleteConfirmation = true
+            }
+          }
           Spacer()
           if let scripture = scripture {
             SaveButtonView() {
@@ -44,6 +50,16 @@ struct CustomMemorizeView: View {
       ScriptureSelectorView(cancelAction: handleScriptureSelectorCancel) { book, chapter, startVerse, endVerse in
         fetchScripture(book: book, chapter: chapter, startVerse: startVerse, endVerse: endVerse)
       }
+    }
+    .alert(isPresented: $showScriptureDeleteConfirmation) {
+      Alert(
+        title: Text("Remove Scripture"),
+        message: Text("Are you sure you want to remove this scripture?"),
+        primaryButton: .destructive(Text("Remove")) {
+          deleteScripture()
+        },
+        secondaryButton: .cancel()
+      )
     }
   }
 
@@ -65,9 +81,23 @@ struct CustomMemorizeView: View {
       }
     }
   }
+
+  private func deleteScripture() {
+    if let scripture = scripture {
+      ScriptureManager.shared.removeScripture(scripture, context: modelContext)
+    }
+  }
 }
 
-#Preview {
+#Preview("No Scripture") {
   let _ = previewContainer
   return CustomMemorizeView(scripture: nil).modelContainer(previewContainer)
+}
+
+#Preview("Scripture") {
+  let _ = previewContainer
+  let scripture = PreviewData.scriptures.first
+  return CustomMemorizeView(
+    scripture: scripture
+  ).modelContainer(previewContainer)
 }

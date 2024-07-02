@@ -20,6 +20,7 @@
 		CB31887D2C3270BD00965152 /* BibleVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB31887C2C3270BD00965152 /* BibleVersion.swift */; };
 		CB3188812C32745800965152 /* Bible.json in Resources */ = {isa = PBXBuildFile; fileRef = CB3188802C32745800965152 /* Bible.json */; };
 		CB3188832C33B3FA00965152 /* TestamentFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3188822C33B3FA00965152 /* TestamentFilterView.swift */; };
+		CB3188852C33BE9C00965152 /* DeleteButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3188842C33BE9C00965152 /* DeleteButtonView.swift */; };
 		CB3FF8772C041DB800871CCD /* CustomMemorizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3FF8762C041DB800871CCD /* CustomMemorizeView.swift */; };
 		CB3FF8792C04251900871CCD /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3FF8782C04251900871CCD /* APIService.swift */; };
 		CB5314A02B9467610003867A /* PreviewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB53149F2B9467610003867A /* PreviewData.swift */; };
@@ -87,6 +88,7 @@
 		CB31887C2C3270BD00965152 /* BibleVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleVersion.swift; sourceTree = "<group>"; };
 		CB3188802C32745800965152 /* Bible.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = Bible.json; path = ../../../../../../../../Bible.json; sourceTree = "<group>"; };
 		CB3188822C33B3FA00965152 /* TestamentFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestamentFilterView.swift; sourceTree = "<group>"; };
+		CB3188842C33BE9C00965152 /* DeleteButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteButtonView.swift; sourceTree = "<group>"; };
 		CB3FF8762C041DB800871CCD /* CustomMemorizeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMemorizeView.swift; sourceTree = "<group>"; };
 		CB3FF8782C04251900871CCD /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		CB53149F2B9467610003867A /* PreviewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewData.swift; sourceTree = "<group>"; };
@@ -291,6 +293,7 @@
 				CB3188762C313E6C00965152 /* AddButtonView.swift */,
 				CBF969192B15A369003D90FE /* DoneButtonView.swift */,
 				CB3188782C313F4E00965152 /* SaveButtonView.swift */,
+				CB3188842C33BE9C00965152 /* DeleteButtonView.swift */,
 				CBF969222B15B3BF003D90FE /* DayOfWeekButtonView.swift */,
 				CBF969202B15B300003D90FE /* DayOfWeekLabelView.swift */,
 				CB9432B42B8AA7B7005F9E48 /* ScriptureSelectorView.swift */,
@@ -451,6 +454,7 @@
 			files = (
 				CB9432AF2B64B1D1005F9E48 /* OnboardingManager.swift in Sources */,
 				CB9432AD2B60C997005F9E48 /* ScriptureViewModel.swift in Sources */,
+				CB3188852C33BE9C00965152 /* DeleteButtonView.swift in Sources */,
 				CB1394BA2B5B500F0027707D /* ScheduleManager.swift in Sources */,
 				CBFFAB352B0B3DF700C864C9 /* ScriptureModelContainer.swift in Sources */,
 				CB3FF8792C04251900871CCD /* APIService.swift in Sources */,

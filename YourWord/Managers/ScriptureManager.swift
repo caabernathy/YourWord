@@ -60,6 +60,15 @@ import SwiftData
     scripture.passage.maskingKey = createReferenceMaskingKey()
   }
 
+  func removeScripture(_ scripture: Scripture, context: ModelContext) {
+    context.delete(scripture)
+    do {
+      try context.save()
+    } catch {
+      print("Error deleting scripture: \(error)")
+    }
+  }
+
   func loadBible() -> [Bible] {
     guard
       let bundleURL = Bundle.main.url(forResource: FileConstants.bibleFileName, withExtension: "json"),
