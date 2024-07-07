@@ -11,7 +11,7 @@ class APIService {
   static let shared = APIService()
 
   func fetchScripture(book: String, chapter: Int, startVerse: Int, endVerse: Int, completion: @escaping (Result<Scripture, Error>) -> Void) {
-    let url = URL(string: "http://localhost:3000/scripture?book=\(book)&chapter=\(chapter)&startVerse=\(startVerse)&endVerse=\(endVerse)")!
+    let url = URL(string: "http://localhost:3000/scripture/reference?book=\(book)&chapter=\(chapter)&startVerse=\(startVerse)&endVerse=\(endVerse)")!
 
     URLSession.shared.dataTask(with: url) { data, response, error in
       if let data = data {
