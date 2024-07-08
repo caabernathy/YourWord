@@ -21,6 +21,7 @@
 		CB3188812C32745800965152 /* Bible.json in Resources */ = {isa = PBXBuildFile; fileRef = CB3188802C32745800965152 /* Bible.json */; };
 		CB3188832C33B3FA00965152 /* TestamentFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3188822C33B3FA00965152 /* TestamentFilterView.swift */; };
 		CB3188852C33BE9C00965152 /* DeleteButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3188842C33BE9C00965152 /* DeleteButtonView.swift */; };
+		CB31888B2C3A6D3800965152 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB31888A2C3A6D3800965152 /* AppConfig.swift */; };
 		CB3FF8772C041DB800871CCD /* CustomMemorizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3FF8762C041DB800871CCD /* CustomMemorizeView.swift */; };
 		CB3FF8792C04251900871CCD /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3FF8782C04251900871CCD /* APIService.swift */; };
 		CB5314A02B9467610003867A /* PreviewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB53149F2B9467610003867A /* PreviewData.swift */; };
@@ -89,6 +90,10 @@
 		CB3188802C32745800965152 /* Bible.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = Bible.json; path = ../../../../../../../../Bible.json; sourceTree = "<group>"; };
 		CB3188822C33B3FA00965152 /* TestamentFilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestamentFilterView.swift; sourceTree = "<group>"; };
 		CB3188842C33BE9C00965152 /* DeleteButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteButtonView.swift; sourceTree = "<group>"; };
+		CB3188872C3A67C600965152 /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		CB3188882C3A686F00965152 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		CB3188892C3A6CF300965152 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		CB31888A2C3A6D3800965152 /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
 		CB3FF8762C041DB800871CCD /* CustomMemorizeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMemorizeView.swift; sourceTree = "<group>"; };
 		CB3FF8782C04251900871CCD /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		CB53149F2B9467610003867A /* PreviewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewData.swift; sourceTree = "<group>"; };
@@ -153,6 +158,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CB3188862C3A678200965152 /* Configs */ = {
+			isa = PBXGroup;
+			children = (
+				CB3188872C3A67C600965152 /* Debug.xcconfig */,
+				CB3188882C3A686F00965152 /* Release.xcconfig */,
+				CB31888A2C3A6D3800965152 /* AppConfig.swift */,
+			);
+			path = Configs;
+			sourceTree = "<group>";
+		};
 		CB5314A12B9472880003867A /* Previews */ = {
 			isa = PBXGroup;
 			children = (
@@ -219,12 +234,14 @@
 				CBD43F6A2B01DD23003CF5F7 /* YourWordApp.swift */,
 				CB1BA6E82B12D02F004F4CBE /* AppDelegate.swift */,
 				CB07416F2B05D0880000CCCC /* Launch Screen.storyboard */,
+				CB3188892C3A6CF300965152 /* Info.plist */,
 				CBFFAB362B0B4EF100C864C9 /* Extensions */,
 				CBA2C7B02B082D5000A27DE1 /* Managers */,
 				CBD43F962B01DE6B003CF5F7 /* Models */,
 				CBD43F9C2B01E096003CF5F7 /* Views */,
 				CB9432AB2B60C964005F9E48 /* ViewModels */,
 				CBA2C7B32B09B83E00A27DE1 /* Resources */,
+				CB3188862C3A678200965152 /* Configs */,
 				CB5314A12B9472880003867A /* Previews */,
 				CBD43F702B01DD24003CF5F7 /* Assets.xcassets */,
 				CBD43F722B01DD24003CF5F7 /* Preview Content */,
@@ -453,6 +470,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CB9432AF2B64B1D1005F9E48 /* OnboardingManager.swift in Sources */,
+				CB31888B2C3A6D3800965152 /* AppConfig.swift in Sources */,
 				CB9432AD2B60C997005F9E48 /* ScriptureViewModel.swift in Sources */,
 				CB3188852C33BE9C00965152 /* DeleteButtonView.swift in Sources */,
 				CB1394BA2B5B500F0027707D /* ScheduleManager.swift in Sources */,
@@ -648,6 +666,7 @@
 		};
 		CBD43F8E2B01DD24003CF5F7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB3188872C3A67C600965152 /* Debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -657,6 +676,7 @@
 				DEVELOPMENT_TEAM = M2ABT37P66;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = YourWord/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen";
@@ -677,6 +697,7 @@
 		};
 		CBD43F8F2B01DD24003CF5F7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB3188882C3A686F00965152 /* Release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -686,6 +707,7 @@
 				DEVELOPMENT_TEAM = M2ABT37P66;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = YourWord/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen";
@@ -706,6 +728,7 @@
 		};
 		CBD43F912B01DD24003CF5F7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB3188872C3A67C600965152 /* Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -726,6 +749,7 @@
 		};
 		CBD43F922B01DD24003CF5F7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB3188882C3A686F00965152 /* Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -746,6 +770,7 @@
 		};
 		CBD43F942B01DD24003CF5F7 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB3188872C3A67C600965152 /* Debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -764,6 +789,7 @@
 		};
 		CBD43F952B01DD24003CF5F7 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CB3188882C3A686F00965152 /* Release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
