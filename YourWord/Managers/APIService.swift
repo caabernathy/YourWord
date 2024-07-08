@@ -8,10 +8,24 @@
 import Foundation
 
 class APIService {
+  private let baseURL = URL(string: AppConfig.apiBaseURL)!
+
   static let shared = APIService()
 
   func fetchScripture(book: String, chapter: Int, startVerse: Int, endVerse: Int, completion: @escaping (Result<Scripture, Error>) -> Void) {
-    let url = URL(string: "http://localhost:3000/scripture/reference?book=\(book)&chapter=\(chapter)&startVerse=\(startVerse)&endVerse=\(endVerse)")!
+    let endpoint = baseURL.appendingPathComponent("scripture/reference")
+    var components = URLComponents(url: endpoint, resolvingAgainstBaseURL: true)!
+    components.queryItems = [
+      URLQueryItem(name: "book", value: book),
+      URLQueryItem(name: "chapter", value: String(chapter)),
+      URLQueryItem(name: "startVerse", value: String(startVerse)),
+      URLQueryItem(name: "endVerse", value: String(endVerse))
+    ]
+
+    guard let url = components.url else {
+      completion(.failure(NSError(domain: "InvalidURL", code: 0, userInfo: nil)))
+      return
+    }
 
     URLSession.shared.dataTask(with: url) { data, response, error in
       if let data = data {
