@@ -10,6 +10,7 @@ import SwiftUI
 struct ScriptureSelectorView: View {
   var cancelAction: () -> Void
   var submitAction: (String, Int, Int, Int) -> Void
+  @Binding var isLoading: Bool
 
   let bibles = ScriptureManager.shared.loadBible()
 
@@ -65,6 +66,11 @@ struct ScriptureSelectorView: View {
     }
   }
 
+  private func onSubmit() {
+    isLoading = true
+    submitAction(sortedBooks[selectedBookIndex].name, selectedChapter, selectedStartVerse, selectedEndVerse)
+  }
+
   var body: some View {
     let passageTextExtra = selectedEndVerse > selectedStartVerse ? "-\(selectedEndVerse)" : ""
     Group {
@@ -86,14 +92,23 @@ struct ScriptureSelectorView: View {
               .padding()
             Spacer()
             Button(action: {
-              submitAction(sortedBooks[selectedBookIndex].name, selectedChapter, selectedStartVerse, selectedEndVerse)
+              onSubmit()
             }) {
-              Text("GO")
-                .foregroundColor(.white)
-                .padding()
-                .background(Color.blue)
-                .cornerRadius(10)
+              if isLoading {
+                ProgressView()
+                  .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                  .padding([.leading, .trailing], 20)
+                  .padding()
+              } else {
+                Text("GO")
+                  .foregroundColor(.white)
+                  .padding([.leading, .trailing], 17)
+                  .padding()
+              }
             }
+            .background(Color.blue)
+            .cornerRadius(10)
+            .disabled(isLoading)
           }
           .padding()
 
@@ -156,6 +171,18 @@ struct ScriptureSelectorView: View {
 }
 
 
-#Preview {
-  ScriptureSelectorView(cancelAction: {}, submitAction: {_,_,_,_ in })
+#Preview("Default") {
+  ScriptureSelectorView(
+    cancelAction: {},
+    submitAction: {_,_,_,_ in },
+    isLoading: .constant(false)
+  )
+}
+
+#Preview("Loading") {
+  ScriptureSelectorView(
+    cancelAction: {},
+    submitAction: {_,_,_,_ in },
+    isLoading: .constant(true)
+  )
 }

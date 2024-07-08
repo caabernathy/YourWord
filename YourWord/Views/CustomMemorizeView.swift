@@ -13,6 +13,7 @@ struct CustomMemorizeView: View {
 
   @State private var showScriptureSelector = false
   @State private var showScriptureDeleteConfirmation = false
+  @State private var isLoading = false
 
   let bibleVersion = SettingsManager.shared.preferredBibleVersion ?? BibleVersion.NIV
 
@@ -47,9 +48,13 @@ struct CustomMemorizeView: View {
       }
     }
     .sheet(isPresented: $showScriptureSelector) {
-      ScriptureSelectorView(cancelAction: handleScriptureSelectorCancel) { book, chapter, startVerse, endVerse in
-        fetchScripture(book: book, chapter: chapter, startVerse: startVerse, endVerse: endVerse)
-      }
+      ScriptureSelectorView(
+        cancelAction: handleScriptureSelectorCancel,
+        submitAction: { book, chapter, startVerse, endVerse in
+          fetchScripture(book: book, chapter: chapter, startVerse: startVerse, endVerse: endVerse)
+        },
+        isLoading: $isLoading
+      )
     }
     .alert(isPresented: $showScriptureDeleteConfirmation) {
       Alert(
@@ -74,9 +79,11 @@ struct CustomMemorizeView: View {
         DispatchQueue.main.async {
           scripture.source = .userDefined
           ScriptureManager.shared.storeScripture(scripture, context: modelContext)
+          isLoading = false
           showScriptureSelector = false
         }
       case .failure(let error):
+        isLoading = false
         print("Error fetching scripture: \(error.localizedDescription)")
       }
     }
