@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct ScriptureSelectorView: View {
-  var cancelAction: () -> Void
-  var submitAction: (String, Int, Int, Int) -> Void
   @Binding var isLoading: Bool
+  var submitAction: (String, Int, Int, Int) -> Void
 
   let bibles = ScriptureManager.shared.loadBible()
 
@@ -75,17 +74,7 @@ struct ScriptureSelectorView: View {
     let passageTextExtra = selectedEndVerse > selectedStartVerse ? "-\(selectedEndVerse)" : ""
     Group {
       if sortedBooks.count > 0 {
-        VStack {
-          HStack {
-            Spacer()
-            Button(action: cancelAction) {
-              Image(systemName: "xmark")
-                .foregroundColor(.gray)
-                .padding()
-            }
-          }
-          Spacer()
-
+        VStack(spacing: 10) {
           HStack {
             Text("\(sortedBooks[selectedBookIndex].name) \(selectedChapter):\(selectedStartVerse)\(passageTextExtra)")
               .font(.title2)
@@ -110,7 +99,8 @@ struct ScriptureSelectorView: View {
             .cornerRadius(10)
             .disabled(isLoading)
           }
-          .padding()
+          .padding(.horizontal)
+
 
           HStack {
             Picker("Book", selection: $selectedBookIndex) {
@@ -142,8 +132,9 @@ struct ScriptureSelectorView: View {
             // Reset verse selections when the chapter changes
             onSelectedChapterChange()
           }
-          .padding()
           .pickerStyle(.wheel)
+          .frame(height: 200)
+          .padding(.top, -20)
 
           TestamentFilterView(selectedFilter: $selectedTestamentFilter)
             .onChange(of: selectedTestamentFilter) {
@@ -153,7 +144,7 @@ struct ScriptureSelectorView: View {
           Toggle(isOn: $isAlphabeticallySorted) {
             Text("Sort Books Alphabetically")
           }
-          .padding()
+          .padding(.horizontal)
           .onChange(of: isAlphabeticallySorted) {
             displayBibleBooks()
           }
@@ -173,16 +164,14 @@ struct ScriptureSelectorView: View {
 
 #Preview("Default") {
   ScriptureSelectorView(
-    cancelAction: {},
-    submitAction: {_,_,_,_ in },
-    isLoading: .constant(false)
+    isLoading: .constant(false),
+    submitAction: {_,_,_,_ in }
   )
 }
 
 #Preview("Loading") {
   ScriptureSelectorView(
-    cancelAction: {},
-    submitAction: {_,_,_,_ in },
-    isLoading: .constant(true)
+    isLoading: .constant(true),
+    submitAction: {_,_,_,_ in }
   )
 }

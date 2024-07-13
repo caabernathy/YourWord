@@ -40,4 +40,37 @@ class APIService {
       }
     }.resume()
   }
+
+  func searchScriptures(version: BibleVersion, text: String, completion: @escaping (Result<[SearchResultScripture], Error>) -> Void) {
+    let endpoint = baseURL.appendingPathComponent("scripture/search")
+    var components = URLComponents(url: endpoint, resolvingAgainstBaseURL: true)!
+    components.queryItems = [
+      URLQueryItem(name: "version", value: version.rawValue),
+      URLQueryItem(name: "text", value: text)
+    ]
+
+    guard let url = components.url else {
+      completion(.failure(NSError(domain: "InvalidURL", code: 0, userInfo: nil)))
+      return
+    }
+
+    URLSession.shared.dataTask(with: url) { data, response, error in
+      if let error = error {
+        completion(.failure(error))
+        return
+      }
+
+      guard let data = data else {
+        completion(.failure(NSError(domain: "NoData", code: 0, userInfo: nil)))
+        return
+      }
+
+      do {
+        let searchResults = try JSONDecoder().decode([SearchResultScripture].self, from: data)
+        completion(.success(searchResults))
+      } catch {
+        completion(.failure(error))
+      }
+    }.resume()
+  }
 }

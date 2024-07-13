@@ -48,12 +48,12 @@ struct CustomMemorizeView: View {
       }
     }
     .sheet(isPresented: $showScriptureSelector) {
-      ScriptureSelectorView(
+      ScriptureAddView(
+        isLoading: $isLoading,
         cancelAction: handleScriptureSelectorCancel,
         submitAction: { book, chapter, startVerse, endVerse in
           fetchScripture(book: book, chapter: chapter, startVerse: startVerse, endVerse: endVerse)
-        },
-        isLoading: $isLoading
+        }
       )
     }
     .alert(isPresented: $showScriptureDeleteConfirmation) {
