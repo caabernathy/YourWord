@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct ScriptureAddView: View {
-  @Binding var isLoading: Bool
   var cancelAction: () -> Void
-  var submitAction: (String, Int, Int, Int) -> Void
+  var addAction: (Scripture) -> Void
 
   let bibleVersion = SettingsManager.shared.preferredBibleVersion ?? BibleVersion.NIV
 
+  @State private  var isLoading: Bool = false
   @State private var selectionMode: SelectionMode = .keyword
 
   @State private var searchText: String = ""
@@ -22,6 +22,10 @@ struct ScriptureAddView: View {
   @State private var errorMessage: String?
 
   @State private var selectorState = ScriptureSelectionState()
+
+  @State private var networkManager = NetworkManager.shared
+
+  @State private var showToast = false
 
   enum SelectionMode: String, CaseIterable {
     case keyword = "Searching Keywords"
@@ -32,6 +36,12 @@ struct ScriptureAddView: View {
     VStack(spacing: 20) {
       HStack {
         Spacer()
+        if !networkManager.isConnected {
+          Text("No internet connection")
+            .foregroundColor(.red)
+            .padding()
+          Spacer()
+        }
         Button(action: cancelAction) {
           Image(systemName: "xmark")
             .foregroundColor(.gray)
@@ -59,23 +69,25 @@ struct ScriptureAddView: View {
           SearchBarView(
             isLoading: $isLoading,
             searchText: $searchText,
-            searchAction: performSearch
+            searchAction: { query in
+              Task {
+                await performSearch(query)
+              }
+            }
           )
 
-          if let errorMessage = errorMessage {
-            Text(errorMessage)
-              .foregroundColor(.red)
-              .padding()
-          } else if hasSearched {
+          if hasSearched {
             ScriptureSearchResultsView(
               allResults: searchResults,
               onResultTap: { scripture in
-                submitAction(
-                  scripture.passage.book,
-                  scripture.passage.chapter,
-                  scripture.passage.startVerse,
-                  scripture.passage.endVerse
-                )
+                Task {
+                  await fetchScripture(
+                    book: scripture.passage.book,
+                    chapter: scripture.passage.chapter,
+                    startVerse: scripture.passage.startVerse,
+                    endVerse: scripture.passage.endVerse
+                  )
+                }
               }
             )
           }
@@ -85,50 +97,84 @@ struct ScriptureAddView: View {
         ScriptureSelectorView(
           isLoading: $isLoading,
           state: $selectorState,
-          submitAction: submitAction
+          submitAction: { book, chapter, startVerse, endVerse in
+            Task {
+              await fetchScripture(
+                book: book,
+                chapter: chapter,
+                startVerse: startVerse,
+                endVerse: endVerse
+              )
+            }
+          }
         ).transition(.opacity)
       }
 
       Spacer()
     }
     .padding()
+    .toast(isPresented: $showToast, message: errorMessage ?? "")
   }
 
-  private func performSearch(_ query: String) {
+  private func showErrorMessageToast() {
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+      withAnimation {
+        showToast.toggle()
+      }
+    }
+  }
+
+  @MainActor
+  private func fetchScripture(book: String, chapter: Int, startVerse: Int, endVerse: Int) async {
+    errorMessage = nil
+    do {
+      isLoading = true
+      let scripture = try await APIService.shared.fetchScripture(book: book, chapter: chapter, startVerse: startVerse, endVerse: endVerse)
+      addAction(scripture)
+    } catch let error as APIError {
+      errorMessage = error.localizedDescription
+      showErrorMessageToast()
+    } catch {
+      errorMessage = "An unexpected error occurred. Please try again later."
+      showErrorMessageToast()
+    }
+    isLoading = false
+  }
+
+  @MainActor
+  private func performSearch(_ query: String) async {
     guard !query.isEmpty else {
-      searchResults = []
       errorMessage = nil
+      searchResults = []
       isLoading = false
       hasSearched = false
       return
     }
 
-    isLoading = true
     errorMessage = nil
+    isLoading = true
 
-    APIService.shared.searchScriptures(version: bibleVersion, text: query) { result in
-      DispatchQueue.main.async {
-        self.isLoading = false
-        self.hasSearched = true
-
-        switch result {
-        case .success(let scriptures):
-          self.searchResults = scriptures
-          self.errorMessage = nil
-        case .failure(let error):
-          self.searchResults = []
-          self.errorMessage = "An error occurred while searching: \(error.localizedDescription)"
-        }
-      }
+    do {
+      let scriptures  = try await APIService.shared.searchScriptures(version: bibleVersion, text: query)
+      searchResults = scriptures
+    } catch let error as APIError {
+      errorMessage = error.localizedDescription
+      searchResults = []
+      showErrorMessageToast()
+    } catch {
+      errorMessage = "An unexpected error occurred. Please try again later."
+      searchResults = []
+      showErrorMessageToast()
     }
+    isLoading = false
+    hasSearched = true
   }
 }
 
 #Preview {
   let _ = previewContainer
   return ScriptureAddView(
-    isLoading: .constant(false),
     cancelAction: {},
-    submitAction: {_,_,_,_ in }
+    addAction: { _ in }
   )
 }

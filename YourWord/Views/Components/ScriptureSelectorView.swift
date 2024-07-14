@@ -15,7 +15,7 @@ class ScriptureSelectionState {
   var selectedEndVerse: Int = 1
   var isAlphabeticallySorted: Bool = false
   var selectedTestamentFilter: TestamentFilter = .all
-  
+
   init(selectedBookIndex: Int = 0, selectedChapter: Int = 1, selectedStartVerse: Int = 1, selectedEndVerse: Int = 1, isAlphabeticallySorted: Bool = false, selectedTestamentFilter: TestamentFilter = .all) {
     self.selectedBookIndex = selectedBookIndex
     self.selectedChapter = selectedChapter
@@ -30,16 +30,16 @@ struct ScriptureSelectorView: View {
   @Binding var isLoading: Bool
   @Binding var state: ScriptureSelectionState
   var submitAction: (String, Int, Int, Int) -> Void
-  
+
   let bibles = ScriptureManager.shared.loadBible()
-  
+
   let bibleVersion = SettingsManager.shared.preferredBibleVersion ?? BibleVersion.NIV
-  
+
   @State private var bibleBooks: [Book] = []
   @State private var sortedBooks: [Book] = []
   @State private var numberOfChaptersInBook = 0
   @State private var numberOfVersesInChapter = 0
-  
+
   private func loadBibleBooks(for version: BibleVersion) {
     let versionBible = bibles.first { $0.version == bibleVersion }
     if let versionBible = versionBible {
@@ -48,37 +48,37 @@ struct ScriptureSelectorView: View {
     setupBibleBooks()
     setupChapterVerses()
   }
-  
+
   private func setupBibleBooks() {
     let filteredByTestament = filterBooks(bibleBooks)
     let sortedByName = filteredByTestament.sorted()
     let sortedByOrder = filteredByTestament.sorted { $0.order < $1.order }
     sortedBooks = state.isAlphabeticallySorted ? sortedByName : sortedByOrder
   }
-  
+
   private func setupChapterVerses() {
     let selectedBook = sortedBooks[state.selectedBookIndex]
     numberOfChaptersInBook = selectedBook.numberOfChapters
     numberOfVersesInChapter = selectedBook.chaptersAndVerses[state.selectedChapter] ?? 0
   }
-  
+
   private func onSortFilterChange() {
     state.selectedBookIndex = 0
     setupBibleBooks()
     onSelectedBookChange()
   }
-  
+
   private func onSelectedBookChange() {
     state.selectedChapter = 1
     onSelectedChapterChange()
   }
-  
+
   private func onSelectedChapterChange() {
     state.selectedStartVerse = 1
     state.selectedEndVerse = 1
     setupChapterVerses()
   }
-  
+
   private func filterBooks(_ books: [Book]) -> [Book] {
     switch state.selectedTestamentFilter {
     case .all:
@@ -87,12 +87,11 @@ struct ScriptureSelectorView: View {
       return books.filter { $0.testament == testament }
     }
   }
-  
+
   private func onSubmit() {
-    isLoading = true
     submitAction(sortedBooks[state.selectedBookIndex].name, state.selectedChapter, state.selectedStartVerse, state.selectedEndVerse)
   }
-  
+
   var body: some View {
     let passageTextExtra = state.selectedEndVerse > state.selectedStartVerse ? "-\(state.selectedEndVerse)" : ""
     Group {
@@ -123,8 +122,8 @@ struct ScriptureSelectorView: View {
             .disabled(isLoading)
           }
           .padding(.horizontal)
-          
-          
+
+
           HStack {
             Picker("Book", selection: $state.selectedBookIndex) {
               ForEach(0..<sortedBooks.count, id: \.self) { index in
@@ -158,12 +157,12 @@ struct ScriptureSelectorView: View {
           .pickerStyle(.wheel)
           .frame(height: 200)
           .padding(.top, -20)
-          
+
           TestamentFilterView(selectedFilter: $state.selectedTestamentFilter)
             .onChange(of: state.selectedTestamentFilter) {
               onSortFilterChange()
             }
-          
+
           Toggle(isOn: $state.isAlphabeticallySorted) {
             Text("Sort Books Alphabetically")
           }
@@ -171,7 +170,7 @@ struct ScriptureSelectorView: View {
           .onChange(of: state.isAlphabeticallySorted) {
             onSortFilterChange()
           }
-          
+
           Spacer()
         }
       } else {

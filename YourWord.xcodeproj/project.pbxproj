@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		CB003F452B13588C008584F1 /* Date+RawRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB003F442B13588C008584F1 /* Date+RawRepresentable.swift */; };
+		CB0075002C4377A500078EB7 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB0074FF2C4377A500078EB7 /* NetworkManager.swift */; };
 		CB0741702B05D0880000CCCC /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB07416F2B05D0880000CCCC /* Launch Screen.storyboard */; };
 		CB1394BA2B5B500F0027707D /* ScheduleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1394B92B5B500F0027707D /* ScheduleManager.swift */; };
 		CB1394BC2B5CD30A0027707D /* View+toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1394BB2B5CD30A0027707D /* View+toast.swift */; };
@@ -82,6 +83,7 @@
 
 /* Begin PBXFileReference section */
 		CB003F442B13588C008584F1 /* Date+RawRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+RawRepresentable.swift"; sourceTree = "<group>"; };
+		CB0074FF2C4377A500078EB7 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		CB07416F2B05D0880000CCCC /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		CB1394B92B5B500F0027707D /* ScheduleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleManager.swift; sourceTree = "<group>"; };
 		CB1394BB2B5CD30A0027707D /* View+toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+toast.swift"; sourceTree = "<group>"; };
@@ -205,6 +207,7 @@
 				CB1394B92B5B500F0027707D /* ScheduleManager.swift */,
 				CB9432AE2B64B1D1005F9E48 /* OnboardingManager.swift */,
 				CB3FF8782C04251900871CCD /* APIService.swift */,
+				CB0074FF2C4377A500078EB7 /* NetworkManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -484,6 +487,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CB0075002C4377A500078EB7 /* NetworkManager.swift in Sources */,
 				CB9432AF2B64B1D1005F9E48 /* OnboardingManager.swift in Sources */,
 				CB31888B2C3A6D3800965152 /* AppConfig.swift in Sources */,
 				CB9432AD2B60C997005F9E48 /* ScriptureViewModel.swift in Sources */,
