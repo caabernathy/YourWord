@@ -16,9 +16,12 @@ struct ScriptureAddView: View {
 
   @State private var selectionMode: SelectionMode = .keyword
 
+  @State private var searchText: String = ""
   @State private var hasSearched: Bool = false
   @State private var searchResults: [SearchResultScripture] = []
   @State private var errorMessage: String?
+
+  @State private var selectorState = ScriptureSelectionState()
 
   enum SelectionMode: String, CaseIterable {
     case keyword = "Searching Keywords"
@@ -55,6 +58,7 @@ struct ScriptureAddView: View {
         VStack {
           SearchBarView(
             isLoading: $isLoading,
+            searchText: $searchText,
             searchAction: performSearch
           )
 
@@ -80,6 +84,7 @@ struct ScriptureAddView: View {
       case .verse:
         ScriptureSelectorView(
           isLoading: $isLoading,
+          state: $selectorState,
           submitAction: submitAction
         ).transition(.opacity)
       }

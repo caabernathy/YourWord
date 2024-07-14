@@ -9,10 +9,9 @@ import SwiftUI
 
 struct SearchBarView: View {
   @Binding var isLoading: Bool
+  @Binding var searchText: String
   var searchAction: (String) -> Void
 
-  @State private var searchText: String = ""
-  
   var body: some View {
     HStack {
       TextField("Enter passage, keyword...", text: $searchText)
@@ -48,6 +47,7 @@ struct SearchBarView: View {
 #Preview("Default") {
   SearchBarView(
     isLoading: .constant(false),
+    searchText: .constant(""),
     searchAction: {_ in }
   )
 }
@@ -55,6 +55,7 @@ struct SearchBarView: View {
 #Preview("Searching") {
   SearchBarView(
     isLoading: .constant(true),
+    searchText: .constant("God reigns"),
     searchAction: {_ in }
   )
 }
