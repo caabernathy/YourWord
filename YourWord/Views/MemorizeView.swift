@@ -46,7 +46,7 @@ struct MemorizeView: View {
         ScrollView(.horizontal, showsIndicators: false) {
           HStack(spacing: 0) {
             ForEach(0..<scriptureViewModel.memoryTexts.count, id: \.self) { index in
-              ScriptureView(text: scriptureViewModel.memoryTexts[index], source: "\(scriptureViewModel.memorySources[index]) \(bibleVersion.rawValue)")
+              ScriptureView(text: scriptureViewModel.memoryTexts[index], reference: "\(scriptureViewModel.memoryReferences[index]) \(bibleVersion.rawValue)")
                 .padding()
                 .frame(width: geometry.size.width)
             }

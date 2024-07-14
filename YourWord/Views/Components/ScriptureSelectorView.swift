@@ -7,10 +7,29 @@
 
 import SwiftUI
 
+@Observable
+class ScriptureSelectionState {
+  var selectedBookIndex: Int = 0
+  var selectedChapter: Int = 1
+  var selectedStartVerse: Int = 1
+  var selectedEndVerse: Int = 1
+  var isAlphabeticallySorted: Bool = false
+  var selectedTestamentFilter: TestamentFilter = .all
+
+  init(selectedBookIndex: Int = 0, selectedChapter: Int = 1, selectedStartVerse: Int = 1, selectedEndVerse: Int = 1, isAlphabeticallySorted: Bool = false, selectedTestamentFilter: TestamentFilter = .all) {
+    self.selectedBookIndex = selectedBookIndex
+    self.selectedChapter = selectedChapter
+    self.selectedStartVerse = selectedStartVerse
+    self.selectedEndVerse = selectedEndVerse
+    self.isAlphabeticallySorted = isAlphabeticallySorted
+    self.selectedTestamentFilter = selectedTestamentFilter
+  }
+}
+
 struct ScriptureSelectorView: View {
-  var cancelAction: () -> Void
-  var submitAction: (String, Int, Int, Int) -> Void
   @Binding var isLoading: Bool
+  @Binding var state: ScriptureSelectionState
+  var submitAction: (String, Int, Int, Int) -> Void
 
   let bibles = ScriptureManager.shared.loadBible()
 
@@ -20,45 +39,48 @@ struct ScriptureSelectorView: View {
   @State private var sortedBooks: [Book] = []
   @State private var numberOfChaptersInBook = 0
   @State private var numberOfVersesInChapter = 0
-  @State private var selectedBookIndex = 0
-  @State private var selectedChapter = 1
-  @State private var selectedStartVerse = 1
-  @State private var selectedEndVerse = 1
-  @State private var isAlphabeticallySorted = false
-  @State private var selectedTestamentFilter: TestamentFilter = .all
 
   private func loadBibleBooks(for version: BibleVersion) {
     let versionBible = bibles.first { $0.version == bibleVersion }
     if let versionBible = versionBible {
       bibleBooks = versionBible.books
     }
-    displayBibleBooks()
+    setupBibleBooks()
+    setupChapterVerses()
   }
 
-  private func displayBibleBooks() {
-    selectedBookIndex = 0
+  private func setupBibleBooks() {
     let filteredByTestament = filterBooks(bibleBooks)
     let sortedByName = filteredByTestament.sorted()
     let sortedByOrder = filteredByTestament.sorted { $0.order < $1.order }
-    sortedBooks = isAlphabeticallySorted ? sortedByName : sortedByOrder
+    sortedBooks = state.isAlphabeticallySorted ? sortedByName : sortedByOrder
+  }
+
+  private func setupChapterVerses() {
+    let selectedBook = sortedBooks[state.selectedBookIndex]
+    numberOfChaptersInBook = selectedBook.numberOfChapters
+    numberOfVersesInChapter = selectedBook.chaptersAndVerses[state.selectedChapter] ?? 0
+  }
+
+  private func onSortFilterChange() {
+    state.selectedBookIndex = 0
+    setupBibleBooks()
     onSelectedBookChange()
   }
 
   private func onSelectedBookChange() {
-    selectedChapter = 1
+    state.selectedChapter = 1
     onSelectedChapterChange()
   }
 
   private func onSelectedChapterChange() {
-    selectedStartVerse = 1
-    selectedEndVerse = 1
-    let selectedBook = sortedBooks[selectedBookIndex]
-    numberOfChaptersInBook = selectedBook.numberOfChapters
-    numberOfVersesInChapter = selectedBook.chaptersAndVerses[selectedChapter] ?? 0
+    state.selectedStartVerse = 1
+    state.selectedEndVerse = 1
+    setupChapterVerses()
   }
 
   private func filterBooks(_ books: [Book]) -> [Book] {
-    switch selectedTestamentFilter {
+    switch state.selectedTestamentFilter {
     case .all:
       return books
     case .testament(let testament):
@@ -67,27 +89,16 @@ struct ScriptureSelectorView: View {
   }
 
   private func onSubmit() {
-    isLoading = true
-    submitAction(sortedBooks[selectedBookIndex].name, selectedChapter, selectedStartVerse, selectedEndVerse)
+    submitAction(sortedBooks[state.selectedBookIndex].name, state.selectedChapter, state.selectedStartVerse, state.selectedEndVerse)
   }
 
   var body: some View {
-    let passageTextExtra = selectedEndVerse > selectedStartVerse ? "-\(selectedEndVerse)" : ""
+    let passageTextExtra = state.selectedEndVerse > state.selectedStartVerse ? "-\(state.selectedEndVerse)" : ""
     Group {
-      if sortedBooks.count > 0 {
-        VStack {
+      if sortedBooks.count > 0 && numberOfChaptersInBook > 0 {
+        VStack(spacing: 10) {
           HStack {
-            Spacer()
-            Button(action: cancelAction) {
-              Image(systemName: "xmark")
-                .foregroundColor(.gray)
-                .padding()
-            }
-          }
-          Spacer()
-
-          HStack {
-            Text("\(sortedBooks[selectedBookIndex].name) \(selectedChapter):\(selectedStartVerse)\(passageTextExtra)")
+            Text("\(sortedBooks[state.selectedBookIndex].name) \(state.selectedChapter):\(state.selectedStartVerse)\(passageTextExtra)")
               .font(.title2)
               .padding()
             Spacer()
@@ -110,52 +121,54 @@ struct ScriptureSelectorView: View {
             .cornerRadius(10)
             .disabled(isLoading)
           }
-          .padding()
+          .padding(.horizontal)
+
 
           HStack {
-            Picker("Book", selection: $selectedBookIndex) {
+            Picker("Book", selection: $state.selectedBookIndex) {
               ForEach(0..<sortedBooks.count, id: \.self) { index in
                 Text(sortedBooks[index].name).tag(index)
               }
             }
-            Picker("Chapter", selection: $selectedChapter) {
+            Picker("Chapter", selection: $state.selectedChapter) {
               ForEach(1...numberOfChaptersInBook, id: \.self) { chapter in
                 Text("\(chapter)").tag(chapter)
               }
             }
-            Picker("Starting Verse", selection: $selectedStartVerse) {
+            Picker("Starting Verse", selection: $state.selectedStartVerse) {
               ForEach(1...numberOfVersesInChapter, id: \.self) { verse in
                 Text("\(verse)").tag(verse)
               }
             }
-            Picker("Ending Verse", selection: $selectedEndVerse) {
-              ForEach(selectedStartVerse...numberOfVersesInChapter, id: \.self) { verse in
+            Picker("Ending Verse", selection: $state.selectedEndVerse) {
+              ForEach(state.selectedStartVerse...numberOfVersesInChapter, id: \.self) { verse in
                 Text("\(verse)").tag(verse)
               }
             }
           }
-          .onChange(of: selectedBookIndex) {
+          .onChange(of: state.selectedBookIndex) {
             // Reset chapter and verse selections when the book changes
             onSelectedBookChange()
           }
-          .onChange(of: selectedChapter) {
+          .onChange(of: state.selectedChapter) {
             // Reset verse selections when the chapter changes
             onSelectedChapterChange()
           }
-          .padding()
           .pickerStyle(.wheel)
+          .frame(height: 200)
+          .padding(.top, -20)
 
-          TestamentFilterView(selectedFilter: $selectedTestamentFilter)
-            .onChange(of: selectedTestamentFilter) {
-              displayBibleBooks()
+          TestamentFilterView(selectedFilter: $state.selectedTestamentFilter)
+            .onChange(of: state.selectedTestamentFilter) {
+              onSortFilterChange()
             }
 
-          Toggle(isOn: $isAlphabeticallySorted) {
+          Toggle(isOn: $state.isAlphabeticallySorted) {
             Text("Sort Books Alphabetically")
           }
-          .padding()
-          .onChange(of: isAlphabeticallySorted) {
-            displayBibleBooks()
+          .padding(.horizontal)
+          .onChange(of: state.isAlphabeticallySorted) {
+            onSortFilterChange()
           }
 
           Spacer()
@@ -172,17 +185,26 @@ struct ScriptureSelectorView: View {
 
 
 #Preview("Default") {
-  ScriptureSelectorView(
-    cancelAction: {},
-    submitAction: {_,_,_,_ in },
-    isLoading: .constant(false)
+  @State var previewState = ScriptureSelectionState()
+  return ScriptureSelectorView(
+    isLoading: .constant(false),
+    state: $previewState,
+    submitAction: {_,_,_,_ in }
   )
 }
 
 #Preview("Loading") {
-  ScriptureSelectorView(
-    cancelAction: {},
-    submitAction: {_,_,_,_ in },
-    isLoading: .constant(true)
+  @State var previewState = ScriptureSelectionState(
+    selectedBookIndex: 2,
+    selectedChapter: 3,
+    selectedStartVerse: 1,
+    selectedEndVerse: 5,
+    isAlphabeticallySorted: true,
+    selectedTestamentFilter: .testament(.old)
+  )
+  return ScriptureSelectorView(
+    isLoading: .constant(true),
+    state: $previewState,
+    submitAction: {_,_,_,_ in }
   )
 }

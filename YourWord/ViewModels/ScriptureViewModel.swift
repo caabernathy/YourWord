@@ -11,7 +11,7 @@ import Foundation
   private var scripture: Scripture
 
   var memoryTexts: [String] = []
-  var memorySources: [String] = []
+  var memoryReferences: [String] = []
 
   init(scripture: Scripture) {
     self.scripture = scripture
@@ -21,9 +21,9 @@ import Foundation
     guard
       let scriptureVersion = scripture.version(for: bibleVersion) else { return false }
     let maskedTexts = maskScriptureText(scriptureVersion)
-    let maskedSources = maskSriptureReference(scripture.passage)
+    let maskedReferences = maskSriptureReference(scripture.passage)
     memoryTexts = Array(maskedTexts.prefix(numberOfDaysToShow))
-    memorySources = Array(maskedSources.prefix(numberOfDaysToShow))
+    memoryReferences = Array(maskedReferences.prefix(numberOfDaysToShow))
     return true
   }
 
@@ -46,10 +46,10 @@ import Foundation
   }
 
   func maskSriptureReference(_ passage: Passage) -> [String] {
-    var replacedSources: [String] = []
-    // Mask source
+    var replacedReferences: [String] = []
+    // Mask Reference
     for i in 0..<ScriptureManager.shared.memorizeCount {
-      // Modifiying source
+      // Modifiying reference
       if !passage.maskingKey.isEmpty && passage.maskingKey[i] {
         // Switch up the masking, last element will be msked
         let lastRound = (i == ScriptureManager.shared.memorizeCount - 1)
@@ -58,20 +58,20 @@ import Foundation
         // Odd, mask chapter and verses
         let modifiedChapter = lastRound || (i % 2 != 0) ? replaceWithUnderscore(text: String(passage.chapter)) : String(passage.chapter)
         let modifiedVerses = lastRound || (i % 2 != 0) ? replaceWithUnderscore(text: passage.verses) : passage.verses
-        replacedSources.append(formatSource(book: modifiedBook, chapter: modifiedChapter, verses: modifiedVerses))
+        replacedReferences.append(formatReference(book: modifiedBook, chapter: modifiedChapter, verses: modifiedVerses))
       } else {
-        // Source not being modified
-        replacedSources.append(formatSource(book: passage.book, chapter: String(passage.chapter), verses: passage.verses))
+        // Reference not being modified
+        replacedReferences.append(formatReference(book: passage.book, chapter: String(passage.chapter), verses: passage.verses))
       }
     }
-    return replacedSources
+    return replacedReferences
   }
 
   private func replaceWithUnderscore(text: String) -> String {
     return text.replacingOccurrences(of: "\\w", with: "_", options: .regularExpression)
   }
 
-  private func formatSource(book: String, chapter: String, verses: String) -> String {
+  private func formatReference(book: String, chapter: String, verses: String) -> String {
     return "\(book) \(chapter):\(verses)"
   }
 }

@@ -10,13 +10,12 @@ import SwiftUI
 struct CustomMemorizeView: View {
   @Environment(\.modelContext) private var modelContext
   var scripture: Scripture?
-
+  
   @State private var showScriptureSelector = false
   @State private var showScriptureDeleteConfirmation = false
-  @State private var isLoading = false
-
+  
   let bibleVersion = SettingsManager.shared.preferredBibleVersion ?? BibleVersion.NIV
-
+  
   var body: some View {
     ZStack {
       if let scripture = scripture {
@@ -48,12 +47,11 @@ struct CustomMemorizeView: View {
       }
     }
     .sheet(isPresented: $showScriptureSelector) {
-      ScriptureSelectorView(
+      ScriptureAddView(
         cancelAction: handleScriptureSelectorCancel,
-        submitAction: { book, chapter, startVerse, endVerse in
-          fetchScripture(book: book, chapter: chapter, startVerse: startVerse, endVerse: endVerse)
-        },
-        isLoading: $isLoading
+        addAction: { scripture in
+          saveScripture(scripture)
+        }
       )
     }
     .alert(isPresented: $showScriptureDeleteConfirmation) {
@@ -67,28 +65,17 @@ struct CustomMemorizeView: View {
       )
     }
   }
-
+  
   private func handleScriptureSelectorCancel() {
     showScriptureSelector = false
   }
-
-  private func fetchScripture(book: String, chapter: Int, startVerse: Int, endVerse: Int) {
-    APIService.shared.fetchScripture(book: book, chapter: chapter, startVerse: startVerse, endVerse: endVerse) { result in
-      switch result {
-      case .success(let scripture):
-        DispatchQueue.main.async {
-          scripture.source = .userDefined
-          ScriptureManager.shared.storeScripture(scripture, context: modelContext)
-          isLoading = false
-          showScriptureSelector = false
-        }
-      case .failure(let error):
-        isLoading = false
-        print("Error fetching scripture: \(error.localizedDescription)")
-      }
-    }
+  
+  private func saveScripture(_ scripture: Scripture) {
+    scripture.source = .userDefined
+    ScriptureManager.shared.storeScripture(scripture, context: modelContext)
+    showScriptureSelector = false
   }
-
+  
   private func deleteScripture() {
     if let scripture = scripture {
       ScriptureManager.shared.removeScripture(scripture, context: modelContext)

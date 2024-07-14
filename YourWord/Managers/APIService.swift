@@ -7,12 +7,49 @@
 
 import Foundation
 
+enum APIError: Error {
+  case noInternetConnection
+  case invalidURL
+  case serverError(String)
+
+  var localizedDescription: String {
+    switch self {
+    case .noInternetConnection:
+      return "You don't have an internet connection so we can't fetch scriptures. Please try again later."
+    case .invalidURL:
+      return "There was a problem with the request. Please try again later."
+    case .serverError(let message):
+      return "An error occurred: \(message)"
+    }
+  }
+}
+
 class APIService {
   private let baseURL = URL(string: AppConfig.apiBaseURL)!
+  private let networkManager = NetworkManager.shared
 
   static let shared = APIService()
 
-  func fetchScripture(book: String, chapter: Int, startVerse: Int, endVerse: Int, completion: @escaping (Result<Scripture, Error>) -> Void) {
+  private func fetchData<T: Decodable>(from url: URL) async throws -> T {
+    guard networkManager.isConnected else {
+      throw APIError.noInternetConnection
+    }
+
+    let (data, response) = try await URLSession.shared.data(from: url)
+
+    guard let httpResponse = response as? HTTPURLResponse,
+          (200...299).contains(httpResponse.statusCode) else {
+      throw APIError.serverError("Server returned an invalid response.")
+    }
+
+    do {
+      return try JSONDecoder().decode(T.self, from: data)
+    } catch {
+      throw APIError.serverError("Failed to process the response: \(error.localizedDescription)")
+    }
+  }
+
+  func fetchScripture(book: String, chapter: Int, startVerse: Int, endVerse: Int) async throws -> Scripture {
     let endpoint = baseURL.appendingPathComponent("scripture/reference")
     var components = URLComponents(url: endpoint, resolvingAgainstBaseURL: true)!
     components.queryItems = [
@@ -23,21 +60,24 @@ class APIService {
     ]
 
     guard let url = components.url else {
-      completion(.failure(NSError(domain: "InvalidURL", code: 0, userInfo: nil)))
-      return
+      throw APIError.invalidURL
     }
 
-    URLSession.shared.dataTask(with: url) { data, response, error in
-      if let data = data {
-        do {
-          let scripture = try JSONDecoder().decode(Scripture.self, from: data)
-          completion(.success(scripture))
-        } catch {
-          completion(.failure(error))
-        }
-      } else if let error = error {
-        completion(.failure(error))
-      }
-    }.resume()
+    return try await fetchData(from: url)
+  }
+
+  func searchScriptures(version: BibleVersion, text: String) async throws -> [SearchResultScripture] {
+    let endpoint = baseURL.appendingPathComponent("scripture/search")
+    var components = URLComponents(url: endpoint, resolvingAgainstBaseURL: true)!
+    components.queryItems = [
+      URLQueryItem(name: "version", value: version.rawValue),
+      URLQueryItem(name: "text", value: text)
+    ]
+
+    guard let url = components.url else {
+      throw APIError.invalidURL
+    }
+
+    return try await fetchData(from: url)
   }
 }

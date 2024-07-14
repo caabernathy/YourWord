@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		CB003F452B13588C008584F1 /* Date+RawRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB003F442B13588C008584F1 /* Date+RawRepresentable.swift */; };
+		CB0075002C4377A500078EB7 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB0074FF2C4377A500078EB7 /* NetworkManager.swift */; };
 		CB0741702B05D0880000CCCC /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB07416F2B05D0880000CCCC /* Launch Screen.storyboard */; };
 		CB1394BA2B5B500F0027707D /* ScheduleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1394B92B5B500F0027707D /* ScheduleManager.swift */; };
 		CB1394BC2B5CD30A0027707D /* View+toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1394BB2B5CD30A0027707D /* View+toast.swift */; };
@@ -22,6 +23,11 @@
 		CB3188832C33B3FA00965152 /* TestamentFilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3188822C33B3FA00965152 /* TestamentFilterView.swift */; };
 		CB3188852C33BE9C00965152 /* DeleteButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3188842C33BE9C00965152 /* DeleteButtonView.swift */; };
 		CB31888B2C3A6D3800965152 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB31888A2C3A6D3800965152 /* AppConfig.swift */; };
+		CB31888D2C3C280500965152 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB31888C2C3C280500965152 /* SearchBarView.swift */; };
+		CB31888F2C40F4CC00965152 /* ScriptureAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB31888E2C40F4CC00965152 /* ScriptureAddView.swift */; };
+		CB3188912C4233A000965152 /* ScriptureSearchResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3188902C4233A000965152 /* ScriptureSearchResultsView.swift */; };
+		CB3188932C42589900965152 /* SearchResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3188922C42589900965152 /* SearchResult.swift */; };
+		CB3188952C42657E00965152 /* ScriptureRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3188942C42657E00965152 /* ScriptureRowView.swift */; };
 		CB3FF8772C041DB800871CCD /* CustomMemorizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3FF8762C041DB800871CCD /* CustomMemorizeView.swift */; };
 		CB3FF8792C04251900871CCD /* APIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3FF8782C04251900871CCD /* APIService.swift */; };
 		CB5314A02B9467610003867A /* PreviewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB53149F2B9467610003867A /* PreviewData.swift */; };
@@ -77,6 +83,7 @@
 
 /* Begin PBXFileReference section */
 		CB003F442B13588C008584F1 /* Date+RawRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+RawRepresentable.swift"; sourceTree = "<group>"; };
+		CB0074FF2C4377A500078EB7 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		CB07416F2B05D0880000CCCC /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		CB1394B92B5B500F0027707D /* ScheduleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleManager.swift; sourceTree = "<group>"; };
 		CB1394BB2B5CD30A0027707D /* View+toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+toast.swift"; sourceTree = "<group>"; };
@@ -94,6 +101,11 @@
 		CB3188882C3A686F00965152 /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		CB3188892C3A6CF300965152 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		CB31888A2C3A6D3800965152 /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
+		CB31888C2C3C280500965152 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
+		CB31888E2C40F4CC00965152 /* ScriptureAddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptureAddView.swift; sourceTree = "<group>"; };
+		CB3188902C4233A000965152 /* ScriptureSearchResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptureSearchResultsView.swift; sourceTree = "<group>"; };
+		CB3188922C42589900965152 /* SearchResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResult.swift; sourceTree = "<group>"; };
+		CB3188942C42657E00965152 /* ScriptureRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptureRowView.swift; sourceTree = "<group>"; };
 		CB3FF8762C041DB800871CCD /* CustomMemorizeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomMemorizeView.swift; sourceTree = "<group>"; };
 		CB3FF8782C04251900871CCD /* APIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIService.swift; sourceTree = "<group>"; };
 		CB53149F2B9467610003867A /* PreviewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewData.swift; sourceTree = "<group>"; };
@@ -195,6 +207,7 @@
 				CB1394B92B5B500F0027707D /* ScheduleManager.swift */,
 				CB9432AE2B64B1D1005F9E48 /* OnboardingManager.swift */,
 				CB3FF8782C04251900871CCD /* APIService.swift */,
+				CB0074FF2C4377A500078EB7 /* NetworkManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -283,6 +296,7 @@
 				CBF969132B14A87D003D90FE /* Passage.swift */,
 				CBD43F972B01DEA2003CF5F7 /* Scripture.swift */,
 				CBF969112B14A851003D90FE /* Translation.swift */,
+				CB3188922C42589900965152 /* SearchResult.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -298,6 +312,8 @@
 				CBAC66642B0DB7A60044BBE7 /* ScripturesListView.swift */,
 				CBF969172B158429003D90FE /* ScriptureRevealView.swift */,
 				CB3FF8762C041DB800871CCD /* CustomMemorizeView.swift */,
+				CB31888E2C40F4CC00965152 /* ScriptureAddView.swift */,
+				CB3188902C4233A000965152 /* ScriptureSearchResultsView.swift */,
 				CB3188722C2932E200965152 /* PresetMemorizeView.swift */,
 			);
 			path = Views;
@@ -316,6 +332,8 @@
 				CB9432B42B8AA7B7005F9E48 /* ScriptureSelectorView.swift */,
 				CB91397C2BA1B09E00C8D8B0 /* ToolbarLinkView.swift */,
 				CB3188822C33B3FA00965152 /* TestamentFilterView.swift */,
+				CB31888C2C3C280500965152 /* SearchBarView.swift */,
+				CB3188942C42657E00965152 /* ScriptureRowView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -469,6 +487,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CB0075002C4377A500078EB7 /* NetworkManager.swift in Sources */,
 				CB9432AF2B64B1D1005F9E48 /* OnboardingManager.swift in Sources */,
 				CB31888B2C3A6D3800965152 /* AppConfig.swift in Sources */,
 				CB9432AD2B60C997005F9E48 /* ScriptureViewModel.swift in Sources */,
@@ -480,10 +499,13 @@
 				CBF969212B15B300003D90FE /* DayOfWeekLabelView.swift in Sources */,
 				CBAC66612B0DB5C30044BBE7 /* MainTabView.swift in Sources */,
 				CBD43FA12B01E189003CF5F7 /* ScriptureView.swift in Sources */,
+				CB3188952C42657E00965152 /* ScriptureRowView.swift in Sources */,
 				CB3188732C2932E200965152 /* PresetMemorizeView.swift in Sources */,
+				CB31888F2C40F4CC00965152 /* ScriptureAddView.swift in Sources */,
 				CBAC66672B12AFD60044BBE7 /* NotificationManager.swift in Sources */,
 				CB1BA6E92B12D02F004F4CBE /* AppDelegate.swift in Sources */,
 				CB003F452B13588C008584F1 /* Date+RawRepresentable.swift in Sources */,
+				CB31888D2C3C280500965152 /* SearchBarView.swift in Sources */,
 				CB3188792C313F4E00965152 /* SaveButtonView.swift in Sources */,
 				CBD43F9E2B01E105003CF5F7 /* MemorizeView.swift in Sources */,
 				CBAC66632B0DB75D0044BBE7 /* SettingsView.swift in Sources */,
@@ -496,6 +518,7 @@
 				CB31887B2C3262C700965152 /* Book.swift in Sources */,
 				CBD43F6B2B01DD23003CF5F7 /* YourWordApp.swift in Sources */,
 				CBF969232B15B3BF003D90FE /* DayOfWeekButtonView.swift in Sources */,
+				CB3188912C4233A000965152 /* ScriptureSearchResultsView.swift in Sources */,
 				CB9432B12B64B309005F9E48 /* OnboardingView.swift in Sources */,
 				CB3188832C33B3FA00965152 /* TestamentFilterView.swift in Sources */,
 				CB9432B32B8AA760005F9E48 /* Bible.swift in Sources */,
@@ -506,6 +529,7 @@
 				CB1394BC2B5CD30A0027707D /* View+toast.swift in Sources */,
 				CB31887D2C3270BD00965152 /* BibleVersion.swift in Sources */,
 				CB5314A32B9472F80003867A /* PreviewModelContainer.swift in Sources */,
+				CB3188932C42589900965152 /* SearchResult.swift in Sources */,
 				CBAC66652B0DB7A60044BBE7 /* ScripturesListView.swift in Sources */,
 				CBD43F982B01DEA2003CF5F7 /* Scripture.swift in Sources */,
 				CBF969122B14A851003D90FE /* Translation.swift in Sources */,

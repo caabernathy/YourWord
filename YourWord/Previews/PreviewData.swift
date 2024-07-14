@@ -77,3 +77,24 @@ struct PreviewData {
     Bible(version: .KJV, books: bibleBooks)
   ]
 }
+
+extension PreviewData {
+  static var searchResultScriptures: [SearchResultScripture] {
+    return scriptures.map { scripture in
+      SearchResultScripture(
+        passage: SearchResultPassage(
+          book: scripture.passage.book,
+          chapter: scripture.passage.chapter,
+          startVerse: scripture.passage.startVerse,
+          endVerse: scripture.passage.endVerse
+        ),
+        translations: scripture.translations.map { translation in
+          SearchResultTranslation(
+            name: translation.name,
+            text: translation.text
+          )
+        }
+      )
+    }
+  }
+}
