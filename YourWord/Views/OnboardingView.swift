@@ -13,6 +13,7 @@ struct OnboardingView: View {
   let carouselData = [
     (image: "logo", title: "Welcome to Your Word", description: "Memorize a new Bible verse each week using a simple technique."),
     (image: "memorize", title: "Memorize", description: "Every day you fill in the blanks to help you memorize the Scripture."),
+    (image: "add-custom", title: "Add Your Own", description: "You can select and add Scriptures you want to memorize."),
     (image: "review", title: "Review", description: "You can view past Scriptures to continue meditating on God's word.")
   ]
 

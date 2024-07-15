@@ -27,6 +27,12 @@ struct PreviewData {
         Translation(name: .NIV, text: "In the beginning was the Word, and the Word was with God, and the Word was God."),
       ],
       source: .userDefined),
+    Scripture(
+      passage: Passage(book: "Romans", chapter: 8, startVerse: 29, endVerse: 30),
+      translations: [
+        Translation(name: .NIV, text: "For those God foreknew he also predestined to be conformed to the image of his Son, that he might be the firstborn among many brothers and sisters. And those he predestined, he also called; those he called, he also justified; those he justified, he also glorified."),
+      ],
+      source: .userDefined),
   ]
 
   static let bibleBooks: [Book] = [

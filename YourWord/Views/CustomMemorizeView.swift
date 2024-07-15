@@ -90,7 +90,7 @@ struct CustomMemorizeView: View {
 
 #Preview("Scripture") {
   let _ = previewContainer
-  let scripture = PreviewData.scriptures.first
+  let scripture = PreviewData.scriptures[3]
   return CustomMemorizeView(
     scripture: scripture
   ).modelContainer(previewContainer)
