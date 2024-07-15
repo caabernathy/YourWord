@@ -13,7 +13,7 @@ struct DeleteButtonView: View {
     Button(action: deleteButtonTapped) {
       Image(systemName: "trash")
         .font(.title)
-        .frame(width: 60, height: 60)
+        .frame(width: 50, height: 50)
         .background(Color.red)
         .foregroundColor(.white)
         .clipShape(Circle())

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		CB003F452B13588C008584F1 /* Date+RawRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB003F442B13588C008584F1 /* Date+RawRepresentable.swift */; };
 		CB0075002C4377A500078EB7 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB0074FF2C4377A500078EB7 /* NetworkManager.swift */; };
+		CB0075022C44C2C100078EB7 /* View+dynamicHeight.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB0075012C44C2C100078EB7 /* View+dynamicHeight.swift */; };
 		CB0741702B05D0880000CCCC /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB07416F2B05D0880000CCCC /* Launch Screen.storyboard */; };
 		CB1394BA2B5B500F0027707D /* ScheduleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1394B92B5B500F0027707D /* ScheduleManager.swift */; };
 		CB1394BC2B5CD30A0027707D /* View+toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1394BB2B5CD30A0027707D /* View+toast.swift */; };
@@ -56,7 +57,6 @@
 		CBF969122B14A851003D90FE /* Translation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF969112B14A851003D90FE /* Translation.swift */; };
 		CBF969142B14A87D003D90FE /* Passage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF969132B14A87D003D90FE /* Passage.swift */; };
 		CBF969182B158429003D90FE /* ScriptureRevealView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF969172B158429003D90FE /* ScriptureRevealView.swift */; };
-		CBF9691A2B15A369003D90FE /* DoneButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF969192B15A369003D90FE /* DoneButtonView.swift */; };
 		CBF9691F2B15B0BE003D90FE /* ConfettiSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = CBF9691E2B15B0BE003D90FE /* ConfettiSwiftUI */; };
 		CBF969212B15B300003D90FE /* DayOfWeekLabelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF969202B15B300003D90FE /* DayOfWeekLabelView.swift */; };
 		CBF969232B15B3BF003D90FE /* DayOfWeekButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF969222B15B3BF003D90FE /* DayOfWeekButtonView.swift */; };
@@ -84,6 +84,7 @@
 /* Begin PBXFileReference section */
 		CB003F442B13588C008584F1 /* Date+RawRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+RawRepresentable.swift"; sourceTree = "<group>"; };
 		CB0074FF2C4377A500078EB7 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		CB0075012C44C2C100078EB7 /* View+dynamicHeight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+dynamicHeight.swift"; sourceTree = "<group>"; };
 		CB07416F2B05D0880000CCCC /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		CB1394B92B5B500F0027707D /* ScheduleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleManager.swift; sourceTree = "<group>"; };
 		CB1394BB2B5CD30A0027707D /* View+toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+toast.swift"; sourceTree = "<group>"; };
@@ -137,7 +138,6 @@
 		CBF969112B14A851003D90FE /* Translation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Translation.swift; sourceTree = "<group>"; };
 		CBF969132B14A87D003D90FE /* Passage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Passage.swift; sourceTree = "<group>"; };
 		CBF969172B158429003D90FE /* ScriptureRevealView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptureRevealView.swift; sourceTree = "<group>"; };
-		CBF969192B15A369003D90FE /* DoneButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoneButtonView.swift; sourceTree = "<group>"; };
 		CBF969202B15B300003D90FE /* DayOfWeekLabelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayOfWeekLabelView.swift; sourceTree = "<group>"; };
 		CBF969222B15B3BF003D90FE /* DayOfWeekButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayOfWeekButtonView.swift; sourceTree = "<group>"; };
 		CBFFAB342B0B3DF700C864C9 /* ScriptureModelContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScriptureModelContainer.swift; sourceTree = "<group>"; };
@@ -324,7 +324,6 @@
 			children = (
 				CBD43FA02B01E189003CF5F7 /* ScriptureView.swift */,
 				CB3188762C313E6C00965152 /* AddButtonView.swift */,
-				CBF969192B15A369003D90FE /* DoneButtonView.swift */,
 				CB3188782C313F4E00965152 /* SaveButtonView.swift */,
 				CB3188842C33BE9C00965152 /* DeleteButtonView.swift */,
 				CBF969222B15B3BF003D90FE /* DayOfWeekButtonView.swift */,
@@ -344,6 +343,7 @@
 				CBFFAB372B0B4F2400C864C9 /* ModelContext+sqliteCommand.swift */,
 				CB003F442B13588C008584F1 /* Date+RawRepresentable.swift */,
 				CB1394BB2B5CD30A0027707D /* View+toast.swift */,
+				CB0075012C44C2C100078EB7 /* View+dynamicHeight.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -514,7 +514,6 @@
 				CBA2C7B22B082D9B00A27DE1 /* ScriptureManager.swift in Sources */,
 				CB3FF8772C041DB800871CCD /* CustomMemorizeView.swift in Sources */,
 				CB5314A02B9467610003867A /* PreviewData.swift in Sources */,
-				CBF9691A2B15A369003D90FE /* DoneButtonView.swift in Sources */,
 				CB31887B2C3262C700965152 /* Book.swift in Sources */,
 				CBD43F6B2B01DD23003CF5F7 /* YourWordApp.swift in Sources */,
 				CBF969232B15B3BF003D90FE /* DayOfWeekButtonView.swift in Sources */,
@@ -527,6 +526,7 @@
 				CB3188772C313E6C00965152 /* AddButtonView.swift in Sources */,
 				CBF969142B14A87D003D90FE /* Passage.swift in Sources */,
 				CB1394BC2B5CD30A0027707D /* View+toast.swift in Sources */,
+				CB0075022C44C2C100078EB7 /* View+dynamicHeight.swift in Sources */,
 				CB31887D2C3270BD00965152 /* BibleVersion.swift in Sources */,
 				CB5314A32B9472F80003867A /* PreviewModelContainer.swift in Sources */,
 				CB3188932C42589900965152 /* SearchResult.swift in Sources */,

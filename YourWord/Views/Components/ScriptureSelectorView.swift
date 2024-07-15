@@ -109,12 +109,12 @@ struct ScriptureSelectorView: View {
                 ProgressView()
                   .progressViewStyle(CircularProgressViewStyle(tint: .white))
                   .padding([.leading, .trailing], 20)
-                  .padding()
+                  .padding([.top, .bottom], 10)
               } else {
                 Text("GO")
                   .foregroundColor(.white)
                   .padding([.leading, .trailing], 17)
-                  .padding()
+                  .padding([.top, .bottom], 10)
               }
             }
             .background(Color.blue)
@@ -156,7 +156,7 @@ struct ScriptureSelectorView: View {
           }
           .pickerStyle(.wheel)
           .frame(height: 200)
-          .padding(.top, -20)
+          .padding(.top, -30)
 
           TestamentFilterView(selectedFilter: $state.selectedTestamentFilter)
             .onChange(of: state.selectedTestamentFilter) {

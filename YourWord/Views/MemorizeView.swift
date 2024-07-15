@@ -8,6 +8,13 @@
 import SwiftUI
 import SwiftData
 
+struct PageIndexKey: PreferenceKey {
+  static var defaultValue: Int = 0
+  static func reduce(value: inout Int, nextValue: () -> Int) {
+    value = nextValue()
+  }
+}
+
 struct MemorizeView: View {
   // Access the current color scheme
   @Environment(\.colorScheme) var colorScheme
@@ -33,7 +40,6 @@ struct MemorizeView: View {
   @State private var dragOffset: CGFloat = 0
   @State private var pageIndex = 0
   @State private var isSetupDone = false
-  @State private var showToast = false
   @State private var viewBackgroundColor: Color = .clear
 
   var body: some View {
@@ -82,24 +88,14 @@ struct MemorizeView: View {
         }
         .padding(.top, 10)
 
-        if isDailyReveal && pageIndex == (pageViewCount - 1) {
-          DoneButtonView() {
-            markMemorizationAsCompleted()
-          }
-          .padding(.top, 20)
-        } else {
-          Spacer()
-            .frame(height: 116)
-        }
-
         Spacer()
+          .dynamicHeight(portrait: 116, landscape: 20)
       }
     }
     .background(colorScheme == .dark ? Color.black.opacity(0.3) : .clear)
     .background(colorScheme == .dark ?
                 LinearGradient(gradient: Gradient(colors: [viewBackgroundColor, viewBackgroundColor.opacity(0.2)]), startPoint: .top, endPoint: .bottom) :
                   LinearGradient(gradient: Gradient(colors: [Color.white, viewBackgroundColor.opacity(0.2)]), startPoint: .top, endPoint: .bottom))
-    .toast(isPresented: $showToast, message: "New scripture available on Sunday!")
     // Load the data but don't reset the page index when switching back
     // and forth between tabs
     .onAppear(perform: {
@@ -135,19 +131,12 @@ struct MemorizeView: View {
         }
       }
     }
+    .preference(key: PageIndexKey.self, value: pageIndex)
   }
 
   private func pageChangeAction(newIndex: Int) {
     withAnimation(.smooth) {
       pageIndex = newIndex
-    }
-  }
-
-  private func markMemorizationAsCompleted() {
-    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-      withAnimation {
-        showToast.toggle()
-      }
     }
   }
 
@@ -180,10 +169,19 @@ struct MemorizeView: View {
   }
 }
 
-#Preview {
+#Preview("Short Verse") {
   let _ = previewContainer
   return MemorizeView(
     scripture: PreviewData.scriptures[0],
+    isDailyReveal: true
+  )
+  .modelContainer(previewContainer)
+}
+
+#Preview("Long Verse") {
+  let _ = previewContainer
+  return MemorizeView(
+    scripture: PreviewData.scriptures[3],
     isDailyReveal: true
   )
   .modelContainer(previewContainer)

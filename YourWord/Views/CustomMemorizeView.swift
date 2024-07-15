@@ -10,12 +10,13 @@ import SwiftUI
 struct CustomMemorizeView: View {
   @Environment(\.modelContext) private var modelContext
   var scripture: Scripture?
-  
+
   @State private var showScriptureSelector = false
   @State private var showScriptureDeleteConfirmation = false
-  
+  @State private var showToast = false
+
   let bibleVersion = SettingsManager.shared.preferredBibleVersion ?? BibleVersion.NIV
-  
+
   var body: some View {
     ZStack {
       if let scripture = scripture {
@@ -34,9 +35,9 @@ struct CustomMemorizeView: View {
             }
           }
           Spacer()
-          if let scripture = scripture {
+          if let _ = scripture {
             SaveButtonView() {
-              scripture.completed = true
+              markMemorizationAsCompleted()
             }
           } else {
             AddButtonView() {
@@ -64,21 +65,36 @@ struct CustomMemorizeView: View {
         secondaryButton: .cancel()
       )
     }
+    .toast(isPresented: $showToast, message: "Your Scripture has been saved.")
   }
-  
+
   private func handleScriptureSelectorCancel() {
     showScriptureSelector = false
   }
-  
+
   private func saveScripture(_ scripture: Scripture) {
     scripture.source = .userDefined
     ScriptureManager.shared.storeScripture(scripture, context: modelContext)
     showScriptureSelector = false
   }
-  
+
   private func deleteScripture() {
     if let scripture = scripture {
       ScriptureManager.shared.removeScripture(scripture, context: modelContext)
+    }
+  }
+
+  private func markMemorizationAsCompleted() {
+    guard let scripture = scripture else { return }
+    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+      withAnimation {
+        showToast.toggle()
+      }
+    }
+    DispatchQueue.main.asyncAfter(deadline: .now() + 6.0) {
+      withAnimation {
+        scripture.completed = true
+      }
     }
   }
 }
