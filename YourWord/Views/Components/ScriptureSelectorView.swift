@@ -76,7 +76,11 @@ struct ScriptureSelectorView: View {
   private func onSelectedChapterChange() {
     state.selectedStartVerse = 1
     state.selectedEndVerse = 1
-    setupChapterVerses()
+    onSelectedStartVerseChange()
+  }
+
+  private func onSelectedStartVerseChange() {
+    state.selectedEndVerse = state.selectedStartVerse
   }
 
   private func filterBooks(_ books: [Book]) -> [Book] {
@@ -153,6 +157,10 @@ struct ScriptureSelectorView: View {
           .onChange(of: state.selectedChapter) {
             // Reset verse selections when the chapter changes
             onSelectedChapterChange()
+          }
+          .onChange(of: state.selectedStartVerse) {
+            // Match end verse to start verse
+            onSelectedStartVerseChange()
           }
           .pickerStyle(.wheel)
           .frame(height: 200)
