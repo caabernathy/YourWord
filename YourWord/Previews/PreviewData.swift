@@ -22,11 +22,19 @@ struct PreviewData {
       ],
       source: .system),
     Scripture(
+      passage: Passage(book: "Revelations", chapter: 21, startVerse: 4, endVerse: 4),
+      translations: [
+        Translation(name: .NIV, text: "He will wipe every tear from their eyes. There will be no more death or mourning or crying or pain, for the old order of things has passed away."),
+      ],
+      source: .system,
+      completed: true),
+    Scripture(
       passage: Passage(book: "John", chapter: 1, startVerse: 1, endVerse: 1),
       translations: [
         Translation(name: .NIV, text: "In the beginning was the Word, and the Word was with God, and the Word was God."),
       ],
-      source: .userDefined),
+      source: .userDefined,
+      completed: true),
     Scripture(
       passage: Passage(book: "Romans", chapter: 8, startVerse: 29, endVerse: 30),
       translations: [
@@ -34,7 +42,7 @@ struct PreviewData {
       ],
       source: .userDefined),
   ]
-
+  
   static let bibleBooks: [Book] = [
     Book(
       id: "uuid-genesis",
@@ -75,7 +83,7 @@ struct PreviewData {
           16: 27
         ]),
   ]
-
+  
   static let bibles: [Bible] = [
     Bible(version: .NIV, books: bibleBooks),
     Bible(version: .ESV, books: bibleBooks),

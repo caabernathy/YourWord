@@ -6,9 +6,13 @@
  */
 
 import SwiftUI
+import SwiftData
 
 struct ScripturesListView: View {
-  var scriptures: [Scripture]
+  @Environment(\.modelContext) private var modelContext
+  @Query(filter: #Predicate<Scripture> { $0.completed },
+         sort: \Scripture.createdAt, order: .forward) private var scriptures: [Scripture]
+
   var body: some View {
     Group {
       if scriptures.isEmpty {
@@ -53,13 +57,11 @@ struct ScripturesListView: View {
 }
 
 #Preview("No Scriptures") {
-  ScripturesListView(scriptures: [])
+  ScripturesListView()
+    .emptyPreviewContainer()
 }
 
 #Preview("Scriptures") {
-  let _ = previewContainer
-  return ScripturesListView(
-    scriptures: PreviewData.scriptures
-  )
-  .modelContainer(previewContainer)
+  ScripturesListView()
+    .previewContainer()
 }

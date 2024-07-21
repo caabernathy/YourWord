@@ -6,10 +6,15 @@
  */
 
 import SwiftUI
+import SwiftData
 
 struct CustomMemorizeView: View {
   @Environment(\.modelContext) private var modelContext
-  var scripture: Scripture?
+  @Query private var scriptures: [Scripture]
+
+  var scripture: Scripture? {
+    scriptures.first { $0.source == .userDefined && !$0.completed }
+  }
 
   @State private var showScriptureSelector = false
   @State private var showScriptureDeleteConfirmation = false
@@ -100,14 +105,11 @@ struct CustomMemorizeView: View {
 }
 
 #Preview("No Scripture") {
-  let _ = previewContainer
-  return CustomMemorizeView(scripture: nil).modelContainer(previewContainer)
+  CustomMemorizeView()
+    .emptyPreviewContainer()
 }
 
 #Preview("Scripture") {
-  let _ = previewContainer
-  let scripture = PreviewData.scriptures[3]
-  return CustomMemorizeView(
-    scripture: scripture
-  ).modelContainer(previewContainer)
+  CustomMemorizeView()
+    .previewContainer()
 }

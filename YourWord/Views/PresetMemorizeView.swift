@@ -6,10 +6,18 @@
  */
 
 import SwiftUI
+import SwiftData
 
 struct PresetMemorizeView: View {
-  var scripture: Scripture?
+  @Environment(\.modelContext) private var modelContext
+  @Query(ScriptureManager.currentScriptureFetchDescriptor) private var scriptures: [Scripture]
+
+  var scripture: Scripture? {
+    return scriptures.first { $0.source == .system || $0.source == nil }
+  }
+
   @State private var showToast = false
+  @State private var toastMessage = ""
   @State private var memorizePageIndex: Int = 0
 
   let pageViewCount = 7
@@ -22,7 +30,7 @@ struct PresetMemorizeView: View {
             memorizePageIndex = value
           }
       } else {
-        Text("There are no scriptures to memorize at this time")
+        Text("There are no scriptures to memorize at this time. Check out previous scriptures in the Review tab.")
           .padding()
       }
       VStack {
@@ -39,12 +47,19 @@ struct PresetMemorizeView: View {
         }
       }
     }
-    .toast(isPresented: $showToast, message: "New scripture available on Sunday!")
+    .onChange(of: scripture) {
+      if scripture != nil {
+        toastMessage = "New scripture added! Previous scripture available in the Review tab."
+        showToast.toggle()
+      }
+    }
+    .toast(isPresented: $showToast, message: toastMessage)
   }
 
   private func markMemorizationAsCompleted() {
     DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
       withAnimation {
+        toastMessage = "New scripture available on Sunday!"
         showToast.toggle()
       }
     }
@@ -52,12 +67,12 @@ struct PresetMemorizeView: View {
 
 }
 
-#Preview("No Scripture") {
-  PresetMemorizeView(scripture: nil)
+#Preview("No Scripture"){
+  PresetMemorizeView()
+    .emptyPreviewContainer()
 }
 
-#Preview("Scripture") {
-  let _ = previewContainer
-  let scripture = PreviewData.scriptures[3]
-  return PresetMemorizeView(scripture: scripture)
+#Preview("Scripture"){
+  PresetMemorizeView()
+    .previewContainer()
 }

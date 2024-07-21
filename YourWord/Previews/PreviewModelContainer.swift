@@ -35,3 +35,21 @@ let previewContainer: ModelContainer = {
     fatalError("Failed to create model container for previewing: \(error.localizedDescription)")
   }
 }()
+
+@MainActor
+let emptyPreviewContainer: ModelContainer = {
+  do {
+    let schema = Schema([
+      Scripture.self,
+      Passage.self,
+      Translation.self,
+    ])
+    let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
+    let container = try ModelContainer(for: schema, configurations: [modelConfiguration])
+
+    return container
+  } catch {
+    fatalError("Failed to create model container for previewing: \(error.localizedDescription)")
+  }
+}()
+

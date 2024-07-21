@@ -10,34 +10,26 @@ import SwiftData
 
 struct MainTabView: View {
   @Environment(\.modelContext) private var modelContext
+  @Environment(\.scenePhase) private var scenePhase
 
-  static var currentScriptureFetchDescriptor: FetchDescriptor<Scripture> {
-    let descriptor = FetchDescriptor<Scripture>(
-      predicate: #Predicate<Scripture> { !$0.completed },
-      sortBy: [SortDescriptor(\Scripture.createdAt, order: .forward)])
-//    descriptor.fetchLimit = 1
-    return descriptor
+  @Query(ScriptureManager.currentScriptureFetchDescriptor) private var currentScriptures: [Scripture]
+  var currentSystemScripture: Scripture? {
+    return currentScriptures.first { $0.source == .system || $0.source == nil }
   }
 
-  @Query(currentScriptureFetchDescriptor) private var currentScripture: [Scripture]
-
-  @Query(filter: #Predicate<Scripture> { $0.completed },
-         sort: \Scripture.createdAt, order: .forward) private var completedScriptures: [Scripture]
-
   @SceneStorage("MainTabView.SelectedTab") private var selectedTab: Int = 1
-  @State private var savedScriptures: [Scripture] = []
   let shouldSwitchToHomeTab = NotificationManager.shared.shouldSwitchToHomeTab
 
   var body: some View {
     TabView(selection: $selectedTab) {
 
-      ScripturesListView(scriptures: completedScriptures)
+      ScripturesListView()
         .tabItem {
           Label("Review", systemImage: "checkmark.rectangle.stack.fill")
         }
         .tag(0)
 
-      ScriptureRevealView(scriptures: currentScripture)
+      ScriptureRevealView()
         .tabItem {
           Label("Memorize", systemImage: "book.fill")
         }
@@ -54,27 +46,45 @@ struct MainTabView: View {
         selectedTab = 1
       }
     }
-    .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
-      handleScriptureSchedule()
+    .onChange(of: scenePhase) { oldPhase, newPhase in
+      switch newPhase {
+      case .active:
+        // Set up the closure that is run whenever
+        // a new day starts
+        ScheduleManager.shared.onMidnightRefresh = {
+          self.markScriptureAsCompleted()
+        }
+        // Check if the day of week and new week needs updating
+        let refreshScripture = ScheduleManager.shared.checkDailyRefresh()
+        if refreshScripture {
+          self.markScriptureAsCompleted()
+        }
+        // Start the midnight refresh chack
+        ScheduleManager.shared.scheduleMidnightRefresh()
+      case .inactive, .background:
+        // Stop the midnight refresh check
+        ScheduleManager.shared.cancelScheduledRefresh()
+      @unknown default:
+        break
+      }
     }
   }
 
-  private func handleScriptureSchedule() {
-    // Check if the day and scripture needs to be updated
-    let refrshScripture = ScheduleManager.shared.updateCheck()
-    let currentSystemScripture = currentScripture.first { $0.source == .system || $0.source == nil }
-    if refrshScripture {
-      if let systemScripture = currentSystemScripture {
-        // Mark the scripture as complete
-        withAnimation(.smooth) {
-          systemScripture.completed = true
-        }
+  private func markScriptureAsCompleted() {
+    if let systemScripture = currentSystemScripture {
+      withAnimation(.smooth) {
+        systemScripture.completed = true
       }
     }
   }
 }
 
-#Preview {
+#Preview("No Scriptures") {
+  MainTabView()
+    .modelContainer(emptyPreviewContainer)
+}
+
+#Preview("Scriptures") {
   MainTabView()
     .modelContainer(previewContainer)
 }

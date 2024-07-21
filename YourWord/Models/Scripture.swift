@@ -24,12 +24,13 @@ class Scripture: Codable {
   var completed: Bool = false
 
 
-  init(passage: Passage, translations: [Translation], source: ScriptureSource = .system) {
+  init(passage: Passage, translations: [Translation], source: ScriptureSource = .system, completed: Bool = false) {
     self.id = UUID()
     self.createdAt = Date()
     self.passage = passage
     self.translations = translations
     self.source = source
+    self.completed = completed
   }
 
   required init(from decoder: Decoder) throws {

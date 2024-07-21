@@ -181,7 +181,7 @@ struct MemorizeView: View {
 #Preview("Long Verse") {
   let _ = previewContainer
   return MemorizeView(
-    scripture: PreviewData.scriptures[3],
+    scripture: PreviewData.scriptures[4],
     isDailyReveal: true
   )
   .modelContainer(previewContainer)

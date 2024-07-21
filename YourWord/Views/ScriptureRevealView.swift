@@ -8,16 +8,6 @@
 import SwiftUI
 
 struct ScriptureRevealView: View {
-  var scriptures: [Scripture]
-
-  var systemScripture: Scripture? {
-     return scriptures.first { $0.source == .system || $0.source == nil }
-  }
-
-  var userDefinedScripture: Scripture? {
-     return scriptures.first { $0.source == .userDefined }
-  }
-
   let shareURL = URL(string: "https://app.malachidaily.com/")!
 
   @State private var isDailyReveal = true
@@ -27,9 +17,9 @@ struct ScriptureRevealView: View {
     NavigationStack {
       Group {
         if currentView == .system {
-          PresetMemorizeView(scripture: systemScripture)
+          PresetMemorizeView()
         } else {
-          CustomMemorizeView(scripture: userDefinedScripture)
+          CustomMemorizeView()
         }
       }
       .toolbar {
@@ -59,14 +49,12 @@ struct ScriptureRevealView: View {
   }
 }
 
-#Preview("No Scriptures") {
-  ScriptureRevealView(scriptures: [])
+#Preview("No Scripture") {
+  ScriptureRevealView()
+    .emptyPreviewContainer()
 }
 
-#Preview("Scriptures") {
-  let _ = previewContainer
-  return ScriptureRevealView(
-    scriptures: PreviewData.scriptures
-  )
-  .modelContainer(previewContainer)
+#Preview("Scripture") {
+  ScriptureRevealView()
+    .previewContainer()
 }
