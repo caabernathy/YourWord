@@ -6,6 +6,8 @@
  */
 
 import Foundation
+import Combine
+import UIKit
 
 @Observable class ScheduleManager {
   enum ScheduleConstants {
@@ -14,6 +16,8 @@ import Foundation
 
   var currentDayOfWeek = Calendar.current.component(.weekday, from: Date())
   private var contentRefreshDate: Date?
+  private var timer: AnyCancellable?
+  var onMidnightRefresh: (() -> Void)?
 
   static let shared = ScheduleManager()
 
@@ -39,7 +43,7 @@ import Foundation
     return startOfNextWeek
   }
 
-  func updateCheck() -> Bool {
+  func checkDailyRefresh() -> Bool {
     let today = Date()
     let newDayOfWeek = Calendar.current.component(.weekday, from: today)
 
@@ -55,5 +59,39 @@ import Foundation
       return true
     }
     return false
+  }
+
+  func scheduleMidnightRefresh() {
+    timer?.cancel()
+
+    let now = Date()
+    let calendar = Calendar.current
+    guard let tomorrow = calendar.date(byAdding: .day, value: 1, to: now),
+          let nextMidnight = calendar.date(bySettingHour: 0, minute: 0, second: 0, of: tomorrow) else {
+      return
+    }
+
+    let timeInterval = nextMidnight.timeIntervalSince(now)
+
+    timer = Timer.publish(every: timeInterval, on: .main, in: .common)
+      .autoconnect()
+      .sink { [weak self] _ in
+        self?.handleMidnightRefresh()
+      }
+  }
+
+  private func handleMidnightRefresh() {
+    // Check if the app is active before proceeding
+    guard UIApplication.shared.applicationState == .active else { return }
+    
+    let refreshNeeded = checkDailyRefresh()
+    if refreshNeeded {
+      onMidnightRefresh?()
+    }
+    scheduleMidnightRefresh() // Schedule the next midnight refresh
+  }
+
+  func cancelScheduledRefresh() {
+    timer?.cancel()
   }
 }

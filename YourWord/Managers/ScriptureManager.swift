@@ -18,6 +18,14 @@ import SwiftData
 
   let memorizeCount: Int = 7
 
+  static var currentScriptureFetchDescriptor: FetchDescriptor<Scripture> {
+    let descriptor = FetchDescriptor<Scripture>(
+      predicate: #Predicate<Scripture> { !$0.completed },
+      sortBy: [SortDescriptor(\Scripture.createdAt, order: .forward)])
+//    descriptor.fetchLimit = 1
+    return descriptor
+  }
+
   func loadInitialScriptures() -> [Scripture] {
     guard
       let bundleURL = Bundle.main.url(forResource: FileConstants.initScriptureFileName, withExtension: "json"),

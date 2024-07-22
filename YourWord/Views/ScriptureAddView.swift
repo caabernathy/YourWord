@@ -33,90 +33,100 @@ struct ScriptureAddView: View {
   }
 
   var body: some View {
-    VStack(spacing: 20) {
-      HStack {
-        Spacer()
-        if !networkManager.isConnected {
-          Text("No internet connection")
-            .foregroundColor(.red)
-            .padding()
-          Spacer()
-        }
-        Button(action: cancelAction) {
-          Image(systemName: "xmark")
-            .foregroundColor(.gray)
-            .padding()
-        }
-      }
-
-      VStack(alignment: .center, spacing: 10) {
-        Text("Find By")
-          .font(.headline)
-
-        Picker("Selection Mode", selection: $selectionMode) {
-          ForEach(SelectionMode.allCases, id: \.self) { mode in
-            Text(mode.rawValue).tag(mode)
+    GeometryReader { geometry in
+      ScrollView {
+        VStack(spacing: 10) {
+          HStack {
+            Spacer()
+            if !networkManager.isConnected {
+              Text("No internet connection")
+                .foregroundColor(.red)
+                .padding()
+              Spacer()
+            }
+            Button(action: cancelAction) {
+              Image(systemName: "xmark")
+                .foregroundColor(.gray)
+                .padding()
+            }
           }
-        }
-        .pickerStyle(SegmentedPickerStyle())
-      }
-      .padding([.bottom], 20)
-      .padding(.horizontal)
 
-      switch selectionMode {
-      case .keyword:
-        VStack {
-          SearchBarView(
-            isLoading: $isLoading,
-            searchText: $searchText,
-            searchAction: { query in
-              Task {
-                await performSearch(query)
+          VStack(alignment: .center, spacing: 10) {
+            Text("Find By")
+              .font(.headline)
+
+            Picker("Selection Mode", selection: $selectionMode) {
+              ForEach(SelectionMode.allCases, id: \.self) { mode in
+                Text(mode.rawValue).tag(mode)
               }
             }
-          )
+            .pickerStyle(SegmentedPickerStyle())
+          }
+          .padding(.horizontal)
 
-          if hasSearched {
-            ScriptureSearchResultsView(
-              allResults: searchResults,
-              onResultTap: { scripture in
+          Spacer()
+            .dynamicHeight(portrait: 10, landscape: 0)
+
+          switch selectionMode {
+          case .keyword:
+            keywordSearchView
+          case .verse:
+            ScriptureSelectorView(
+              isLoading: $isLoading,
+              state: $selectorState,
+              submitAction: { book, chapter, startVerse, endVerse in
                 Task {
                   await fetchScripture(
-                    book: scripture.passage.book,
-                    chapter: scripture.passage.chapter,
-                    startVerse: scripture.passage.startVerse,
-                    endVerse: scripture.passage.endVerse
+                    book: book,
+                    chapter: chapter,
+                    startVerse: startVerse,
+                    endVerse: endVerse
                   )
                 }
               }
-            )
+            ).transition(.opacity)
+          }
+          Spacer()
+        }
+        .padding()
+        .frame(minHeight: geometry.size.height)
+        .toast(isPresented: $showToast, message: errorMessage ?? "")
+      }
+    }
+  }
+
+  private var keywordSearchView: some View {
+    VStack {
+      SearchBarView(
+        isLoading: $isLoading,
+        searchText: $searchText,
+        searchAction: { query in
+          Task {
+            await performSearch(query)
           }
         }
-        .transition(.opacity)
-      case .verse:
-        ScriptureSelectorView(
-          isLoading: $isLoading,
-          state: $selectorState,
-          submitAction: { book, chapter, startVerse, endVerse in
+      )
+
+      if hasSearched {
+        ScriptureSearchResultsView(
+          allResults: searchResults,
+          onResultTap: { scripture in
             Task {
               await fetchScripture(
-                book: book,
-                chapter: chapter,
-                startVerse: startVerse,
-                endVerse: endVerse
+                book: scripture.passage.book,
+                chapter: scripture.passage.chapter,
+                startVerse: scripture.passage.startVerse,
+                endVerse: scripture.passage.endVerse
               )
             }
           }
-        ).transition(.opacity)
+        )
       }
-
-      Spacer()
     }
-    .padding()
-    .toast(isPresented: $showToast, message: errorMessage ?? "")
+    .transition(.opacity)
   }
 
-  private func showErrorMessageToast() {
+  private func showToastMessage() {
     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
       withAnimation {
         showToast.toggle()
@@ -133,10 +143,10 @@ struct ScriptureAddView: View {
       addAction(scripture)
     } catch let error as APIError {
       errorMessage = error.localizedDescription
-      showErrorMessageToast()
+      showToastMessage()
     } catch {
       errorMessage = "An unexpected error occurred. Please try again later."
-      showErrorMessageToast()
+      showToastMessage()
     }
     isLoading = false
   }
@@ -157,17 +167,17 @@ struct ScriptureAddView: View {
     do {
       let scriptures  = try await APIService.shared.searchScriptures(version: bibleVersion, text: query)
       searchResults = scriptures
+      hasSearched = true
     } catch let error as APIError {
       errorMessage = error.localizedDescription
       searchResults = []
-      showErrorMessageToast()
+      showToastMessage()
     } catch {
       errorMessage = "An unexpected error occurred. Please try again later."
       searchResults = []
-      showErrorMessageToast()
+      showToastMessage()
     }
     isLoading = false
-    hasSearched = true
   }
 }
 

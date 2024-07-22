@@ -8,22 +8,29 @@
 import SwiftUI
 
 struct ScriptureRowView: View {
+  @Environment(\.colorScheme) var colorScheme
+
   let scripture: SearchResultScripture
   let isTapped: Bool
-  
+
+  var highlightColor: Color {
+    colorScheme == .dark ? Color.blue.opacity(0.3) : Color.blue.opacity(0.1)
+  }
+
   var body: some View {
-    VStack(alignment: .leading) {
-      Text("\(scripture.passage) \(scripture.translations.first?.name.rawValue ?? "")")
-        .font(.headline)
-      Text(scripture.translations.first?.text ?? "")
-        .font(.subheadline)
-        .lineLimit(2)
+    HStack {
+      VStack(alignment: .leading) {
+        Text("\(scripture.passage) \(scripture.translations.first?.name.rawValue ?? "")")
+          .font(.headline)
+        Text(scripture.translations.first?.text ?? "")
+          .font(.subheadline)
+          .lineLimit(3)
+      }
+      .padding(.vertical, 12)
+      .padding(.horizontal, 16)
+      Spacer()
     }
-    .padding(.vertical, 8)
-    .background(
-      RoundedRectangle(cornerRadius: 8)
-        .fill(isTapped ? Color.blue.opacity(0.1) : Color.clear)
-    )
+    .background(isTapped ? highlightColor : Color.clear)
     .animation(.easeInOut(duration: 0.3), value: isTapped)
   }
 }
@@ -40,3 +47,8 @@ struct ScriptureRowView: View {
   return ScriptureRowView(scripture: scriptures[0], isTapped: true)
 }
 
+#Preview("On Long Scripture") {
+  let _ = previewContainer
+  let scriptures = PreviewData.searchResultScriptures
+  return ScriptureRowView(scripture: scriptures[3], isTapped: true)
+}
