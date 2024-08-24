@@ -71,6 +71,7 @@ struct ScriptureSelectorView: View {
   private func onSelectedBookChange() {
     state.selectedChapter = 1
     onSelectedChapterChange()
+    setupChapterVerses()
   }
 
   private func onSelectedChapterChange() {

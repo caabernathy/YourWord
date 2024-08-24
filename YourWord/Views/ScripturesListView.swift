@@ -11,7 +11,7 @@ import SwiftData
 struct ScripturesListView: View {
   @Environment(\.modelContext) private var modelContext
   @Query(filter: #Predicate<Scripture> { $0.completed },
-         sort: \Scripture.createdAt, order: .forward) private var scriptures: [Scripture]
+         sort: \Scripture.createdAt, order: .reverse) private var scriptures: [Scripture]
 
   var body: some View {
     Group {
