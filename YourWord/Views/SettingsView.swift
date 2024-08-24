@@ -9,7 +9,6 @@ import SwiftUI
 
 struct SettingsView: View {
   @AppStorage(SettingsManager.SettingsKeys.notificationTime.rawValue) private var preferredNotificationTime: Date = SettingsManager.shared.defaultDate()
-  @AppStorage(SettingsManager.SettingsKeys.bibleVersion.rawValue) var preferredBibleVersion: BibleVersion = .NIV
   @AppStorage(SettingsManager.SettingsKeys.dailyRevealOverride.rawValue) var dailyRevealOverride: Bool = false
 
   var body: some View {
@@ -23,16 +22,7 @@ struct SettingsView: View {
         }
 
         Section(header: Text("Bible Version")) {
-          Picker("Select Version", selection: $preferredBibleVersion) {
-            ForEach(BibleVersion.allCases, id: \.self) { version in
-              Text(version.rawValue)
-                .tag(version)
-            }
-          }
-          .pickerStyle(SegmentedPickerStyle())
-          .onChange(of: preferredBibleVersion) {
-            updateBibleVersion()
-          }
+          BibleVersionSelectorView()
         }
 
         Section(header: Text("Daily Memorization")) {
@@ -61,10 +51,6 @@ struct SettingsView: View {
        let minute = components.minute {
       NotificationManager.shared.configureUserNotifications(hour: hour, minute: minute)
     }
-  }
-
-  private func updateBibleVersion() {
-    SettingsManager.shared.updateBibleVersion(preferredBibleVersion)
   }
 
   private func updateDailyRevealOverride() {

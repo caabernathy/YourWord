@@ -106,6 +106,8 @@ struct ScriptureAddView: View {
           }
         }
       )
+      BibleVersionSelectorView()
+      .padding(.horizontal)
 
       if hasSearched {
         ScriptureSearchResultsView(
@@ -162,7 +164,9 @@ struct ScriptureAddView: View {
     }
 
     errorMessage = nil
+    searchResults = []
     isLoading = true
+    hasSearched = false
 
     do {
       let scriptures  = try await APIService.shared.searchScriptures(version: bibleVersion, text: query)
